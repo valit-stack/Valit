@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using Valit.Result;
 
 namespace Valit.Rules
 {
@@ -26,9 +28,11 @@ namespace Valit.Rules
             return new ValitRules<TObject>(_object, _errorMessages);
         }
 
-        public string[] Validate()
+        public IValitResult Validate()
         {
-            return _errorMessages.ToArray();
+            return _errorMessages.Any() ? 
+                ValitResult.CreateFailed(_errorMessages.ToArray()) 
+              : ValitResult.CreateSucceeded();
         }
     }
 }
