@@ -22,7 +22,7 @@ namespace Valit.Extensions
             return step.Satisifes(p => p != null && !p.Equals(default(TProperty)));
         }
 
-        public static IValitRule<TProperty> Equals<TProperty>(this IValitRule<TProperty> step, TProperty expectedValue)
+        public static IValitRule<TProperty> IsEqualTo<TProperty>(this IValitRule<TProperty> step, TProperty expectedValue)
         {
             return step.Satisifes(p => p != null && p.Equals(expectedValue));
         }
