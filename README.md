@@ -23,22 +23,22 @@ Valit is simple fluent validator for .NET Core
                 .For(model)
                 .Ensure(m => m.StringValue, _=>_
                     .Required()
-                    .WithMessage($"{nameof(Model.StringValue)} is required")
+                    .WithMessage("This is my error message")
                     .Matches(@"\d+")
-                    .WithMessage($"{nameof(Model.StringValue)} is incorrect"))
+                    .WithMessage("This is my error message")
                 .Ensure(m => m.Email, _=>_
                     .Email()
-                    .WithMessage($"{nameof(Model.Email)} is incorrect email"))
+                    .WithMessage("This is my error message"))
                 .Ensure(m => m.NumberValue, _=>_
                     .IsGreaterThan(100)
-                    .WithMessage($"{nameof(Model.NumberValue)} is not greater than 100")
+                    .WithMessage("This is my error message")
                     .IsLessThan(0)
-                    .WithMessage($"{nameof(Model.NumberValue)} is not less than 100"))
+                    .WithMessage("This is my error message"))
                 .Ensure(m => m.ReferenceValue, _=>_
                     .IsEqualTo(Guid.NewGuid())
-                    .WithMessage($"{nameof(Model.ReferenceValue)} is incorrect")
+                    .WithMessage"This is my error message")
                     .Satisifes(p => p != Guid.Empty)
-                    .WithMessage($"{nameof(Model.ReferenceValue)} is empty"))
+                    .WithMessage("This is my error message"))
                 .Validate();
 
             if(!result.Succeeded)
