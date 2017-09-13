@@ -4,6 +4,7 @@ Valit is simple fluent validator for .NET Core
 
 ## Build
 |CI|Status|
+|--|------|
 |Buddy|[![buddy pipeline](https://app.buddy.works/dbarwikowski/valit/pipelines/pipeline/59491/badge.svg?token=953e81953165d3197c4cddb689ba703aa25d1ad60c18fc12aa68a0c0238eb28c "buddy pipeline")](https://app.buddy.works/dbarwikowski/valit/pipelines/pipeline/59491)|
 
 ## Usage
