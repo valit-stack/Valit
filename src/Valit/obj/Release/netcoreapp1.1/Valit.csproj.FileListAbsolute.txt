@@ -1,0 +1,9 @@
+/Users/Darek/Repositories/Valit/src/Valit/bin/Release/netcoreapp1.1/Valit.deps.json
+/Users/Darek/Repositories/Valit/src/Valit/bin/Release/netcoreapp1.1/Valit.dll
+/Users/Darek/Repositories/Valit/src/Valit/bin/Release/netcoreapp1.1/Valit.pdb
+/Users/Darek/Repositories/Valit/src/Valit/obj/Release/netcoreapp1.1/Valit.csprojResolveAssemblyReference.cache
+/Users/Darek/Repositories/Valit/src/Valit/obj/Release/netcoreapp1.1/Valit.csproj.CoreCompileInputs.cache
+/Users/Darek/Repositories/Valit/src/Valit/obj/Release/netcoreapp1.1/Valit.AssemblyInfoInputs.cache
+/Users/Darek/Repositories/Valit/src/Valit/obj/Release/netcoreapp1.1/Valit.AssemblyInfo.cs
+/Users/Darek/Repositories/Valit/src/Valit/obj/Release/netcoreapp1.1/Valit.dll
+/Users/Darek/Repositories/Valit/src/Valit/obj/Release/netcoreapp1.1/Valit.pdb
