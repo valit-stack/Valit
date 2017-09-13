@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 2,
   "targets": {
     ".NETCoreApp,Version=v1.1": {
       "Libuv/1.9.1": {
@@ -7045,29 +7045,18 @@
       "projectUniqueName": "/Users/Darek/Repositories/Valit/src/Valit/Valit.csproj",
       "projectName": "Valit",
       "projectPath": "/Users/Darek/Repositories/Valit/src/Valit/Valit.csproj",
-      "packagesPath": "/Users/Darek/.nuget/packages/",
       "outputPath": "/Users/Darek/Repositories/Valit/src/Valit/obj/",
       "projectStyle": "PackageReference",
-      "configFilePaths": [
-        "/Users/Darek/.nuget/NuGet/NuGet.Config"
-      ],
       "originalTargetFrameworks": [
         "netcoreapp1.1"
       ],
-      "sources": {
-        "/Users/Darek/.dotnet/NuGetFallbackFolder": {},
-        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {},
-        "https://api.nuget.org/v3/index.json": {}
+      "files": {
+        "lib/netcoreapp1.1/Valit.dll": "/Users/Darek/Repositories/Valit/src/Valit/bin/placeholder/netcoreapp1.1/Valit.dll"
       },
       "frameworks": {
         "netcoreapp1.1": {
           "projectReferences": {}
         }
-      },
-      "warningProperties": {
-        "warnAsError": [
-          "NU1605"
-        ]
       }
     },
     "frameworks": {
@@ -7075,8 +7064,7 @@
         "dependencies": {
           "Microsoft.NETCore.App": {
             "target": "Package",
-            "version": "1.1.2",
-            "autoReferenced": true
+            "version": "1.1.2"
           }
         }
       }
