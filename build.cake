@@ -23,7 +23,10 @@ Task("run-xunit-tests")
 	.IsDependentOn("dotnet-build")
 	.Does(() => 
 	{
-		DotNetCoreTest("./tests/Valit.Tests/Valit.Tests.csproj");
+		DotNetCoreTest("./tests/Valit.Tests/Valit.Tests.csproj", new DotNetCoreTestSettings
+		{
+			Configuration = configuration
+		});
 	});	
 
 Task("Default")
