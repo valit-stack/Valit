@@ -29,31 +29,23 @@ namespace Valit.Extensions
 
         //TODO: Check Int64 overflow
         public static IValitRule<TProperty> IsGreaterThan<TProperty>(this IValitRule<TProperty> step, TProperty expectedValue) where TProperty : IComparable
-        {
-            var typeCode = Type.GetTypeCode(typeof(TProperty));
-            return step.Satisifes(p => p != null && expectedValue != null
-                && (   typeCode == TypeCode.Int16 || typeCode == TypeCode.Int32 || typeCode == TypeCode.Int64 || typeCode == TypeCode.UInt16 
-                    || typeCode == TypeCode.UInt32 || typeCode == TypeCode.UInt64 || typeCode == TypeCode.Double || typeCode == TypeCode.Decimal)
+            => step.Satisifes(p => p != null && expectedValue != null
+                && typeof(TProperty).IsNumericType()
                 && Comparer<TProperty>.Default.Compare(p, expectedValue) > 0);
-        }
 
         public static IValitRule<TProperty> IsLessThan<TProperty>(this IValitRule<TProperty> step, TProperty expectedValue) where TProperty : IComparable
-        {
-            var typeCode = Type.GetTypeCode(typeof(TProperty));
-            return step.Satisifes(p => p != null && expectedValue != null
-                && (typeCode == TypeCode.Int16 || typeCode == TypeCode.Int32 || typeCode == TypeCode.Int64 || typeCode == TypeCode.UInt16
-                    || typeCode == TypeCode.UInt32 || typeCode == TypeCode.UInt64 || typeCode == TypeCode.Double || typeCode == TypeCode.Decimal)
+            => step.Satisifes(p => p != null && expectedValue != null
+                && typeof(TProperty).IsNumericType()
                 && Comparer<TProperty>.Default.Compare(p, expectedValue) < 0);
-        }
 
         //need to cast ot string somehow
-        public static IValitRule<TProperty> Matches<TProperty>(this IValitRule<TProperty> step, string regularExpression)
+        public static IValitRule<TProperty> Matches<TProperty>(this IValitRule<TProperty> step, string regularExpression) where TProperty : IEnumerable<char>, IComparable<String>, IEquatable<String>
         {
             var typeCode = Type.GetTypeCode(typeof(TProperty));
             return step.Satisifes(p => p != null && !String.IsNullOrEmpty(regularExpression) && typeCode == TypeCode.String);
         }
 
-        public static IValitRule<TProperty> Email<TProperty>(this IValitRule<TProperty> step)
+        public static IValitRule<TProperty> Email<TProperty>(this IValitRule<TProperty> step) where TProperty : IEnumerable<char>, IComparable<String>, IEquatable<String>
         {
             return step.Matches(@"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
         }
