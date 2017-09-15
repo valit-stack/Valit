@@ -3,6 +3,19 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+#file extensions
+*.dll
+*.pdb
+*.deps.json
+*.csproj.nuget.cache
+*.csproj.nuget.g.props
+*.csproj.nuget.g.targets
+*.assets.json
+
+#paths
+src/Valit/obj/
+src/Valit/bin/
+
 # User-specific files
 *.suo
 *.user
