@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Valit.Extensions
 {
-    public static class TypeExtensions
+    internal static class TypeExtensions
     {
         private static HashSet<Type> NumericTypes = new HashSet<Type>
         {

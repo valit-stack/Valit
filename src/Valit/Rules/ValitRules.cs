@@ -2,47 +2,49 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Valit.Enums;
+using Valit.Extensions;
 using Valit.Result;
 
 namespace Valit.Rules
 {
-    public class ValitRules<TObject>
+    public class ValitRules<TObject> : IValitRules<TObject> where TObject : class
     {
-        private List<string> _errorMessages;
-        private TObject _object;
-        private static object _previousStep;
+        private readonly TObject _object;        
+        private readonly List<string> _errorMessages;  
+        private readonly ValitRulesStrategies _strategy;
+        private bool _succeed;      
 
-        private ValitRules(TObject @object, List<string> errorMessages)
+        private ValitRules(TObject @object, ValitRulesStrategies strategy = ValitRulesStrategies.Complete)
         {
             _object = @object;
-            _errorMessages = errorMessages;
+            _errorMessages = new List<string>();
+            _strategy = strategy;
+            _succeed = true;            
         }
 
-        public static ValitRules<TObject> For(TObject @object)
-            => new ValitRules<TObject>(@object, new List<string>());
+        public static IValitRules<TObject> For(TObject @object, ValitRulesStrategies strategy = ValitRulesStrategies.Complete)
+            => new ValitRules<TObject>(@object, strategy);
 
-        public ValitRules<TObject> Ensure<TProperty>(Func<TObject, TProperty> selector, Action<IValitRule<TProperty>> rule)
+        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, Action<IValitRule<TProperty>> rule)
         {
-            var property = selector(_object);
-            _previousStep = _previousStep ?? new ValitRule<TProperty>(property);
-            var validationStep = new ValitRule<TProperty>(_previousStep as IValitRule<TProperty>);
-            rule(validationStep);
-            _previousStep = validationStep;
-            return new ValitRules<TObject>(_object, _errorMessages);
-        }
-
-        public IValitResult Validate()
-        {
-            var tail = _previousStep as IValitRuleConfigAccessor;
-            var succeded = tail?.IsSatisfied;
-            while(tail != null && succeded.HasValue && succeded.Value)
+            if(! _succeed && _strategy == ValitRulesStrategies.FailFaast) 
             {
-                succeded = tail?.IsSatisfied;
-                tail = tail.PreviousRule as IValitRuleConfigAccessor;
+                return this;
             }
-            return !succeded.HasValue || !succeded.Value || _errorMessages.Any() ? 
-                ValitResult.CreateFailed(_errorMessages.ToArray()) 
-              : ValitResult.CreateSucceeded();
+
+            var property = selector(_object);
+            var validationRule = new ValitRule<TProperty>(property);
+            var accessor = validationRule.GetAccessor();
+
+            rule(validationRule); 
+            _succeed = _succeed && accessor.IsSatisfied;
+            _errorMessages.AddRange(accessor.ErrorMessages);
+            return this;
         }
+
+        IValitResult IValitRules<TObject>.Validate()
+            => _succeed ? ValitResult.CreateSucceeded() : ValitResult.CreateFailed(_errorMessages.ToArray());
+        
     }
 }

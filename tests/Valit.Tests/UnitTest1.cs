@@ -1,4 +1,5 @@
 using System;
+using Valit.Enums;
 using Valit.Extensions;
 using Valit.Rules;
 using Xunit;

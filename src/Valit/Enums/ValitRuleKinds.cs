@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Valit.Enums
 {
-    internal enum ValitRuleKind
+    internal enum ValitRuleKinds
     {
         Rule,
         Message

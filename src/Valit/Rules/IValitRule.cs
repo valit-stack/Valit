@@ -4,11 +4,7 @@ using System.Text;
 
 namespace Valit.Rules
 {
-    public interface IValitRule
-    {
-    }
-
-    public interface IValitRule<TProperty> : IValitRule
+    public interface IValitRule<TProperty>
     {
     }
 }
