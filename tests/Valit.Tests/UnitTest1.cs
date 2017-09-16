@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Valit.Enums;
 using Valit.Extensions;
 using Valit.Rules;
@@ -12,15 +13,17 @@ namespace Valit.Tests
         {
             public string a = "123";
             public int b = 123;
+            public List<int> c = new List<int> {1,2,3};
         }
+
         [Fact]
         public void Test1()
         {
             var a = new Model();
             var r = ValitRules<Model>
                 .For(a)
-                .Ensure(m => m.b, _ => _
-                    .IsGreaterThan(100))
+                .Ensure(m => a.c, _ => _
+                    .MinItems(2))
                 .Validate();
             Assert.Equal(r.Succeeded, true);
         }

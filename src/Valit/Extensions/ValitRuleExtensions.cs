@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Valit.Enums;
@@ -8,7 +10,7 @@ using Valit.Rules;
 namespace Valit.Extensions
 {
     public static class ValitRuleExtensions
-    {
+    {     
         public static IValitRule<TProperty> Satisifes<TProperty>(this IValitRule<TProperty> rule, Func<TProperty, bool> predicate)
         {
             var accessor = rule.GetAccessor();
@@ -26,26 +28,74 @@ namespace Valit.Extensions
         {
             return rule.Satisifes(p => p != null && p.Equals(expectedValue));
         }
-
-        public static IValitRule<TProperty> IsGreaterThan<TProperty>(this IValitRule<TProperty> rule, TProperty expectedValue) where TProperty : IComparable
+        
+        public static IValitRule<TProperty> IsGreaterThan<TProperty>(this IValitRule<TProperty> rule, TProperty expectedValue) 
+            where TProperty : IComparable
         {
-            return rule.Satisifes(p => p != null && expectedValue != null && typeof(TProperty).IsNumericType() && Comparer<TProperty>.Default.Compare(p, expectedValue) > 0);
+            return rule.Satisifes(p => 
+                p != null 
+                && expectedValue != null 
+                && typeof(TProperty).IsNumericType() 
+                && Comparer<TProperty>.Default.Compare(p, expectedValue) > 0);
         }         
 
-        public static IValitRule<TProperty> IsLessThan<TProperty>(this IValitRule<TProperty> rule, TProperty expectedValue) where TProperty : IComparable
+        public static IValitRule<TProperty> IsLessThan<TProperty>(this IValitRule<TProperty> rule, TProperty expectedValue) 
+            where TProperty : IComparable
         {
-            return rule.Satisifes(p => p != null && expectedValue != null && typeof(TProperty).IsNumericType() && Comparer<TProperty>.Default.Compare(p, expectedValue) < 0);
-        }        
+            return rule.Satisifes(p => 
+                p != null 
+                && expectedValue != null 
+                && typeof(TProperty).IsNumericType() 
+                && Comparer<TProperty>.Default.Compare(p, expectedValue) < 0);
+        }      
 
-        public static IValitRule<TProperty> Matches<TProperty>(this IValitRule<TProperty> rule, string regularExpression) where TProperty : IEnumerable<char>, IComparable<String>, IEquatable<String>
+        public static IValitRule<TProperty> MinLength<TProperty>(this IValitRule<TProperty> rule, int length) 
+            where TProperty : IEnumerable<char>, IComparable<String>, IEquatable<String>
         {
             var typeCode = Type.GetTypeCode(typeof(TProperty));
-            return rule.Satisifes(p => p != null && !String.IsNullOrEmpty(regularExpression) && typeCode == TypeCode.String && Regex.IsMatch(p as string, regularExpression));
+            return rule.Satisifes(p => 
+                p != null
+                && typeCode == TypeCode.String 
+                && !String.IsNullOrEmpty(p as string)
+                && (p as string).Length >= length);
         }
 
-        public static IValitRule<TProperty> Email<TProperty>(this IValitRule<TProperty> rule) where TProperty : IEnumerable<char>, IComparable<String>, IEquatable<String>
+        public static IValitRule<TProperty> MaxLength<TProperty>(this IValitRule<TProperty> rule, int length) 
+            where TProperty : IEnumerable<char>, IComparable<String>, IEquatable<String>
         {
-            return rule.Matches(@"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
+            var typeCode = Type.GetTypeCode(typeof(TProperty));
+            return rule.Satisifes(p => 
+                p != null
+                && typeCode == TypeCode.String 
+                && !String.IsNullOrEmpty(p as string)
+                && (p as string).Length <= length);
+        }
+
+        public static IValitRule<TProperty> Matches<TProperty>(this IValitRule<TProperty> rule, string regularExpression) 
+            where TProperty : IEnumerable<char>, IComparable<String>, IEquatable<String>
+        {
+            var typeCode = Type.GetTypeCode(typeof(TProperty));
+            return rule.Satisifes(p => 
+                p != null 
+                && !String.IsNullOrEmpty(regularExpression) 
+                && typeCode == TypeCode.String 
+                && Regex.IsMatch(p as string, regularExpression));
+        }
+
+        public static IValitRule<TProperty> MinItems<TProperty>(this IValitRule<TProperty> rule, int expectedItemsNumber) 
+            where TProperty : IEnumerable
+        {
+            return rule.Satisifes(p => 
+                p != null
+                && p.Count() >= expectedItemsNumber);
+        }
+
+        public static IValitRule<TProperty> MaxItems<TProperty>(this IValitRule<TProperty> rule, int expectedItemsNumber) 
+            where TProperty : IEnumerable
+        {
+            return rule.Satisifes(p => 
+                p != null
+                && p.Count() <= expectedItemsNumber);
         }
 
         public static IValitRule<TProperty> WithMessage<TProperty>(this IValitRule<TProperty> rule, string message)

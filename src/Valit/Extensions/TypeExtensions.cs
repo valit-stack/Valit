@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Valit.Extensions
@@ -24,6 +25,19 @@ namespace Valit.Extensions
         {
             return NumericTypes.Contains(type) ||
                    NumericTypes.Contains(Nullable.GetUnderlyingType(type));
+        }
+
+        internal static int Count(this IEnumerable enumerable)
+        {
+            var enumerator = enumerable.GetEnumerator();
+            var itemsNumber = 0;
+
+            while(enumerator.MoveNext())
+            {
+                itemsNumber ++;
+            }
+
+            return itemsNumber;
         }
     }
 }
