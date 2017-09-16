@@ -22,6 +22,7 @@ namespace Valit.Tests
             var a = new Model();
             var r = ValitRules<Model>
                 .For(a)
+                .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(m => a.c, _ => _
                     .MinItems(2))
                 .Validate();

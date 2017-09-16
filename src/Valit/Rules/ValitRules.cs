@@ -8,23 +8,28 @@ using Valit.Result;
 
 namespace Valit.Rules
 {
-    public class ValitRules<TObject> : IValitRules<TObject> where TObject : class
+    public class ValitRules<TObject> : IValitRules<TObject>, IValitRulesStrategyPicker<TObject> where TObject : class
     {
         private readonly TObject _object;        
         private readonly List<string> _errorMessages;  
-        private readonly ValitRulesStrategies _strategy;
+        private ValitRulesStrategies _strategy;
         private bool _succeed;      
 
-        private ValitRules(TObject @object, ValitRulesStrategies strategy = ValitRulesStrategies.Complete)
+        private ValitRules(TObject @object)
         {
             _object = @object;
             _errorMessages = new List<string>();
-            _strategy = strategy;
             _succeed = true;            
         }
 
-        public static IValitRules<TObject> For(TObject @object, ValitRulesStrategies strategy = ValitRulesStrategies.Complete)
-            => new ValitRules<TObject>(@object, strategy);
+        public static IValitRulesStrategyPicker<TObject> For(TObject @object)
+            => new ValitRules<TObject>(@object);
+
+        IValitRules<TObject> IValitRulesStrategyPicker<TObject>.WithStrategy(ValitRulesStrategies strategy)
+		{
+			_strategy = strategy;
+            return this;
+		}
 
         IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, Action<IValitRule<TProperty>> rule)
         {
@@ -45,6 +50,7 @@ namespace Valit.Rules
 
         IValitResult IValitRules<TObject>.Validate()
             => _succeed ? ValitResult.CreateSucceeded() : ValitResult.CreateFailed(_errorMessages.ToArray());
-        
-    }
+
+		
+	}
 }

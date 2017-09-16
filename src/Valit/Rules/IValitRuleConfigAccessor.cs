@@ -5,12 +5,16 @@ using Valit.Enums;
 
 namespace Valit.Rules
 {
-    internal interface IValitRuleConfigAccessor<TProperty>
+    internal interface IValitRuleConfigAccessor
     {
-        TProperty Property { get; }
-        IValitRule<TProperty> PreviousRule { get; } 
         ValitRuleKinds Kind { get; set; }
         bool IsSatisfied { get; set; }
         List<string> ErrorMessages { get; }
+    }
+    
+    internal interface IValitRuleConfigAccessor<TProperty> : IValitRuleConfigAccessor
+    {
+        TProperty Property { get; }
+        IValitRule<TProperty> PreviousRule { get; }        
     }
 }

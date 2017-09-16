@@ -7,6 +7,7 @@ namespace Valit.Enums
     internal enum ValitRuleKinds
     {
         Rule,
+        Condition,
         Message
     }
 }

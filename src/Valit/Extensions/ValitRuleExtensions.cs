@@ -10,8 +10,8 @@ using Valit.Rules;
 namespace Valit.Extensions
 {
     public static class ValitRuleExtensions
-    {     
-        public static IValitRule<TProperty> Satisifes<TProperty>(this IValitRule<TProperty> rule, Func<TProperty, bool> predicate)
+    {
+        public static IValitRule<TProperty> Satisifes<TProperty>(this IValitRule<TProperty> rule, Predicate<TProperty> predicate)
         {
             var accessor = rule.GetAccessor();
             accessor.Kind = ValitRuleKinds.Rule;
@@ -98,13 +98,39 @@ namespace Valit.Extensions
                 && p.Count() <= expectedItemsNumber);
         }
 
+        // public static IValitRule<TProperty> When<TProperty>(this IValitRule<TProperty> rule, Predicate<object> predicate)
+        // {
+        //     var accessor = rule.GetAccessor();
+        //     var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
+
+        //     switch (previousRuleAccessor.Kind)
+        //     {
+        //         case ValitRuleKinds.Message:
+        //             throw new InvalidOperationException("Conditional cannot be applied on message");
+        //         case ValitRuleKinds.Condition:
+        //         {
+        //             var isSatisifed = predicate()
+        //         }
+        //         case ValitRuleKinds.Rule:
+        //         {
+        //             break;
+        //         }
+        //     }
+        // }
+
         public static IValitRule<TProperty> WithMessage<TProperty>(this IValitRule<TProperty> rule, string message)
         {
             var accessor = rule.GetAccessor();
             var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
 
-            if (previousRuleAccessor.Kind == ValitRuleKinds.Message) throw new ArgumentException();
-            if (!previousRuleAccessor.IsSatisfied) accessor.ErrorMessages.Add(message);
+            if(previousRuleAccessor.Kind == ValitRuleKinds.Message)
+            {
+                throw new InvalidOperationException("Message cannot be attached to another message");
+            } 
+            if (!previousRuleAccessor.IsSatisfied) 
+            {
+                accessor.ErrorMessages.Add(message);
+            }
 
             accessor.Kind = ValitRuleKinds.Message;
             return new ValitRule<TProperty>(rule);
