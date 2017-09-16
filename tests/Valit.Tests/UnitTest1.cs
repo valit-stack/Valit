@@ -24,8 +24,9 @@ namespace Valit.Tests
                 .For(a)
                 .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(m => a.c, _ => _
-                    .MinItems(2))
+                    .MaxItems(4))               
                 .Validate();
+            Console.WriteLine(r.Succeeded);
             Assert.Equal(r.Succeeded, true);
         }
     }

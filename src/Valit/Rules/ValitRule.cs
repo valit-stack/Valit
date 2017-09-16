@@ -8,10 +8,10 @@ namespace Valit.Rules
 {
     internal class ValitRule<TProperty> : IValitRule<TProperty>, IValitRuleConfigAccessor<TProperty>
     {        
-        bool IValitRuleConfigAccessor.IsSatisfied { get; set; }
+        bool IValitRuleConfigAccessor.IsSatisfied { get; set; } = true;
         ValitRuleKinds IValitRuleConfigAccessor.Kind { get; set; }
         List<string> IValitRuleConfigAccessor.ErrorMessages => _errorMessages;
-        
+
         TProperty IValitRuleConfigAccessor<TProperty>.Property => _property;
         IValitRule<TProperty> IValitRuleConfigAccessor<TProperty>.PreviousRule => _previousRule;
 
@@ -30,8 +30,12 @@ namespace Valit.Rules
         internal ValitRule(TProperty property)
         {
             _property = property;
-            _previousRule = null;
             _errorMessages = new List<string>();
+            _previousRule = new ValitRule<TProperty>();
+        }
+
+        private ValitRule()
+        {            
         }
     }
 }

@@ -14,8 +14,9 @@ namespace Valit.Extensions
         public static IValitRule<TProperty> Satisifes<TProperty>(this IValitRule<TProperty> rule, Predicate<TProperty> predicate)
         {
             var accessor = rule.GetAccessor();
+            var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
             accessor.Kind = ValitRuleKinds.Rule;
-            accessor.IsSatisfied = predicate(accessor.Property);
+            accessor.IsSatisfied = previousRuleAccessor.IsSatisfied && predicate(accessor.Property);
             return new ValitRule<TProperty>(rule);
         }
 
@@ -98,25 +99,25 @@ namespace Valit.Extensions
                 && p.Count() <= expectedItemsNumber);
         }
 
-        // public static IValitRule<TProperty> When<TProperty>(this IValitRule<TProperty> rule, Predicate<object> predicate)
-        // {
-        //     var accessor = rule.GetAccessor();
-        //     var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
+        public static IValitRule<TProperty> When<TProperty>(this IValitRule<TProperty> rule, Func<bool> predicate)
+        {
+            var accessor = rule.GetAccessor();
+            var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
 
-        //     switch (previousRuleAccessor.Kind)
-        //     {
-        //         case ValitRuleKinds.Message:
-        //             throw new InvalidOperationException("Conditional cannot be applied on message");
-        //         case ValitRuleKinds.Condition:
-        //         {
-        //             var isSatisifed = predicate()
-        //         }
-        //         case ValitRuleKinds.Rule:
-        //         {
-        //             break;
-        //         }
-        //     }
-        // }
+            switch (previousRuleAccessor.Kind)
+            {
+                case ValitRuleKinds.Rule:
+                case ValitRuleKinds.Condition:
+                {
+                    var isApplicable = predicate();
+                    accessor.IsSatisfied = isApplicable ? previousRuleAccessor.IsSatisfied : true;
+                    accessor.Kind = ValitRuleKinds.Condition;
+                    return new ValitRule<TProperty>(rule);
+                }
+                default:
+                    throw new InvalidOperationException("Conditional cannot be applied on message");
+            }
+        }
 
         public static IValitRule<TProperty> WithMessage<TProperty>(this IValitRule<TProperty> rule, string message)
         {
@@ -131,7 +132,7 @@ namespace Valit.Extensions
             {
                 accessor.ErrorMessages.Add(message);
             }
-
+            
             accessor.Kind = ValitRuleKinds.Message;
             return new ValitRule<TProperty>(rule);
         }        
