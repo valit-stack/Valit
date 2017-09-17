@@ -121,7 +121,7 @@ In some scenarios, you might not need the entire model to be checked because of 
     }
 ```
 
-## Validation strategies
+## Validation conditions
 Each validation rule can be combined with plenty different conditions which may affect the final result. To apply new condition use **When()** extensions as follows:
 
 ```cs
