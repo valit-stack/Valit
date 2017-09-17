@@ -6,7 +6,7 @@ Valit is **dead simple** validation for .NET Core. No more if-statements all aro
 
 ## Basic Usage
 Valit offers plenty different validation rules to use, such as:
-- **Satisifes()**
+- **Satisfies()**
 - **Required()**
 - **IsEqualTo()**
 - **IsGreaterThan()**
@@ -46,7 +46,7 @@ Valit offers plenty different validation rules to use, such as:
                     .IsLessThan(0))
                 .Ensure(m => m.ReferenceValue, _=>_
                     .IsEqualTo(Guid.NewGuid())
-                    .Satisifes(p => p != Guid.Empty))
+                    .Satisfies(p => p != Guid.Empty))
                 .Validate();
 
             if(!result.Succeeded)
