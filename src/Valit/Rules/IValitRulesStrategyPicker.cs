@@ -1,6 +1,4 @@
-using Valit.Enums;
-
-namespace Valit.Rules
+namespace Valit
 {
     public interface IValitRulesStrategyPicker<TObject>  where TObject : class
     {

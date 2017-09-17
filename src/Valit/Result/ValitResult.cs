@@ -1,4 +1,4 @@
-﻿namespace Valit.Result
+﻿namespace Valit
 {
     internal class ValitResult : IValitResult
     {

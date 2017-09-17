@@ -1,8 +1,6 @@
 using System;
 using Shouldly;
-using Valit.Enums;
-using Valit.Extensions;
-using Valit.Rules;
+using Valit;
 using Xunit;
 
 namespace Valit.Tests.ExtensionsTests
@@ -56,7 +54,23 @@ namespace Valit.Tests.ExtensionsTests
                 fakeValitRule.Satisfies(p => p);
             });
 
-            exception.ShouldBeOfType(typeof(ArgumentException));
+            exception.ShouldBeOfType(typeof(ValitException));
+        }
+
+        [Fact]
+        public void satisifes_throws_if_predicate_is_null()
+        {
+            var exception = Record.Exception(() => 
+            {
+                ValitRules<Model>
+                .For(_model)
+                .WithStrategy(ValitRulesStrategies.Complete)
+                .Ensure(model => model.StringValue, _=>_
+                    .Satisfies(null))
+                .Validate();
+            });
+
+            exception.ShouldBeOfType(typeof(ValitException));
         }
 
         public satisfies_tests()

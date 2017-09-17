@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Valit.Enums;
 
-namespace Valit.Rules
+namespace Valit
 {
     internal interface IValitRuleConfigAccessor
     {

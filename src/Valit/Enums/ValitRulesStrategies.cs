@@ -1,4 +1,4 @@
-namespace Valit.Enums
+namespace Valit
 {
     public enum ValitRulesStrategies
     {

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Valit.Extensions
+namespace Valit
 {
     internal static class TypeExtensions
     {

@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Valit.Enums;
-using Valit.Rules;
 
-namespace Valit.Extensions
+namespace Valit
 {
     public static class ValitRuleExtensions
     {
         public static IValitRule<TProperty> Satisfies<TProperty>(this IValitRule<TProperty> rule, Predicate<TProperty> predicate)
         {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            predicate.ThrowIfNull(ValitExceptionMessages.NullPredicate);
+
             var accessor = rule.GetAccessor();
             var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
             accessor.IsSatisfied = previousRuleAccessor.IsSatisfied && predicate(accessor.Property);
@@ -21,17 +22,20 @@ namespace Valit.Extensions
 
         public static IValitRule<TProperty> Required<TProperty>(this IValitRule<TProperty> rule)
         {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
             return rule.Satisfies(p => p != null && !p.Equals(default(TProperty)));
         }
 
         public static IValitRule<TProperty> IsEqualTo<TProperty>(this IValitRule<TProperty> rule, TProperty expectedValue)
         {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);            
             return rule.Satisfies(p => p != null && p.Equals(expectedValue));
         }
         
         public static IValitRule<TProperty> IsGreaterThan<TProperty>(this IValitRule<TProperty> rule, TProperty expectedValue) 
             where TProperty : IComparable
         {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule); 
             return rule.Satisfies(p => 
                 p != null 
                 && expectedValue != null 
@@ -42,6 +46,7 @@ namespace Valit.Extensions
         public static IValitRule<TProperty> IsLessThan<TProperty>(this IValitRule<TProperty> rule, TProperty expectedValue) 
             where TProperty : IComparable
         {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);             
             return rule.Satisfies(p => 
                 p != null 
                 && expectedValue != null 
@@ -52,6 +57,7 @@ namespace Valit.Extensions
         public static IValitRule<TProperty> MinLength<TProperty>(this IValitRule<TProperty> rule, int length) 
             where TProperty : IEnumerable<char>, IComparable<String>, IEquatable<String>
         {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);             
             var typeCode = Type.GetTypeCode(typeof(TProperty));
             return rule.Satisfies(p => 
                 p != null
@@ -63,6 +69,7 @@ namespace Valit.Extensions
         public static IValitRule<TProperty> MaxLength<TProperty>(this IValitRule<TProperty> rule, int length) 
             where TProperty : IEnumerable<char>, IComparable<String>, IEquatable<String>
         {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);             
             var typeCode = Type.GetTypeCode(typeof(TProperty));
             return rule.Satisfies(p => 
                 p != null
@@ -74,6 +81,8 @@ namespace Valit.Extensions
         public static IValitRule<TProperty> Matches<TProperty>(this IValitRule<TProperty> rule, string regularExpression) 
             where TProperty : IEnumerable<char>, IComparable<String>, IEquatable<String>
         {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule); 
+            regularExpression.ThrowIfNull();            
             var typeCode = Type.GetTypeCode(typeof(TProperty));
             return rule.Satisfies(p => 
                 p != null 
@@ -85,6 +94,7 @@ namespace Valit.Extensions
         public static IValitRule<TProperty> MinItems<TProperty>(this IValitRule<TProperty> rule, int expectedItemsNumber) 
             where TProperty : IEnumerable
         {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);             
             return rule.Satisfies(p => 
                 p != null
                 && p.Count() >= expectedItemsNumber);
@@ -93,6 +103,7 @@ namespace Valit.Extensions
         public static IValitRule<TProperty> MaxItems<TProperty>(this IValitRule<TProperty> rule, int expectedItemsNumber) 
             where TProperty : IEnumerable
         {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);                  
             return rule.Satisfies(p => 
                 p != null
                 && p.Count() <= expectedItemsNumber);
@@ -100,6 +111,9 @@ namespace Valit.Extensions
 
         public static IValitRule<TProperty> When<TProperty>(this IValitRule<TProperty> rule, Func<bool> predicate)
         {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);             
+            predicate.ThrowIfNull(ValitExceptionMessages.NullPredicate);
+
             var accessor = rule.GetAccessor();
             var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
 
@@ -110,6 +124,9 @@ namespace Valit.Extensions
 
         public static IValitRule<TProperty> WithMessage<TProperty>(this IValitRule<TProperty> rule, string message)
         {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            message.ThrowIfNull();             
+            
             var accessor = rule.GetAccessor();
             var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
 

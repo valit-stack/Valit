@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Valit.Enums;
-using Valit.Extensions;
-using Valit.Result;
 
-namespace Valit.Rules
+namespace Valit
 {
     public class ValitRules<TObject> : IValitRules<TObject>, IValitRulesStrategyPicker<TObject> where TObject : class
     {

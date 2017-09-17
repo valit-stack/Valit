@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Valit.Result
+namespace Valit
 {
     public interface IValitResult
     {

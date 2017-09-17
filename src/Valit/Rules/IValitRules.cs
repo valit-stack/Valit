@@ -1,7 +1,6 @@
 using System;
-using Valit.Result;
 
-namespace Valit.Rules
+namespace Valit
 {
     public interface IValitRules<TObject> where TObject : class
     {

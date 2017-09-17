@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Valit.Enums;
-using Valit.Extensions;
+using Valit;
 
-namespace Valit.Rules
+namespace Valit
 {
     internal class ValitRule<TProperty> : IValitRule<TProperty>, IValitRuleConfigAccessor<TProperty>
     {        

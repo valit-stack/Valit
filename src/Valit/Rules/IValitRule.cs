@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Valit.Rules
+namespace Valit
 {
     public interface IValitRule<TProperty>
     {
