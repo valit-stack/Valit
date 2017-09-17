@@ -7,7 +7,6 @@ namespace Valit.Rules
 {
     internal interface IValitRuleConfigAccessor
     {
-        ValitRuleKinds Kind { get; set; }
         bool IsSatisfied { get; set; }
         List<string> ErrorMessages { get; }
     }

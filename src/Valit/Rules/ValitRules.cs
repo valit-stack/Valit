@@ -39,10 +39,9 @@ namespace Valit.Rules
             }
 
             var property = selector(_object);
-            var validationRule = new ValitRule<TProperty>(property);
-            var accessor = validationRule.GetAccessor();
-
+            var validationRule = new ValitRule<TProperty>(property);          
             rule(validationRule); 
+            var accessor = validationRule.GetAccessor();
             _succeed = _succeed && accessor.IsSatisfied;
             _errorMessages.AddRange(accessor.ErrorMessages);
             return this;

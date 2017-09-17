@@ -9,7 +9,6 @@ namespace Valit.Rules
     internal class ValitRule<TProperty> : IValitRule<TProperty>, IValitRuleConfigAccessor<TProperty>
     {        
         bool IValitRuleConfigAccessor.IsSatisfied { get; set; } = true;
-        ValitRuleKinds IValitRuleConfigAccessor.Kind { get; set; }
         List<string> IValitRuleConfigAccessor.ErrorMessages => _errorMessages;
 
         TProperty IValitRuleConfigAccessor<TProperty>.Property => _property;

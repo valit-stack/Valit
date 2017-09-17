@@ -24,9 +24,13 @@ namespace Valit.Tests
                 .For(a)
                 .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(m => a.c, _ => _
-                    .MaxItems(4))               
+                    .MaxItems(2)
+                    .When(() => 2 > 3)
+                    .WithMessage("Test!!!")
+                    .WithMessage("TEST 2"))
+                                                       
                 .Validate();
-            Console.WriteLine(r.Succeeded);
+            Console.WriteLine(r.Errors);
             Assert.Equal(r.Succeeded, true);
         }
     }
