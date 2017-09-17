@@ -4,7 +4,19 @@ Valit is **dead simple** validation for .NET Core. No more if-statements all aro
 
 ![buddy pipeline](https://app.buddy.works/dbarwikowski/valit/pipelines/pipeline/59491/badge.svg?token=953e81953165d3197c4cddb689ba703aa25d1ad60c18fc12aa68a0c0238eb28c "buddy pipeline")
 
-## Usage
+## Basic Usage
+Valit offers plenty different validation rules to use, such as:
+- **Satisifes()**
+- **Required()**
+- **IsEqualTo()**
+- **IsGreaterThan()**
+- **IsLessThan()**
+- **MinLength()**
+- **MaxLength()**
+- **Matches()**
+- **MinItems()**
+- **MaxItems()**
+- **Email()**
 
 ```cs
     public class Model
@@ -23,31 +35,117 @@ Valit is **dead simple** validation for .NET Core. No more if-statements all aro
 
             var result = ValitRules<Model>
                 .For(model)
+                .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(m => m.StringValue, _=>_
                     .Required()
-                    .WithMessage("This is my error message")
-                    .Matches(@"\d+")
-                    .WithMessage("This is my error message")
+                    .Matches(@"\d+"))
                 .Ensure(m => m.Email, _=>_
-                    .Email()
-                    .WithMessage("This is my error message"))
+                    .Email())
                 .Ensure(m => m.NumberValue, _=>_
                     .IsGreaterThan(100)
-                    .WithMessage("This is my error message")
-                    .IsLessThan(0)
-                    .WithMessage("This is my error message"))
+                    .IsLessThan(0))
                 .Ensure(m => m.ReferenceValue, _=>_
                     .IsEqualTo(Guid.NewGuid())
-                    .WithMessage"This is my error message")
-                    .Satisifes(p => p != Guid.Empty)
-                    .WithMessage("This is my error message"))
+                    .Satisifes(p => p != Guid.Empty))
                 .Validate();
 
             if(!result.Succeeded)
             {
-                foreach (var error in result.Errors)
+                // do something
+            }
+        }
+    }
+```
+
+## Adding messages
+Besides the final result, you can also extend your validation with error messages as follows:
+
+```cs
+    public class Model
+    {
+        public string StringValue { get; set; }
+    }
+
+    public class Test
+    {
+        public void Validate()
+        {
+            var model = new Model();
+
+            var result = ValitRules<Model>
+                .For(model)
+                .WithStrategy(ValitRulesStrategies.Complete)
+                .Ensure(m => m.StringValue, _=>_
+                    .Required()
+                    .WithMessage("StringValue is required!"))
+                .Validate();
+
+            if(!result.Succeeded)
+            {
+                foreach(var error in result.Errors)
                     Console.WriteLine(error);
             }
         }
     }
 ```
+
+## Validation strategies
+In some scenarios, you might not need the entire model to be checked because of performance issues or model complexity. Valit offers two different strategies you can aplly:
+- **Complete** - validates entire model
+- **FailFast** - valides until first error is reached
+
+```cs
+    public class Model
+    {
+        public string StringValue { get; set; }
+        public int IntegerValue { get; set; }
+    }
+
+    public class Test
+    {
+        public void Validate()
+        {
+            var model = new Model();
+
+            var result = ValitRules<Model>
+                .For(model)
+                .WithStrategy(ValitRulesStrategies.FailFast)
+                .Ensure(m => m.StringValue, _=>_
+                    .Required()
+                    .WithMessage("StringValue is required!"))
+                .Ensure(m => m.IntegerValue, _=>_
+                    .Required()
+                    .WithMessage("This message won't be reached!"))
+                .Validate();
+        }
+    }
+```
+
+## Validation strategies
+Each validation rule can be combined with plenty different conditions which may affect the final result. To apply new condition use **When()** extensions as follows:
+
+```cs
+    public class Model
+    {        
+        public int IntegerValue => 3;
+        public bool BooleanValue { get; set; }
+    }
+
+    public class Test
+    {
+        public void Validate()
+        {
+            var model = new Model();
+
+            var result = ValitRules<Model>
+                .For(model)
+                .WithStrategy(ValitRulesStrategies.FailFast)
+                .Ensure(m => m.IntegerValue, _=>_
+                    .IsLessThan(5)
+                    .When(() => model.BooleanValue)
+                .Validate();
+        }
+    }
+```
+
+It's worth to mention that you can apply as much **When()** conditions as you want. If so, there will be merged in one condition using AND (&&) operator.

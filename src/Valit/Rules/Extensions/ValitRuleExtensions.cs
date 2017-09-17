@@ -109,6 +109,13 @@ namespace Valit
                 && p.Count() <= expectedItemsNumber);
         }
 
+        public static IValitRule<TProperty> Email<TProperty>(this IValitRule<TProperty> rule) 
+            where TProperty : IEnumerable<char>, IComparable<String>, IEquatable<String>
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);                  
+            return rule.Matches(@"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
+        }
+
         public static IValitRule<TProperty> When<TProperty>(this IValitRule<TProperty> rule, Func<bool> predicate)
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);             
