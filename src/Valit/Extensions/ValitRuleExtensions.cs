@@ -11,7 +11,7 @@ namespace Valit.Extensions
 {
     public static class ValitRuleExtensions
     {
-        public static IValitRule<TProperty> Satisifes<TProperty>(this IValitRule<TProperty> rule, Predicate<TProperty> predicate)
+        public static IValitRule<TProperty> Satisfies<TProperty>(this IValitRule<TProperty> rule, Predicate<TProperty> predicate)
         {
             var accessor = rule.GetAccessor();
             var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
@@ -21,18 +21,18 @@ namespace Valit.Extensions
 
         public static IValitRule<TProperty> Required<TProperty>(this IValitRule<TProperty> rule)
         {
-            return rule.Satisifes(p => p != null && !p.Equals(default(TProperty)));
+            return rule.Satisfies(p => p != null && !p.Equals(default(TProperty)));
         }
 
         public static IValitRule<TProperty> IsEqualTo<TProperty>(this IValitRule<TProperty> rule, TProperty expectedValue)
         {
-            return rule.Satisifes(p => p != null && p.Equals(expectedValue));
+            return rule.Satisfies(p => p != null && p.Equals(expectedValue));
         }
         
         public static IValitRule<TProperty> IsGreaterThan<TProperty>(this IValitRule<TProperty> rule, TProperty expectedValue) 
             where TProperty : IComparable
         {
-            return rule.Satisifes(p => 
+            return rule.Satisfies(p => 
                 p != null 
                 && expectedValue != null 
                 && typeof(TProperty).IsNumericType() 
@@ -42,7 +42,7 @@ namespace Valit.Extensions
         public static IValitRule<TProperty> IsLessThan<TProperty>(this IValitRule<TProperty> rule, TProperty expectedValue) 
             where TProperty : IComparable
         {
-            return rule.Satisifes(p => 
+            return rule.Satisfies(p => 
                 p != null 
                 && expectedValue != null 
                 && typeof(TProperty).IsNumericType() 
@@ -53,7 +53,7 @@ namespace Valit.Extensions
             where TProperty : IEnumerable<char>, IComparable<String>, IEquatable<String>
         {
             var typeCode = Type.GetTypeCode(typeof(TProperty));
-            return rule.Satisifes(p => 
+            return rule.Satisfies(p => 
                 p != null
                 && typeCode == TypeCode.String 
                 && !String.IsNullOrEmpty(p as string)
@@ -64,7 +64,7 @@ namespace Valit.Extensions
             where TProperty : IEnumerable<char>, IComparable<String>, IEquatable<String>
         {
             var typeCode = Type.GetTypeCode(typeof(TProperty));
-            return rule.Satisifes(p => 
+            return rule.Satisfies(p => 
                 p != null
                 && typeCode == TypeCode.String 
                 && !String.IsNullOrEmpty(p as string)
@@ -75,7 +75,7 @@ namespace Valit.Extensions
             where TProperty : IEnumerable<char>, IComparable<String>, IEquatable<String>
         {
             var typeCode = Type.GetTypeCode(typeof(TProperty));
-            return rule.Satisifes(p => 
+            return rule.Satisfies(p => 
                 p != null 
                 && !String.IsNullOrEmpty(regularExpression) 
                 && typeCode == TypeCode.String 
@@ -85,7 +85,7 @@ namespace Valit.Extensions
         public static IValitRule<TProperty> MinItems<TProperty>(this IValitRule<TProperty> rule, int expectedItemsNumber) 
             where TProperty : IEnumerable
         {
-            return rule.Satisifes(p => 
+            return rule.Satisfies(p => 
                 p != null
                 && p.Count() >= expectedItemsNumber);
         }
@@ -93,7 +93,7 @@ namespace Valit.Extensions
         public static IValitRule<TProperty> MaxItems<TProperty>(this IValitRule<TProperty> rule, int expectedItemsNumber) 
             where TProperty : IEnumerable
         {
-            return rule.Satisifes(p => 
+            return rule.Satisfies(p => 
                 p != null
                 && p.Count() <= expectedItemsNumber);
         }
