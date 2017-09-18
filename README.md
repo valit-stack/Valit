@@ -148,4 +148,4 @@ Each validation rule can be combined with plenty different conditions which may 
     }
 ```
 
-It's worth to mention that you can apply as much **When()** conditions as you want. If so, there will be merged in one condition using AND (&&) operator.
+It's worth to mention that you can apply as much **When()** conditions as you want. If so, they will be merged in one condition using **AND (&&) operator**.
