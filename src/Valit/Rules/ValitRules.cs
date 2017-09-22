@@ -42,7 +42,7 @@ namespace Valit
             return this;
         }
 
-        ValitResult IValitRules<TObject>.Validate()
+        IValitResult IValitRules<TObject>.Validate()
             => _succeed ? ValitResult.CreateSucceeded() : ValitResult.CreateFailed(_errorMessages.ToArray());		
 	}
 }

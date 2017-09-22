@@ -5,7 +5,7 @@ namespace Valit.Tests.ExtensionsTests
 {
     public class email_tests
     {
-        public ValitResult act(Model model)
+        public IValitResult act(Model model)
         {
             return ValitRules<Model>
                 .For(model)

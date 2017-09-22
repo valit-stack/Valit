@@ -2,7 +2,7 @@
 
 namespace Valit
 {
-    public class ValitResult
+    internal class ValitResult : IValitResult
     {
         public bool Succeeded { get; private set; }
 
