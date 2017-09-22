@@ -14,14 +14,8 @@ namespace Valit
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
             predicate.ThrowIfNull(ValitExceptionMessages.NullPredicate);
 
-            var accessor = rule.GetAccessor();
-            var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
-            var isSatisfied = predicate(accessor.Property);
-
-            if(!isSatisfied)
-            {
-                accessor.SetFailure();
-            }
+            var accessor = rule.GetAccessor(); 
+            accessor.SetPredicate(predicate);
 
             return new ValitRule<TProperty>(rule);
         }

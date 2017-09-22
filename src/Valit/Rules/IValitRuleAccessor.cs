@@ -6,7 +6,6 @@ namespace Valit
 {
     internal interface IValitRuleAccessor
     {
-        void SetFailure();
         void AddErrorMessage(string message);
         void AddCondition(Func<bool> predicate);
         ValitResult Validate();
@@ -15,6 +14,7 @@ namespace Valit
     internal interface IValitRuleAccessor<TProperty> : IValitRuleAccessor
     {
         TProperty Property { get; }
-        IValitRule<TProperty> PreviousRule { get; }        
+        IValitRule<TProperty> PreviousRule { get; }
+        void SetPredicate(Predicate<TProperty> predicate);     
     }
 }

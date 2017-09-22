@@ -15,7 +15,7 @@ namespace Valit
         private readonly TProperty _property;
         private readonly IValitRule<TProperty> _previousRule;
         private readonly List<Func<bool>> _conditions;
-        private bool _isSatisfied;
+        private Predicate<TProperty> _predicate;
 
 
         internal ValitRule(IValitRule<TProperty> previousRule) : this()
@@ -35,12 +35,11 @@ namespace Valit
         {            
             _errorMessages = new List<string>();
             _conditions = new List<Func<bool>>();
-            _isSatisfied = true;
-        }
+        }		
 
-		void IValitRuleAccessor.SetFailure()
+		void IValitRuleAccessor<TProperty>.SetPredicate(Predicate<TProperty> predicate)
 		{
-			_isSatisfied = false;
+			_predicate = predicate;
 		}
 
 		void IValitRuleAccessor.AddErrorMessage(string message)
@@ -74,7 +73,9 @@ namespace Valit
             foreach(var condition in _conditions)
                 hasAllConditionsFulfilled &= condition();
 
-            return hasAllConditionsFulfilled && !_isSatisfied? ValitResult.CreateFailed(_errorMessages.ToArray()) : ValitResult.CreateSucceeded();
+            var isSatisfied = (_predicate == null) ? true : _predicate(_property);
+
+            return hasAllConditionsFulfilled && !isSatisfied? ValitResult.CreateFailed(_errorMessages.ToArray()) : ValitResult.CreateSucceeded();
         }
 	}
 }
