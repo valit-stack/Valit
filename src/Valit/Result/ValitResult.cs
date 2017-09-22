@@ -1,25 +1,37 @@
-﻿namespace Valit
+﻿using System.Linq;
+
+namespace Valit
 {
-    internal class ValitResult : IValitResult
+    public class ValitResult
     {
         public bool Succeeded { get; private set; }
 
         public string[] Errors { get; private set; }
 
-        private ValitResult(bool succeeded)
+        private ValitResult()
         {
-            Succeeded = succeeded;
+            Succeeded = true;
+            Errors = Enumerable.Empty<string>().ToArray();
         }
 
-        private ValitResult(bool succeeded, string[] errors) : this(succeeded)
+        private ValitResult(string[] errors)
         {
+            Succeeded = false;
             Errors = errors;
         }
 
-        internal static IValitResult CreateSucceeded()
-            => new ValitResult(true);
+        internal static ValitResult CreateSucceeded()
+            => new ValitResult();
 
-        internal static IValitResult CreateFailed(string[] errors)
-            => new ValitResult(false, errors);
+        internal static ValitResult CreateFailed(string[] errors)
+            => new ValitResult( errors);
+
+
+        public static ValitResult operator &(ValitResult result1, ValitResult result2)
+        {
+            var succeed = result1.Succeeded && result2.Succeeded;
+            var errors = result1.Errors.Concat(result2.Errors).ToArray();
+            return succeed? ValitResult.CreateSucceeded() : ValitResult.CreateFailed(errors);
+        }
     }
 }

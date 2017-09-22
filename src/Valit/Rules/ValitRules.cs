@@ -28,25 +28,21 @@ namespace Valit
             return this;
 		}
 
-        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, Action<IValitRule<TProperty>> rule)
+        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, Func<IValitRule<TProperty>,IValitRule<TProperty>> rule)
         {
-            if(! _succeed && _strategy == ValitRulesStrategies.FailFaast) 
-            {
-                return this;
-            }
-
+            
             var property = selector(_object);
-            var validationRule = new ValitRule<TProperty>(property);          
-            rule(validationRule); 
-            var accessor = validationRule.GetAccessor();
-            _succeed = _succeed && accessor.IsSatisfied;
-            _errorMessages.AddRange(accessor.ErrorMessages);
+            var validationRule = rule(new ValitRule<TProperty>(property)); 
+            
+            var ruleAccessor = validationRule.GetAccessor();
+            var currentRuleResult = ruleAccessor.Validate();
+
+            _succeed &= currentRuleResult.Succeeded;
+            _errorMessages.AddRange(currentRuleResult.Errors);
             return this;
         }
 
-        IValitResult IValitRules<TObject>.Validate()
-            => _succeed ? ValitResult.CreateSucceeded() : ValitResult.CreateFailed(_errorMessages.ToArray());
-
-		
+        ValitResult IValitRules<TObject>.Validate()
+            => _succeed ? ValitResult.CreateSucceeded() : ValitResult.CreateFailed(_errorMessages.ToArray());		
 	}
 }
