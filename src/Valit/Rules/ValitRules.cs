@@ -41,7 +41,15 @@ namespace Valit
             var result = ValitResult.CreateSucceeded();
 
             foreach(var ruleResult in _rulesResults)
+            {
                 result &= ruleResult();
+                
+                if(_strategy == ValitRulesStrategies.FailFast && !result.Succeeded)
+                {
+                    break;
+                }
+            }
+               
 
             return result;
         } 
