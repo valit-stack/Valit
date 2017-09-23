@@ -30,7 +30,7 @@ namespace Valit
         IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, Func<IValitRule<TProperty>,IValitRule<TProperty>> ruleFunc)
         {            
             var property = selector(_object);
-            Func<ValitResult> ruleResult = () => ((IValitRuleAccessor<TProperty>)ruleFunc(new ValitRule<TProperty>(property))).Validate(); 
+            Func<ValitResult> ruleResult = () => ((IValitRuleAccessor<TProperty>)ruleFunc(new ValitRule<TProperty>(property, _strategy))).Validate(); 
             _rulesResults.Add(ruleResult);
             
             return this;

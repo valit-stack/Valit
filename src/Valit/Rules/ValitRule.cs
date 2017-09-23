@@ -10,25 +10,28 @@ namespace Valit
     {
         TProperty IValitRuleAccessor<TProperty>.Property => _property;
         IValitRule<TProperty> IValitRuleAccessor<TProperty>.PreviousRule => _previousRule;
+		ValitRulesStrategies IValitRuleAccessor.Strategy => _strategy;
 
 		private readonly List<string> _errorMessages;
         private readonly TProperty _property;
         private readonly IValitRule<TProperty> _previousRule;
         private readonly List<Func<bool>> _conditions;
+        private readonly ValitRulesStrategies _strategy;
         private Predicate<TProperty> _predicate;
-
 
         internal ValitRule(IValitRule<TProperty> previousRule) : this()
         {
             var previousRuleAccessor = previousRule.GetAccessor();
             _property = previousRuleAccessor.Property;
             _previousRule = previousRule;
+            _strategy = previousRuleAccessor.Strategy;
         }
 
-        internal ValitRule(TProperty property) : this()
+        internal ValitRule(TProperty property, ValitRulesStrategies strategy) : this()
         {
             _property = property;
             _previousRule = new ValitRule<TProperty>();
+            _strategy = strategy;
         }
 
         private ValitRule()
@@ -62,7 +65,15 @@ namespace Valit
             {
                 var previousRuleAccessor = _previousRule.GetAccessor();
                 var previousRuleResult = previousRuleAccessor.Validate();
-                return previousRuleResult & GetOwnResult();
+
+                if(_strategy == ValitRulesStrategies.FailFast && !previousRuleResult.Succeeded)
+                {
+                    return previousRuleResult;
+                }
+                else 
+                {
+                    return previousRuleResult & GetOwnResult();
+                }                
             }
 		}
 

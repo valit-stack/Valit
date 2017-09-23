@@ -6,6 +6,7 @@ namespace Valit
 {
     internal interface IValitRuleAccessor
     {
+        ValitRulesStrategies Strategy { get; }
         void AddErrorMessage(string message);
         void AddCondition(Func<bool> predicate);
         ValitResult Validate();
