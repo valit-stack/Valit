@@ -7,16 +7,15 @@ namespace Valit
 {
     public class ValitRules<TObject> : IValitRules<TObject>, IValitRulesStrategyPicker<TObject> where TObject : class
     {
-        private readonly TObject _object;        
-        private readonly List<string> _errorMessages;  
+        private readonly TObject _object;       
+        private readonly List<Func<ValitResult>> _rulesResults;
         private ValitRulesStrategies _strategy;
-        private bool _succeed;      
+
 
         private ValitRules(TObject @object)
         {
-            _object = @object;
-            _errorMessages = new List<string>();
-            _succeed = true;            
+            _object = @object;      
+            _rulesResults = new List<Func<ValitResult>>();  
         }
 
         public static IValitRulesStrategyPicker<TObject> For(TObject @object)
@@ -28,21 +27,23 @@ namespace Valit
             return this;
 		}
 
-        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, Func<IValitRule<TProperty>,IValitRule<TProperty>> rule)
-        {
-            
+        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, Func<IValitRule<TProperty>,IValitRule<TProperty>> ruleFunc)
+        {            
             var property = selector(_object);
-            var validationRule = rule(new ValitRule<TProperty>(property)); 
+            Func<ValitResult> ruleResult = () => ((IValitRuleAccessor<TProperty>)ruleFunc(new ValitRule<TProperty>(property))).Validate(); 
+            _rulesResults.Add(ruleResult);
             
-            var ruleAccessor = validationRule.GetAccessor();
-            var currentRuleResult = ruleAccessor.Validate();
-
-            _succeed &= currentRuleResult.Succeeded;
-            _errorMessages.AddRange(currentRuleResult.Errors);
             return this;
         }
 
         IValitResult IValitRules<TObject>.Validate()
-            => _succeed ? ValitResult.CreateSucceeded() : ValitResult.CreateFailed(_errorMessages.ToArray());		
+        {
+            var result = ValitResult.CreateSucceeded();
+
+            foreach(var ruleResult in _rulesResults)
+                result &= ruleResult();
+
+            return result;
+        } 
 	}
 }
