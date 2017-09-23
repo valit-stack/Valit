@@ -11,7 +11,6 @@ namespace Valit
         private readonly List<Func<ValitResult>> _rulesResults;
         private ValitRulesStrategies _strategy;
 
-
         private ValitRules(TObject @object)
         {
             _object = @object;      
@@ -30,11 +29,23 @@ namespace Valit
         IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, Func<IValitRule<TProperty>,IValitRule<TProperty>> ruleFunc)
         {            
             var property = selector(_object);
-            Func<ValitResult> ruleResult = () => ((IValitRuleAccessor<TProperty>)ruleFunc(new ValitRule<TProperty>(property, _strategy))).Validate(); 
-            _rulesResults.Add(ruleResult);
+            AddRulesResultsFunc(property, ruleFunc);
             
             return this;
         }
+
+        IValitRules<TObject> IValitRules<TObject>.EnsureFor<TProperty>(Func<TObject, IEnumerable<TProperty>> selector, Func<IValitRule<TProperty>,IValitRule<TProperty>> ruleFunc)
+        {            
+            var collection = selector(_object);
+            
+            foreach(var property in collection)
+            {
+                AddRulesResultsFunc(property, ruleFunc);
+            }
+                        
+            return this;
+        }
+
 
         IValitResult IValitRules<TObject>.Validate()
         {
@@ -43,15 +54,20 @@ namespace Valit
             foreach(var ruleResult in _rulesResults)
             {
                 result &= ruleResult();
-                
+
                 if(_strategy == ValitRulesStrategies.FailFast && !result.Succeeded)
                 {
                     break;
                 }
-            }
-               
+            }               
 
             return result;
         } 
+
+        private void AddRulesResultsFunc<TProperty>(TProperty property, Func<IValitRule<TProperty>,IValitRule<TProperty>> ruleFunc)
+        {
+            Func<ValitResult> ruleResultFunc = () => ((IValitRuleAccessor<TProperty>)ruleFunc(new ValitRule<TProperty>(property, _strategy))).Validate(); 
+            _rulesResults.Add(ruleResultFunc);
+        }
 	}
 }
