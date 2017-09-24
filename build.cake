@@ -15,7 +15,11 @@ Task("dotnet-build")
 	{
 		DotNetCoreBuild("./Valit.sln", new DotNetCoreBuildSettings 
 		{
-			Configuration = configuration
+			Configuration = configuration,
+			MSBuildSettings = new DotNetCoreMSBuildSettings
+			{
+				TreatAllWarningsAs = MSBuildTreatAllWarningsAs.Error
+			}
 		});
 	});
 

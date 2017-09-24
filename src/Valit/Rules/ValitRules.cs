@@ -7,16 +7,14 @@ namespace Valit
 {
     public class ValitRules<TObject> : IValitRules<TObject>, IValitRulesStrategyPicker<TObject> where TObject : class
     {
-        private readonly TObject _object;        
-        private readonly List<string> _errorMessages;  
+        private readonly TObject _object;       
+        private readonly List<Func<ValitResult>> _rulesResults;
         private ValitRulesStrategies _strategy;
-        private bool _succeed;      
 
         private ValitRules(TObject @object)
         {
-            _object = @object;
-            _errorMessages = new List<string>();
-            _succeed = true;            
+            _object = @object;      
+            _rulesResults = new List<Func<ValitResult>>();  
         }
 
         public static IValitRulesStrategyPicker<TObject> For(TObject @object)
@@ -28,25 +26,48 @@ namespace Valit
             return this;
 		}
 
-        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, Action<IValitRule<TProperty>> rule)
-        {
-            if(! _succeed && _strategy == ValitRulesStrategies.FailFaast) 
-            {
-                return this;
-            }
-
+        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, Func<IValitRule<TProperty>,IValitRule<TProperty>> ruleFunc)
+        {            
             var property = selector(_object);
-            var validationRule = new ValitRule<TProperty>(property);          
-            rule(validationRule); 
-            var accessor = validationRule.GetAccessor();
-            _succeed = _succeed && accessor.IsSatisfied;
-            _errorMessages.AddRange(accessor.ErrorMessages);
+            AddRulesResultsFunc(property, ruleFunc);
+            
             return this;
         }
 
-        IValitResult IValitRules<TObject>.Validate()
-            => _succeed ? ValitResult.CreateSucceeded() : ValitResult.CreateFailed(_errorMessages.ToArray());
+        IValitRules<TObject> IValitRules<TObject>.EnsureFor<TProperty>(Func<TObject, IEnumerable<TProperty>> selector, Func<IValitRule<TProperty>,IValitRule<TProperty>> ruleFunc)
+        {            
+            var collection = selector(_object);
+            
+            foreach(var property in collection)
+            {
+                AddRulesResultsFunc(property, ruleFunc);
+            }
+                        
+            return this;
+        }
 
-		
+
+        IValitResult IValitRules<TObject>.Validate()
+        {
+            var result = ValitResult.CreateSucceeded();
+
+            foreach(var ruleResult in _rulesResults)
+            {
+                result &= ruleResult();
+
+                if(_strategy == ValitRulesStrategies.FailFast && !result.Succeeded)
+                {
+                    break;
+                }
+            }               
+
+            return result;
+        } 
+
+        private void AddRulesResultsFunc<TProperty>(TProperty property, Func<IValitRule<TProperty>,IValitRule<TProperty>> ruleFunc)
+        {
+            Func<ValitResult> ruleResultFunc = () => ((IValitRuleAccessor<TProperty>)ruleFunc(new ValitRule<TProperty>(property, _strategy))).Validate(); 
+            _rulesResults.Add(ruleResultFunc);
+        }
 	}
 }

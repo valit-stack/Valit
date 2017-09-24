@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Valit
 {
-    internal static class ValitRuleConfigAccessorExtensions
+    internal static class ValitRuleAccessorExtensions
     {
-        internal static IValitRuleConfigAccessor<TProperty> GetAccessor<TProperty>(this IValitRule<TProperty> rule)
+        internal static IValitRuleAccessor<TProperty> GetAccessor<TProperty>(this IValitRule<TProperty> rule)
         {
-            var accessor = rule as IValitRuleConfigAccessor<TProperty>;
+            var accessor = rule as IValitRuleAccessor<TProperty>;
 
             if (accessor == null)
             {

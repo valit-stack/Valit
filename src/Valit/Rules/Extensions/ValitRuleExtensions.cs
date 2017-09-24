@@ -14,9 +14,9 @@ namespace Valit
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
             predicate.ThrowIfNull(ValitExceptionMessages.NullPredicate);
 
-            var accessor = rule.GetAccessor();
-            var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
-            accessor.IsSatisfied = previousRuleAccessor.IsSatisfied && predicate(accessor.Property);
+            var accessor = rule.GetAccessor(); 
+            accessor.SetPredicate(predicate);
+
             return new ValitRule<TProperty>(rule);
         }
 
@@ -124,8 +124,7 @@ namespace Valit
             var accessor = rule.GetAccessor();
             var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
 
-            var isApplicable = predicate();
-            previousRuleAccessor.IsSatisfied = isApplicable ? previousRuleAccessor.IsSatisfied : true;
+            previousRuleAccessor.AddCondition(predicate);            
             return new ValitRule<TProperty>(accessor.PreviousRule);
         }
 
@@ -137,10 +136,7 @@ namespace Valit
             var accessor = rule.GetAccessor();
             var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
 
-            if (!previousRuleAccessor.IsSatisfied) 
-            {
-                accessor.ErrorMessages.Add(message);
-            }
+            previousRuleAccessor.AddErrorMessage(message);
             return new ValitRule<TProperty>(accessor.PreviousRule);
         }        
     }

@@ -2,7 +2,7 @@
 
 Valit is **dead simple** validation for .NET Core. No more if-statements all around your code. Write nice and clean **fluent validators** instead! 
 
-![buddy pipeline](https://app.buddy.works/dbarwikowski/valit/pipelines/pipeline/59491/badge.svg?token=953e81953165d3197c4cddb689ba703aa25d1ad60c18fc12aa68a0c0238eb28c "buddy pipeline")
+[![buddy pipeline](https://app.buddy.works/foreverframenet/valit/pipelines/pipeline/60349/badge.svg?token=da124439d92a63ad5b0eb713f8eee5c2bca7a1b31258f4694d88036c976751e8 "buddy pipeline")](https://app.buddy.works/foreverframenet/valit/pipelines/pipeline/60349)
 
 ## Basic Usage
 Valit offers plenty different validation rules to use, such as:
@@ -47,6 +47,36 @@ Valit offers plenty different validation rules to use, such as:
                 .Ensure(m => m.ReferenceValue, _=>_
                     .IsEqualTo(Guid.NewGuid())
                     .Satisfies(p => p != Guid.Empty))
+                .Validate();
+
+            if(!result.Succeeded)
+            {
+                // do something
+            }
+        }
+    }
+```
+
+You can also apply set of rules on each element inside the collection:
+
+```cs
+    public class Model
+    {
+        public IEnumerable<string> StringCollection { get; set; }
+    }
+
+    public class Test
+    {
+        public void Validate()
+        {
+            var model = new Model();
+
+            var result = ValitRules<Model>
+                .For(model)
+                .WithStrategy(ValitRulesStrategies.Complete)
+                .EnsureFor(m => m.StringCollection, _=>_
+                    .Required()
+                    .Matches(@"\d+"))
                 .Validate();
 
             if(!result.Succeeded)
