@@ -8,13 +8,13 @@ namespace Valit
     public class ValitRules<TObject> : IValitRules<TObject>, IValitRulesStrategyPicker<TObject> where TObject : class
     {
         private readonly TObject _object;       
-        private readonly List<Func<ValitResult>> _rulesResults;
+        private readonly List<IValitRule> _rules;
         private ValitRulesStrategies _strategy;
 
         private ValitRules(TObject @object)
         {
             _object = @object;      
-            _rulesResults = new List<Func<ValitResult>>();  
+            _rules = new List<IValitRule>();  
         }
 
         public static IValitRulesStrategyPicker<TObject> For(TObject @object)
@@ -29,8 +29,8 @@ namespace Valit
         IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, Func<IValitRule<TProperty>,IValitRule<TProperty>> ruleFunc)
         {            
             var property = selector(_object);
-            AddRulesResultsFunc(property, ruleFunc);
-            
+            AddEnsureRulesAccessors(property, ruleFunc);
+
             return this;
         }
 
@@ -40,7 +40,7 @@ namespace Valit
             
             foreach(var property in collection)
             {
-                AddRulesResultsFunc(property, ruleFunc);
+                AddEnsureRulesAccessors(property, ruleFunc);
             }
                         
             return this;
@@ -51,9 +51,9 @@ namespace Valit
         {
             var result = ValitResult.CreateSucceeded();
 
-            foreach(var ruleResult in _rulesResults)
+            foreach(var rule in _rules)
             {
-                result &= ruleResult();
+                result &= rule.Validate();
 
                 if(_strategy == ValitRulesStrategies.FailFast && !result.Succeeded)
                 {
@@ -64,10 +64,11 @@ namespace Valit
             return result;
         } 
 
-        private void AddRulesResultsFunc<TProperty>(TProperty property, Func<IValitRule<TProperty>,IValitRule<TProperty>> ruleFunc)
+        private void AddEnsureRulesAccessors<TProperty>(TProperty property, Func<IValitRule<TProperty>,IValitRule<TProperty>> ruleFunc)
         {
-            Func<ValitResult> ruleResultFunc = () => ((IValitRuleAccessor<TProperty>)ruleFunc(new ValitRule<TProperty>(property, _strategy))).Validate(); 
-            _rulesResults.Add(ruleResultFunc);
+            var lastEnsureRule = ruleFunc(new ValitRule<TProperty>(property, _strategy));
+            var ensureRules = lastEnsureRule.GetAllEnsureRules();
+            _rules.AddRange(ensureRules);
         }
 	}
 }

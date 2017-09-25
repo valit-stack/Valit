@@ -8,9 +8,10 @@ namespace Valit
 {
     internal class ValitRule<TProperty> : IValitRule<TProperty>, IValitRuleAccessor<TProperty>
     {
+		public ValitRulesStrategies Strategy => _strategy;
+
         TProperty IValitRuleAccessor<TProperty>.Property => _property;
         IValitRule<TProperty> IValitRuleAccessor<TProperty>.PreviousRule => _previousRule;
-		ValitRulesStrategies IValitRuleAccessor.Strategy => _strategy;
 
 		private readonly List<string> _errorMessages;
         private readonly TProperty _property;
@@ -24,13 +25,12 @@ namespace Valit
             var previousRuleAccessor = previousRule.GetAccessor();
             _property = previousRuleAccessor.Property;
             _previousRule = previousRule;
-            _strategy = previousRuleAccessor.Strategy;
+            _strategy = previousRule.Strategy;
         }
 
         internal ValitRule(TProperty property, ValitRulesStrategies strategy) : this()
         {
             _property = property;
-            _previousRule = new ValitRule<TProperty>();
             _strategy = strategy;
         }
 
@@ -55,32 +55,16 @@ namespace Valit
 			_conditions.Add(predicate);
 		}
 
-		ValitResult IValitRuleAccessor.Validate()
+		public IValitResult Validate()
 		{
-			if(_previousRule == null)
-            {
-                return GetOwnResult();
-            }
-            var previousRuleAccessor = _previousRule.GetAccessor();
-            var previousRuleResult = previousRuleAccessor.Validate();
-
-            if(_strategy == ValitRulesStrategies.FailFast && !previousRuleResult.Succeeded)
-            {
-                return previousRuleResult;
-            }
-            return previousRuleResult & GetOwnResult();
-		}
-
-        private ValitResult GetOwnResult()
-        {
-            var hasAllConditionsFulfilled = true;
+			var hasAllConditionsFulfilled = true;
 
             foreach(var condition in _conditions)
                 hasAllConditionsFulfilled &= condition();
 
             var isSatisfied = (_predicate == null) ? true : _predicate(_property);
 
-            return hasAllConditionsFulfilled && !isSatisfied? ValitResult.CreateFailed(_errorMessages.ToArray()) : ValitResult.CreateSucceeded();
+            return hasAllConditionsFulfilled && !isSatisfied? ValitResult.CreateFailed(_errorMessages.ToArray()) : ValitResult.CreateSucceeded();		
         }
 	}
 }

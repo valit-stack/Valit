@@ -138,6 +138,23 @@ namespace Valit
 
             previousRuleAccessor.AddErrorMessage(message);
             return new ValitRule<TProperty>(accessor.PreviousRule);
-        }        
+        }           
+
+        internal static IEnumerable<IValitRule> GetAllEnsureRules<TProperty>(this IValitRule<TProperty> rule)
+        {
+            var rules = new List<IValitRule>();
+            rules.Add(rule);
+            
+            var accessor = rule.GetAccessor();
+            var previousRule = accessor.PreviousRule;
+
+            while(previousRule != null)
+            {
+                rules.Insert(0, previousRule);
+                previousRule = previousRule.GetAccessor().PreviousRule;
+            }
+
+            return rules;
+        }      
     }
 }

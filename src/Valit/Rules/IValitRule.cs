@@ -4,7 +4,12 @@ using System.Text;
 
 namespace Valit
 {
-    public interface IValitRule<TProperty>
+    public interface IValitRule
+    {
+        ValitRulesStrategies Strategy { get; }
+        IValitResult Validate();
+    }
+    public interface IValitRule<TProperty> : IValitRule
     {
     }
 }
