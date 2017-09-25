@@ -61,20 +61,14 @@ namespace Valit
             {
                 return GetOwnResult();
             }
-            else
-            {
-                var previousRuleAccessor = _previousRule.GetAccessor();
-                var previousRuleResult = previousRuleAccessor.Validate();
+            var previousRuleAccessor = _previousRule.GetAccessor();
+            var previousRuleResult = previousRuleAccessor.Validate();
 
-                if(_strategy == ValitRulesStrategies.FailFast && !previousRuleResult.Succeeded)
-                {
-                    return previousRuleResult;
-                }
-                else 
-                {
-                    return previousRuleResult & GetOwnResult();
-                }                
+            if(_strategy == ValitRulesStrategies.FailFast && !previousRuleResult.Succeeded)
+            {
+                return previousRuleResult;
             }
+            return previousRuleResult & GetOwnResult();
 		}
 
         private ValitResult GetOwnResult()
