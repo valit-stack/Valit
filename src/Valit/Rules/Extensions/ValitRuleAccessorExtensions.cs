@@ -6,9 +6,9 @@ namespace Valit
 {
     internal static class ValitRuleAccessorExtensions
     {
-        internal static IValitRuleAccessor<TProperty> GetAccessor<TProperty>(this IValitRule<TProperty> rule)
+        internal static IValitRuleAccessor<TObject, TProperty> GetAccessor<TObject, TProperty>(this IValitRule<TObject, TProperty> rule) where TObject : class
         {
-            var accessor = rule as IValitRuleAccessor<TProperty>;
+            var accessor = rule as IValitRuleAccessor<TObject, TProperty>;
 
             if (accessor == null)
             {

@@ -48,7 +48,7 @@ namespace Valit.Tests.ExtensionsTests
         [Fact]
         public void satisifes_throws_if_rule_is_null()
         {
-            var fakeValitRule = ((IValitRule<bool>)null);
+            var fakeValitRule = ((IValitRule<object, bool>)null);
             var exception = Record.Exception(() => 
             {
                 fakeValitRule.Satisfies(p => p);

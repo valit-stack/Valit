@@ -9,7 +9,7 @@ namespace Valit
 {
     public static class ValitRuleExtensions
     {
-        public static IValitRule<TProperty> Satisfies<TProperty>(this IValitRule<TProperty> rule, Predicate<TProperty> predicate)
+        public static IValitRule<TObject, TProperty> Satisfies<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, Predicate<TProperty> predicate) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
             predicate.ThrowIfNull(ValitExceptionMessages.NullPredicate);
@@ -17,22 +17,22 @@ namespace Valit
             var accessor = rule.GetAccessor(); 
             accessor.SetPredicate(predicate);
 
-            return new ValitRule<TProperty>(rule);
+            return new ValitRule<TObject, TProperty>(rule);
         }
 
-        public static IValitRule<TProperty> Required<TProperty>(this IValitRule<TProperty> rule)
+        public static IValitRule<TObject, TProperty> Required<TObject, TProperty>(this IValitRule<TObject, TProperty> rule) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
             return rule.Satisfies(p => p != null && !p.Equals(default(TProperty)));
         }
 
-        public static IValitRule<TProperty> IsEqualTo<TProperty>(this IValitRule<TProperty> rule, TProperty expectedValue)
+        public static IValitRule<TObject, TProperty> IsEqualTo<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, TProperty expectedValue) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);            
             return rule.Satisfies(p => p != null && p.Equals(expectedValue));
         }
         
-        public static IValitRule<TProperty> IsGreaterThan<TProperty>(this IValitRule<TProperty> rule, TProperty expectedValue) 
+        public static IValitRule<TObject, TProperty> IsGreaterThan<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, TProperty expectedValue)  where TObject : class
             where TProperty : IComparable
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule); 
@@ -43,7 +43,7 @@ namespace Valit
                 && Comparer<TProperty>.Default.Compare(p, expectedValue) > 0);
         }         
 
-        public static IValitRule<TProperty> IsLessThan<TProperty>(this IValitRule<TProperty> rule, TProperty expectedValue) 
+        public static IValitRule<TObject, TProperty> IsLessThan<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, TProperty expectedValue) where TObject : class
             where TProperty : IComparable
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);             
@@ -54,7 +54,7 @@ namespace Valit
                 && Comparer<TProperty>.Default.Compare(p, expectedValue) < 0);
         }      
 
-        public static IValitRule<TProperty> MinLength<TProperty>(this IValitRule<TProperty> rule, int length) 
+        public static IValitRule<TObject, TProperty> MinLength<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, int length) where TObject : class
             where TProperty : IEnumerable<char>, IComparable<String>, IEquatable<String>
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);             
@@ -66,7 +66,7 @@ namespace Valit
                 && (p as string).Length >= length);
         }
 
-        public static IValitRule<TProperty> MaxLength<TProperty>(this IValitRule<TProperty> rule, int length) 
+        public static IValitRule<TObject, TProperty> MaxLength<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, int length) where TObject : class
             where TProperty : IEnumerable<char>, IComparable<String>, IEquatable<String>
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);             
@@ -78,7 +78,7 @@ namespace Valit
                 && (p as string).Length <= length);
         }
 
-        public static IValitRule<TProperty> Matches<TProperty>(this IValitRule<TProperty> rule, string regularExpression) 
+        public static IValitRule<TObject, TProperty> Matches<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, string regularExpression) where TObject : class
             where TProperty : IEnumerable<char>, IComparable<String>, IEquatable<String>
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule); 
@@ -91,7 +91,7 @@ namespace Valit
                 && Regex.IsMatch(p as string, regularExpression));
         }
 
-        public static IValitRule<TProperty> MinItems<TProperty>(this IValitRule<TProperty> rule, int expectedItemsNumber) 
+        public static IValitRule<TObject, TProperty> MinItems<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, int expectedItemsNumber) where TObject : class
             where TProperty : IEnumerable
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);             
@@ -100,7 +100,7 @@ namespace Valit
                 && p.Count() >= expectedItemsNumber);
         }
 
-        public static IValitRule<TProperty> MaxItems<TProperty>(this IValitRule<TProperty> rule, int expectedItemsNumber) 
+        public static IValitRule<TObject, TProperty> MaxItems<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, int expectedItemsNumber) where TObject : class
             where TProperty : IEnumerable
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);                  
@@ -109,14 +109,14 @@ namespace Valit
                 && p.Count() <= expectedItemsNumber);
         }
 
-        public static IValitRule<TProperty> Email<TProperty>(this IValitRule<TProperty> rule) 
+        public static IValitRule<TObject, TProperty> Email<TObject, TProperty>(this IValitRule<TObject, TProperty> rule) where TObject : class
             where TProperty : IEnumerable<char>, IComparable<String>, IEquatable<String>
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);                  
             return rule.Matches(@"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
         }
 
-        public static IValitRule<TProperty> When<TProperty>(this IValitRule<TProperty> rule, Func<bool> predicate)
+        public static IValitRule<TObject, TProperty> When<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, Func<bool> predicate) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);             
             predicate.ThrowIfNull(ValitExceptionMessages.NullPredicate);
@@ -125,10 +125,10 @@ namespace Valit
             var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
 
             previousRuleAccessor.AddCondition(predicate);            
-            return new ValitRule<TProperty>(accessor.PreviousRule);
+            return new ValitRule<TObject, TProperty>(accessor.PreviousRule);
         }
 
-        public static IValitRule<TProperty> WithMessage<TProperty>(this IValitRule<TProperty> rule, string message)
+        public static IValitRule<TObject, TProperty> WithMessage<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, string message) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
             message.ThrowIfNull();             
@@ -137,12 +137,12 @@ namespace Valit
             var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
 
             previousRuleAccessor.AddErrorMessage(message);
-            return new ValitRule<TProperty>(accessor.PreviousRule);
+            return new ValitRule<TObject, TProperty>(accessor.PreviousRule);
         }           
 
-        internal static IEnumerable<IValitRule> GetAllEnsureRules<TProperty>(this IValitRule<TProperty> rule)
+        internal static IEnumerable<IValitRule<TObject>> GetAllEnsureRules<TObject, TProperty>(this IValitRule<TObject, TProperty> rule) where TObject : class
         {
-            var rules = new List<IValitRule>();
+            var rules = new List<IValitRule<TObject>>();
             rules.Add(rule);
             
             var accessor = rule.GetAccessor();

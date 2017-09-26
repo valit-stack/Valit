@@ -10,10 +10,10 @@ namespace Valit
         void AddCondition(Func<bool> predicate);
     }
     
-    internal interface IValitRuleAccessor<TProperty> : IValitRuleAccessor
+    internal interface IValitRuleAccessor<TObject, TProperty> : IValitRuleAccessor where TObject : class
     {
-        TProperty Property { get; }
-        IValitRule<TProperty> PreviousRule { get; }
+        Func<TObject, TProperty> PropertySelector { get; }
+        IValitRule<TObject, TProperty> PreviousRule { get; }
         void SetPredicate(Predicate<TProperty> predicate);     
     }
 }

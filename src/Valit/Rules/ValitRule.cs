@@ -6,31 +6,31 @@ using Valit;
 
 namespace Valit
 {
-    internal class ValitRule<TProperty> : IValitRule<TProperty>, IValitRuleAccessor<TProperty>
+    internal class ValitRule<TObject, TProperty> : IValitRule<TObject, TProperty>, IValitRuleAccessor<TObject, TProperty> where TObject : class
     {
 		public ValitRulesStrategies Strategy => _strategy;
 
-        TProperty IValitRuleAccessor<TProperty>.Property => _property;
-        IValitRule<TProperty> IValitRuleAccessor<TProperty>.PreviousRule => _previousRule;
+        Func<TObject, TProperty> IValitRuleAccessor<TObject, TProperty>.PropertySelector => _propertySelector;
+        IValitRule<TObject, TProperty> IValitRuleAccessor<TObject, TProperty>.PreviousRule => _previousRule;
 
-		private readonly List<string> _errorMessages;
-        private readonly TProperty _property;
-        private readonly IValitRule<TProperty> _previousRule;
-        private readonly List<Func<bool>> _conditions;
-        private readonly ValitRulesStrategies _strategy;
+        private readonly Func<TObject, TProperty> _propertySelector;
         private Predicate<TProperty> _predicate;
+        private readonly List<Func<bool>> _conditions;
+        private readonly IValitRule<TObject, TProperty> _previousRule;
+		private readonly List<string> _errorMessages;
+        private readonly ValitRulesStrategies _strategy;
 
-        internal ValitRule(IValitRule<TProperty> previousRule) : this()
+        internal ValitRule(IValitRule<TObject, TProperty> previousRule) : this()
         {
             var previousRuleAccessor = previousRule.GetAccessor();
-            _property = previousRuleAccessor.Property;
+            _propertySelector = previousRuleAccessor.PropertySelector;
             _previousRule = previousRule;
             _strategy = previousRule.Strategy;
         }
 
-        internal ValitRule(TProperty property, ValitRulesStrategies strategy) : this()
+        internal ValitRule(Func<TObject, TProperty> propertySelector, ValitRulesStrategies strategy) : this()
         {
-            _property = property;
+            _propertySelector = propertySelector;
             _strategy = strategy;
         }
 
@@ -40,7 +40,7 @@ namespace Valit
             _conditions = new List<Func<bool>>();
         }		
 
-		void IValitRuleAccessor<TProperty>.SetPredicate(Predicate<TProperty> predicate)
+		void IValitRuleAccessor<TObject, TProperty>.SetPredicate(Predicate<TProperty> predicate)
 		{
 			_predicate = predicate;
 		}
@@ -55,14 +55,15 @@ namespace Valit
 			_conditions.Add(predicate);
 		}
 
-		public IValitResult Validate()
+		public IValitResult Validate(TObject @object)
 		{
+            var property = _propertySelector(@object);
 			var hasAllConditionsFulfilled = true;
 
             foreach(var condition in _conditions)
                 hasAllConditionsFulfilled &= condition();
 
-            var isSatisfied = (_predicate == null) ? true : _predicate(_property);
+            var isSatisfied = (_predicate == null) ? true : _predicate(property);
 
             return hasAllConditionsFulfilled && !isSatisfied? ValitResult.CreateFailed(_errorMessages.ToArray()) : ValitResult.CreateSucceeded();		
         }

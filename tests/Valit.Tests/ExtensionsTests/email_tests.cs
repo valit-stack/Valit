@@ -36,7 +36,7 @@ namespace Valit.Tests.ExtensionsTests
         [Fact]
         public void email_throws_if_rule_is_null()
         {
-            var fakeValitRule = ((IValitRule<string>)null);
+            var fakeValitRule = ((IValitRule<object, string>)null);
             var exception = Record.Exception(() => 
             {
                 fakeValitRule.Email();
