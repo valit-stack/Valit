@@ -32,19 +32,6 @@ namespace Valit
             return this;
         }
 
-        IValitRules<TObject> IValitRules<TObject>.EnsureFor<TProperty>(Func<TObject, IEnumerable<TProperty>> selector, 
-            Func<IValitRule<TObject, TProperty>, IValitRule<TObject, TProperty>> ruleFunc)
-        {            
-            var collection = selector(_object);
-            
-            foreach(var property in collection)
-            {
-                AddEnsureRulesAccessors(null, ruleFunc);
-            }
-                        
-            return this;
-        }
-
         IValitResult IValitRules<TObject>.Validate()
         {
             var result = ValitResult.CreateSucceeded();
