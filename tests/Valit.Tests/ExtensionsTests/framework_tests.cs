@@ -12,13 +12,15 @@ namespace Valit.Tests.ExtensionsTests
         [Fact]
         public void should_pass_for_int_and_uint()
         {
+            Int16 Expected = 0;
+
             var result = ValitRules<Model>
                 .For(_model)
                 .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(m => m.Int16, _ => _
                     .IsGreaterThan(Int16.MinValue)
                     .IsLessThan(Int16.MaxValue)
-                    .IsEqualTo<Int16>(0)
+                    .IsEqualTo(Expected)
                     .WithMessage("Int16"))
                 .Ensure(m => m.Int32, _ => _
                     .IsGreaterThan(Int32.MinValue)
@@ -33,17 +35,17 @@ namespace Valit.Tests.ExtensionsTests
                 .Ensure(m => m.UInt16, _ => _
                     .IsGreaterThan(UInt16.MinValue)
                     .IsLessThan(UInt16.MaxValue)
-                    .IsEqualTo<UInt16>(1)
+                    .IsEqualTo<Model, UInt16>(1)
                     .WithMessage("UInt16"))
                 .Ensure(m => m.UInt32, _ => _
                     .IsGreaterThan(UInt32.MinValue)
                     .IsLessThan(UInt32.MaxValue)
-                    .IsEqualTo<UInt32>(1)
+                    .IsEqualTo<Model, UInt32>(1)
                     .WithMessage("UInt32"))
                 .Ensure(m => m.UInt64, _ => _
                     .IsGreaterThan(UInt64.MinValue)
                     .IsLessThan(UInt64.MaxValue)
-                    .IsEqualTo<UInt64>(1)
+                    .IsEqualTo<Model, UInt64>(1)
                     .WithMessage("UInt64"))
                 .Validate();
 

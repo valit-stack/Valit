@@ -6,16 +6,14 @@ namespace Valit
 {
     internal interface IValitRuleAccessor
     {
-        ValitRulesStrategies Strategy { get; }
         void AddErrorMessage(string message);
         void AddCondition(Func<bool> predicate);
-        ValitResult Validate();
     }
     
-    internal interface IValitRuleAccessor<TProperty> : IValitRuleAccessor
+    internal interface IValitRuleAccessor<TObject, TProperty> : IValitRuleAccessor where TObject : class
     {
-        TProperty Property { get; }
-        IValitRule<TProperty> PreviousRule { get; }
+        Func<TObject, TProperty> PropertySelector { get; }
+        IValitRule<TObject, TProperty> PreviousRule { get; }
         void SetPredicate(Predicate<TProperty> predicate);     
     }
 }

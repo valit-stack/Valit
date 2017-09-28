@@ -6,31 +6,31 @@ using Valit;
 
 namespace Valit
 {
-    internal class ValitRule<TProperty> : IValitRule<TProperty>, IValitRuleAccessor<TProperty>
+    internal class ValitRule<TObject, TProperty> : IValitRule<TObject, TProperty>, IValitRuleAccessor<TObject, TProperty> where TObject : class
     {
-        TProperty IValitRuleAccessor<TProperty>.Property => _property;
-        IValitRule<TProperty> IValitRuleAccessor<TProperty>.PreviousRule => _previousRule;
-		ValitRulesStrategies IValitRuleAccessor.Strategy => _strategy;
+		public ValitRulesStrategies Strategy => _strategy;
 
-		private readonly List<string> _errorMessages;
-        private readonly TProperty _property;
-        private readonly IValitRule<TProperty> _previousRule;
-        private readonly List<Func<bool>> _conditions;
-        private readonly ValitRulesStrategies _strategy;
+        Func<TObject, TProperty> IValitRuleAccessor<TObject, TProperty>.PropertySelector => _propertySelector;
+        IValitRule<TObject, TProperty> IValitRuleAccessor<TObject, TProperty>.PreviousRule => _previousRule;
+
+        private readonly Func<TObject, TProperty> _propertySelector;
         private Predicate<TProperty> _predicate;
+        private readonly List<Func<bool>> _conditions;
+        private readonly IValitRule<TObject, TProperty> _previousRule;
+		private readonly List<string> _errorMessages;
+        private readonly ValitRulesStrategies _strategy;
 
-        internal ValitRule(IValitRule<TProperty> previousRule) : this()
+        internal ValitRule(IValitRule<TObject, TProperty> previousRule) : this()
         {
             var previousRuleAccessor = previousRule.GetAccessor();
-            _property = previousRuleAccessor.Property;
+            _propertySelector = previousRuleAccessor.PropertySelector;
             _previousRule = previousRule;
-            _strategy = previousRuleAccessor.Strategy;
+            _strategy = previousRule.Strategy;
         }
 
-        internal ValitRule(TProperty property, ValitRulesStrategies strategy) : this()
+        internal ValitRule(Func<TObject, TProperty> propertySelector, ValitRulesStrategies strategy) : this()
         {
-            _property = property;
-            _previousRule = new ValitRule<TProperty>();
+            _propertySelector = propertySelector;
             _strategy = strategy;
         }
 
@@ -40,7 +40,7 @@ namespace Valit
             _conditions = new List<Func<bool>>();
         }		
 
-		void IValitRuleAccessor<TProperty>.SetPredicate(Predicate<TProperty> predicate)
+		void IValitRuleAccessor<TObject, TProperty>.SetPredicate(Predicate<TProperty> predicate)
 		{
 			_predicate = predicate;
 		}
@@ -55,32 +55,17 @@ namespace Valit
 			_conditions.Add(predicate);
 		}
 
-		ValitResult IValitRuleAccessor.Validate()
+		public IValitResult Validate(TObject @object)
 		{
-			if(_previousRule == null)
-            {
-                return GetOwnResult();
-            }
-            var previousRuleAccessor = _previousRule.GetAccessor();
-            var previousRuleResult = previousRuleAccessor.Validate();
-
-            if(_strategy == ValitRulesStrategies.FailFast && !previousRuleResult.Succeeded)
-            {
-                return previousRuleResult;
-            }
-            return previousRuleResult & GetOwnResult();
-		}
-
-        private ValitResult GetOwnResult()
-        {
-            var hasAllConditionsFulfilled = true;
+            var property = _propertySelector(@object);
+			var hasAllConditionsFulfilled = true;
 
             foreach(var condition in _conditions)
                 hasAllConditionsFulfilled &= condition();
 
-            var isSatisfied = (_predicate == null) ? true : _predicate(_property);
+            var isSatisfied = (_predicate == null) ? true : _predicate(property);
 
-            return hasAllConditionsFulfilled && !isSatisfied? ValitResult.CreateFailed(_errorMessages.ToArray()) : ValitResult.CreateSucceeded();
+            return hasAllConditionsFulfilled && !isSatisfied? ValitResult.CreateFailed(_errorMessages.ToArray()) : ValitResult.CreateSucceeded();		
         }
 	}
 }
