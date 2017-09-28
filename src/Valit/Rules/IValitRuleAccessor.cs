@@ -8,6 +8,7 @@ namespace Valit
     {
         void AddErrorMessage(string message);
         void AddCondition(Func<bool> predicate);
+        void AddTags(params string[] tags);
     }
     
     internal interface IValitRuleAccessor<TObject, TProperty> : IValitRuleAccessor where TObject : class

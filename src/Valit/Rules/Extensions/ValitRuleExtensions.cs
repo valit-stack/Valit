@@ -140,6 +140,18 @@ namespace Valit
             return new ValitRule<TObject, TProperty>(accessor.PreviousRule);
         }           
 
+        public static IValitRule<TObject, TProperty> Tag<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, params string[] tags) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);             
+            tags.ThrowIfNull();
+
+            var accessor = rule.GetAccessor();
+            var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
+
+            previousRuleAccessor.AddTags(tags);            
+            return new ValitRule<TObject, TProperty>(accessor.PreviousRule);
+        }
+
         internal static IEnumerable<IValitRule<TObject>> GetAllEnsureRules<TObject, TProperty>(this IValitRule<TObject, TProperty> rule) where TObject : class
         {
             var rules = new List<IValitRule<TObject>>();
