@@ -1,0 +1,41 @@
+﻿using System;
+using Xunit;
+
+namespace Valit.Tests.TypeTests
+{
+    public class uint64_tests
+    {
+        [Fact]
+        public void should_pass_for_uint64()
+        {
+            var result = ValitRules<object>
+                .For(0)
+                .WithStrategy(ValitRulesStrategies.Complete)
+                .Ensure(_ => UInt64.Parse("1"), _ => _
+                    .IsGreaterThan(UInt64.MinValue)
+                    .IsLessThan(UInt64.MaxValue)
+                    .IsEqualTo(UInt64.Parse("1")))
+                .Validate();
+
+            Assert.True(result.Succeeded);
+        }
+
+        [Fact]
+        public void should_not_pass_for_uint64()
+        {
+            var result = ValitRules<object>
+                .For(0)
+                .WithStrategy(ValitRulesStrategies.Complete)
+                .Ensure(_ => UInt64.Parse("1"), _ => _
+                    .IsGreaterThan(UInt64.Parse("2"))
+                    .WithMessage("Not greater than 2")
+                    .IsLessThan(UInt64.Parse("0"))
+                    .WithMessage("Not less than 0"))
+                .Validate();
+
+            Assert.False(result.Succeeded);
+            Assert.Equal(2, result.Errors.Length);
+            Assert.True(true);
+        }
+    }
+}
