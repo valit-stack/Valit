@@ -13,7 +13,8 @@ namespace Valit
 
         private ValitRules(IEnumerable<IValitRule<TObject>> rules)
         {   
-            _rules = rules?.ToList() ?? new List<IValitRule<TObject>>();  
+            _rules = rules?.ToList() ?? new List<IValitRule<TObject>>();
+            _strategy = ValitRulesStrategies.Complete;
         }
 
         public static IValitRulesStrategyPicker<TObject> Create(IEnumerable<IValitRule<TObject>> rules = null)

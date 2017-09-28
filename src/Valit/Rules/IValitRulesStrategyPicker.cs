@@ -1,6 +1,7 @@
 namespace Valit
 {
-    public interface IValitRulesStrategyPicker<TObject>  where TObject : class
+    public interface IValitRulesStrategyPicker<TObject> : IValitRules<TObject>
+        where TObject : class
     {
          IValitRules<TObject> WithStrategy(ValitRulesStrategies strategy);
     }
