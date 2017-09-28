@@ -34,8 +34,7 @@ Valit offers plenty different validation rules to use, such as:
             var model = new Model();
 
             var result = ValitRules<Model>
-                .For(model)
-                .WithStrategy(ValitRulesStrategies.Complete)
+                .Create()
                 .Ensure(m => m.StringValue, _=>_
                     .Required()
                     .Matches(@"\d+"))
@@ -47,6 +46,7 @@ Valit offers plenty different validation rules to use, such as:
                 .Ensure(m => m.ReferenceValue, _=>_
                     .IsEqualTo(Guid.NewGuid())
                     .Satisfies(p => p != Guid.Empty))
+                .For(model)
                 .Validate();
 
             if(!result.Succeeded)
@@ -73,11 +73,11 @@ Besides the final result, you can also extend your validation with error message
             var model = new Model();
 
             var result = ValitRules<Model>
-                .For(model)
-                .WithStrategy(ValitRulesStrategies.Complete)
+                .Create()                
                 .Ensure(m => m.StringValue, _=>_
                     .Required()
                     .WithMessage("StringValue is required!"))
+                .For(model)
                 .Validate();
 
             if(!result.Succeeded)
@@ -108,7 +108,7 @@ In some scenarios, you might not need the entire model to be checked because of 
             var model = new Model();
 
             var result = ValitRules<Model>
-                .For(model)
+                .Create()
                 .WithStrategy(ValitRulesStrategies.FailFast)
                 .Ensure(m => m.StringValue, _=>_
                     .Required()
@@ -116,6 +116,7 @@ In some scenarios, you might not need the entire model to be checked because of 
                 .Ensure(m => m.IntegerValue, _=>_
                     .Required()
                     .WithMessage("This message won't be reached!"))
+                .For(model)
                 .Validate();
         }
     }
@@ -138,11 +139,11 @@ Each validation rule can be combined with plenty different conditions which may 
             var model = new Model();
 
             var result = ValitRules<Model>
-                .For(model)
-                .WithStrategy(ValitRulesStrategies.FailFast)
+                .Create()
                 .Ensure(m => m.IntegerValue, _=>_
                     .IsLessThan(5)
                     .When(() => model.BooleanValue)
+                .For(model)
                 .Validate();
         }
     }
