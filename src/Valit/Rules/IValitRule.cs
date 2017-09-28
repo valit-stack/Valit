@@ -7,6 +7,7 @@ namespace Valit
     public interface IValitRule
     {
         ValitRulesStrategies Strategy { get; }
+        IEnumerable<string> Tags { get; }
     }
 
     public interface IValitRule<TObject> : IValitRule where TObject : class

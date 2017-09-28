@@ -9,16 +9,22 @@ namespace Valit
     internal class ValitRule<TObject, TProperty> : IValitRule<TObject, TProperty>, IValitRuleAccessor<TObject, TProperty> where TObject : class
     {
 		public ValitRulesStrategies Strategy => _strategy;
+        public IEnumerable<string> Tags => _tags;
 
         Func<TObject, TProperty> IValitRuleAccessor<TObject, TProperty>.PropertySelector => _propertySelector;
         IValitRule<TObject, TProperty> IValitRuleAccessor<TObject, TProperty>.PreviousRule => _previousRule;
 
-        private readonly Func<TObject, TProperty> _propertySelector;
+		ValitRulesStrategies IValitRule.Strategy => throw new NotImplementedException();
+
+		IEnumerable<string> IValitRule.Tags => throw new NotImplementedException();
+
+		private readonly Func<TObject, TProperty> _propertySelector;
         private Predicate<TProperty> _predicate;
         private readonly List<Func<bool>> _conditions;
         private readonly IValitRule<TObject, TProperty> _previousRule;
 		private readonly List<string> _errorMessages;
         private readonly ValitRulesStrategies _strategy;
+        private readonly List<string> _tags;
 
         internal ValitRule(IValitRule<TObject, TProperty> previousRule) : this()
         {
@@ -38,6 +44,7 @@ namespace Valit
         {            
             _errorMessages = new List<string>();
             _conditions = new List<Func<bool>>();
+            _tags = new List<string>();
         }		
 
 		void IValitRuleAccessor<TObject, TProperty>.SetPredicate(Predicate<TProperty> predicate)
@@ -53,6 +60,11 @@ namespace Valit
 		void IValitRuleAccessor.AddCondition(Func<bool> predicate)
 		{
 			_conditions.Add(predicate);
+		}
+
+		void IValitRuleAccessor.AddTags(params string[] tags)
+		{
+			_tags.AddRange(tags);
 		}
 
 		public IValitResult Validate(TObject @object)

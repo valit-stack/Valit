@@ -32,11 +32,36 @@ namespace Valit
             return this;
         }
 
+        IEnumerable<IValitRule<TObject>> IValitRules<TObject>.GetTaggedRules()
+            => _rules.Where(r => r.Tags.Any());
+
+		IEnumerable<IValitRule<TObject>> IValitRules<TObject>.GetUntaggedRules()
+            => _rules.Where(r => !r.Tags.Any());
+
         IValitResult IValitRules<TObject>.Validate()
+            => Validate(_rules);
+
+		IValitResult IValitRules<TObject>.Validate(params string[] tags)
+		{
+            tags.ThrowIfNull();
+            var taggedRules = _rules.Where(r => r.Tags.Intersect(tags).Any());
+
+            return Validate(taggedRules);
+        }
+
+        IValitResult IValitRules<TObject>.Validate(Func<IValitRule<TObject>, bool> predicate)
+		{
+            predicate.ThrowIfNull(ValitExceptionMessages.NullPredicate);
+            var taggedRules = _rules.Where(predicate);
+
+            return Validate(taggedRules);
+        }
+
+        private IValitResult Validate(IEnumerable<IValitRule<TObject>> rules)
         {
             var result = ValitResult.CreateSucceeded();
 
-            foreach(var rule in _rules)
+            foreach(var rule in rules.ToList())
             {
                 result &= rule.Validate(_object);
 
@@ -47,8 +72,7 @@ namespace Valit
             }               
 
             return result;
-        } 
-
+        }
         private void AddEnsureRulesAccessors<TProperty>(Func<TObject,TProperty> propertySelector, Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> ruleFunc)
         {
             var lastEnsureRule = ruleFunc(new ValitRule<TObject, TProperty>(propertySelector, _strategy));
