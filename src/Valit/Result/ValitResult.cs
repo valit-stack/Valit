@@ -27,7 +27,7 @@ namespace Valit
             => new ValitResult( errors);
 
 
-        public static ValitResult operator &(ValitResult result1, ValitResult result2)
+        public static ValitResult operator &(ValitResult result1, IValitResult result2)
         {
             var succeed = result1.Succeeded && result2.Succeeded;
             var errors = result1.Errors.Concat(result2.Errors).ToArray();

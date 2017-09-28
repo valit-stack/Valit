@@ -57,36 +57,6 @@ Valit offers plenty different validation rules to use, such as:
     }
 ```
 
-You can also apply set of rules on each element inside the collection:
-
-```cs
-    public class Model
-    {
-        public IEnumerable<string> StringCollection { get; set; }
-    }
-
-    public class Test
-    {
-        public void Validate()
-        {
-            var model = new Model();
-
-            var result = ValitRules<Model>
-                .For(model)
-                .WithStrategy(ValitRulesStrategies.Complete)
-                .EnsureFor(m => m.StringCollection, _=>_
-                    .Required()
-                    .Matches(@"\d+"))
-                .Validate();
-
-            if(!result.Succeeded)
-            {
-                // do something
-            }
-        }
-    }
-```
-
 ## Adding messages
 Besides the final result, you can also extend your validation with error messages as follows:
 

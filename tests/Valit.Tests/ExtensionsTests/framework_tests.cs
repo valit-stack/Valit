@@ -10,48 +10,6 @@ namespace Valit.Tests.ExtensionsTests
     public class framework_tests
     {
         [Fact]
-        public void should_pass_for_int_and_uint()
-        {
-            var result = ValitRules<Model>
-                .For(_model)
-                .WithStrategy(ValitRulesStrategies.Complete)
-                .Ensure(m => m.Int16, _ => _
-                    .IsGreaterThan(Int16.MinValue)
-                    .IsLessThan(Int16.MaxValue)
-                    .IsEqualTo<Int16>(0)
-                    .WithMessage("Int16"))
-                .Ensure(m => m.Int32, _ => _
-                    .IsGreaterThan(Int32.MinValue)
-                    .IsLessThan(Int32.MaxValue)
-                    .IsEqualTo(0)
-                    .WithMessage("Int32"))
-                .Ensure(m => m.Int64, _ => _
-                    .IsGreaterThan(Int64.MinValue)
-                    .IsLessThan(Int64.MaxValue)
-                    .IsEqualTo(0)
-                    .WithMessage("Int64"))
-                .Ensure(m => m.UInt16, _ => _
-                    .IsGreaterThan(UInt16.MinValue)
-                    .IsLessThan(UInt16.MaxValue)
-                    .IsEqualTo<UInt16>(1)
-                    .WithMessage("UInt16"))
-                .Ensure(m => m.UInt32, _ => _
-                    .IsGreaterThan(UInt32.MinValue)
-                    .IsLessThan(UInt32.MaxValue)
-                    .IsEqualTo<UInt32>(1)
-                    .WithMessage("UInt32"))
-                .Ensure(m => m.UInt64, _ => _
-                    .IsGreaterThan(UInt64.MinValue)
-                    .IsLessThan(UInt64.MaxValue)
-                    .IsEqualTo<UInt64>(1)
-                    .WithMessage("UInt64"))
-                .Validate();
-
-            Assert.Equal(true, result.Succeeded);
-            Assert.Equal("", string.Join(", ", result.Errors ?? new string[1]));
-        }
-
-        [Fact]
         public void should_not_add_messages()
         {
             var result = ValitRules<Model>
@@ -92,7 +50,8 @@ namespace Valit.Tests.ExtensionsTests
                 .Validate();
 
             Assert.Equal(false, result1.Succeeded);
-            Assert.Equal("Should add message 1", string.Join(", ", result1.Errors ?? new string[1]));
+            Assert.Equal("Should add message 1", 
+                string.Join(", ", result1.Errors ?? new string[1]));
         }
 
         [Fact]
@@ -114,7 +73,8 @@ namespace Valit.Tests.ExtensionsTests
                 .Validate();
 
             Assert.Equal(false, result.Succeeded);
-            Assert.Equal("Should add message 2", string.Join(", ", result.Errors ?? new string[1]));
+            Assert.Equal("Should add message 2", 
+                string.Join(", ", result.Errors ?? new string[1]));
         }
 
         [Fact]
@@ -136,7 +96,8 @@ namespace Valit.Tests.ExtensionsTests
                 .Validate();
 
             Assert.Equal(false, result.Succeeded);
-            Assert.Equal("Should add message 1, Should add message 2", string.Join(", ", result.Errors ?? new string[1]));
+            Assert.Equal("Should add message 1, Should add message 2", 
+                string.Join(", ", result.Errors ?? new string[1]));
         }
 
         [Fact]
@@ -158,7 +119,8 @@ namespace Valit.Tests.ExtensionsTests
                 .Validate();
 
             Assert.Equal(false, result.Succeeded);
-            Assert.Equal("Should add message 3", string.Join(", ", result.Errors ?? new string[1]));
+            Assert.Equal("Should add message 3", 
+                string.Join(", ", result.Errors ?? new string[1]));
         }
 
         [Fact]
@@ -180,7 +142,8 @@ namespace Valit.Tests.ExtensionsTests
                 .Validate();
 
             Assert.Equal(false, result.Succeeded);
-            Assert.Equal("Should add message 1, Should add message 3", string.Join(", ", result.Errors ?? new string[1]));
+            Assert.Equal("Should add message 1, Should add message 3", 
+                string.Join(", ", result.Errors ?? new string[1]));
         }
 
         [Fact]
@@ -202,7 +165,8 @@ namespace Valit.Tests.ExtensionsTests
                 .Validate();
 
             Assert.Equal(false, result.Succeeded);
-            Assert.Equal("Should add message 2, Should add message 3", string.Join(", ", result.Errors ?? new string[1]));
+            Assert.Equal("Should add message 2, Should add message 3", 
+                string.Join(", ", result.Errors ?? new string[1]));
         }
 
         [Fact]
@@ -224,7 +188,8 @@ namespace Valit.Tests.ExtensionsTests
                 .Validate();
 
             Assert.Equal(false, result.Succeeded);
-            Assert.Equal("Should add message 1, Should add message 2, Should add message 3", string.Join(", ", result.Errors ?? new string[1]));
+            Assert.Equal("Should add message 1, Should add message 2, Should add message 3", 
+                string.Join(", ", result.Errors ?? new string[1]));
         }
 
         [Fact]
