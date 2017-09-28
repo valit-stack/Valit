@@ -8,10 +8,11 @@ namespace Valit.Tests.ExtensionsTests
         public IValitResult act(Model model)
         {
             return ValitRules<Model>
-                .For(model)
+                .Create()
                 .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(m => m.Email, _=>_ 
                     .Email())
+                .For(model)
                 .Validate();
         }
 

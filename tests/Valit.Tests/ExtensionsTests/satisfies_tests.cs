@@ -11,7 +11,7 @@ namespace Valit.Tests.ExtensionsTests
         public void valitResult_is_succeed_if_all_satisifes_are_satisfied()
         {
             var result = ValitRules<Model>
-                .For(_model)
+                .Create()
                 .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(model => model.StringValue, _=>_
                     .Satisfies(p => !String.IsNullOrWhiteSpace(p)))
@@ -21,6 +21,7 @@ namespace Valit.Tests.ExtensionsTests
                     .Satisfies(p => p > 0))
                 .Ensure(model => model.BooleanValue, _=>_
                     .Satisfies(p => p))
+                .For(_model)
                 .Validate();
             
             Assert.Equal(result.Succeeded, true);
@@ -30,7 +31,7 @@ namespace Valit.Tests.ExtensionsTests
         public void valitResult_is_false_if_at_least_one_satisfies_is_false()
         {
             var result = ValitRules<Model>
-                .For(_model)
+                .Create()
                 .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(model => model.StringValue, _=>_
                     .Satisfies(p => !String.IsNullOrWhiteSpace(p)))
@@ -40,6 +41,7 @@ namespace Valit.Tests.ExtensionsTests
                     .Satisfies(p => p > 0))
                 .Ensure(model => model.BooleanValue, _=>_
                     .Satisfies(p => p == false))
+                .For(_model)
                 .Validate();
             
             Assert.Equal(result.Succeeded, false);
@@ -63,10 +65,11 @@ namespace Valit.Tests.ExtensionsTests
             var exception = Record.Exception(() => 
             {
                 ValitRules<Model>
-                .For(_model)
+                .Create()
                 .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(model => model.StringValue, _=>_
                     .Satisfies(null))
+                .For(_model)
                 .Validate();
             });
 

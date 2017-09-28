@@ -9,12 +9,13 @@ namespace Valit.Tests.TypeTests
         public void should_pass_for_single()
         {
             var result = ValitRules<object>
-                .For(0)
+                .Create()
                 .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(_ => Single.Parse("0"), _ => _
                     .IsGreaterThan(Single.MinValue)
                     .IsLessThan(Single.MaxValue)
                     .IsEqualTo(Single.Parse("0")))
+                .For(0)
                 .Validate();
 
             Assert.True(result.Succeeded);
@@ -24,13 +25,14 @@ namespace Valit.Tests.TypeTests
         public void should_not_pass_for_single()
         {
             var result = ValitRules<object>
-                .For(0)
+                .Create()
                 .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(_ => Single.Parse("0"), _ => _
                     .IsGreaterThan(Single.Parse("1"))
                     .WithMessage("Not greater than 1")
                     .IsLessThan(Single.Parse("-1"))
                     .WithMessage("Not less than -1"))
+                .For(0)
                 .Validate();
 
             Assert.False(result.Succeeded);
