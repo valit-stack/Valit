@@ -9,12 +9,13 @@ namespace Valit.Tests.TypeTests
         public void should_pass_for_decimal()
         {
             var result = ValitRules<object>
-                .For(0)
+                .Create()
                 .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(_ => Decimal.Parse("0"), _ => _
                     .IsGreaterThan(Decimal.MinValue)
                     .IsLessThan(Decimal.MaxValue)
                     .IsEqualTo(Decimal.Parse("0")))
+                .For(0)
                 .Validate();
 
             Assert.True(result.Succeeded);
@@ -24,13 +25,14 @@ namespace Valit.Tests.TypeTests
         public void should_not_pass_for_decimal()
         {
             var result = ValitRules<object>
-                .For(0)
+                .Create()
                 .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(_ => Decimal.Parse("0"), _ => _
                     .IsGreaterThan(Decimal.Parse("1"))
                     .WithMessage("Not greater than 1")
                     .IsLessThan(Decimal.Parse("-1"))
                     .WithMessage("Not less than -1"))
+                .For(0)
                 .Validate();
 
             Assert.False(result.Succeeded);

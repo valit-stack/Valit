@@ -9,12 +9,13 @@ namespace Valit.Tests.TypeTests
         public void should_pass_for_int32()
         {
             var result = ValitRules<object>
-                .For(0)
+                .Create()
                 .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(_ => Int32.Parse("0"), _ => _
                     .IsGreaterThan(Int32.MinValue)
                     .IsLessThan(Int32.MaxValue)
                     .IsEqualTo(Int32.Parse("0")))
+                .For(0)
                 .Validate();
 
             Assert.True(result.Succeeded);
@@ -24,13 +25,14 @@ namespace Valit.Tests.TypeTests
         public void should_not_pass_for_int32()
         {
             var result = ValitRules<object>
-                .For(0)
+                .Create()
                 .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(_ => Int32.Parse("0"), _ => _
                     .IsGreaterThan(Int32.Parse("1"))
                     .WithMessage("Not greater than 1")
                     .IsLessThan(Int32.Parse("-1"))
                     .WithMessage("Not less than -1"))
+                .For(0)
                 .Validate();
 
             Assert.False(result.Succeeded);

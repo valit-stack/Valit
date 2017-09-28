@@ -13,7 +13,7 @@ namespace Valit.Tests.ExtensionsTests
         public void should_not_add_messages()
         {
             var result = ValitRules<Model>
-                .For(_model)
+                .Create()
                 .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(m => m.Int32, _ => _
                     .Required()
@@ -25,6 +25,7 @@ namespace Valit.Tests.ExtensionsTests
                     .Required()
                     .WithMessage("Should not add message 3")
                     .When(() => false))
+                .For(_model)
                 .Validate();
 
             Assert.Equal(true, result.Succeeded);
@@ -35,7 +36,7 @@ namespace Valit.Tests.ExtensionsTests
         public void shoud_add_message_1()
         {
             var result1 = ValitRules<Model>
-                .For(_model)
+                .Create()
                 .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(m => m.Int32, _ => _
                     .Required()
@@ -47,6 +48,7 @@ namespace Valit.Tests.ExtensionsTests
                     .Required()
                     .WithMessage("Should not add message 3")
                     .When(() => false))
+                .For(_model)
                 .Validate();
 
             Assert.Equal(false, result1.Succeeded);
@@ -58,7 +60,7 @@ namespace Valit.Tests.ExtensionsTests
         public void shoud_add_message_2()
         {
             var result = ValitRules<Model>
-                .For(_model)
+                .Create()
                 .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(m => m.Int32, _ => _
                     .Required()
@@ -70,6 +72,7 @@ namespace Valit.Tests.ExtensionsTests
                     .Required()
                     .WithMessage("Should not add message 3")
                     .When(() => false))
+                .For(_model)
                 .Validate();
 
             Assert.Equal(false, result.Succeeded);
@@ -81,7 +84,7 @@ namespace Valit.Tests.ExtensionsTests
         public void shoud_add_message_1_and_2()
         {
             var result = ValitRules<Model>
-                .For(_model)
+                .Create()
                 .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(m => m.Int32, _ => _
                     .Required()
@@ -93,6 +96,7 @@ namespace Valit.Tests.ExtensionsTests
                     .Required()
                     .WithMessage("Should not add message 3")
                     .When(() => false))
+                .For(_model)
                 .Validate();
 
             Assert.Equal(false, result.Succeeded);
@@ -104,7 +108,7 @@ namespace Valit.Tests.ExtensionsTests
         public void shoud_add_message_3()
         {
             var result = ValitRules<Model>
-                .For(_model)
+                .Create()
                 .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(m => m.Int32, _ => _
                     .Required()
@@ -116,6 +120,7 @@ namespace Valit.Tests.ExtensionsTests
                     .Required()
                     .WithMessage("Should add message 3")
                     .When(() => true))
+                .For(_model)
                 .Validate();
 
             Assert.Equal(false, result.Succeeded);
@@ -127,7 +132,7 @@ namespace Valit.Tests.ExtensionsTests
         public void shoud_add_message_1_and_3()
         {
             var result = ValitRules<Model>
-                .For(_model)
+                .Create()
                 .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(m => m.Int32, _ => _
                     .Required()
@@ -139,6 +144,7 @@ namespace Valit.Tests.ExtensionsTests
                     .Required()
                     .WithMessage("Should add message 3")
                     .When(() => true))
+                .For(_model)
                 .Validate();
 
             Assert.Equal(false, result.Succeeded);
@@ -150,7 +156,7 @@ namespace Valit.Tests.ExtensionsTests
         public void shoud_add_message_2_and_3()
         {
             var result = ValitRules<Model>
-                .For(_model)
+                .Create()
                 .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(m => m.Int32, _ => _
                     .Required()
@@ -162,6 +168,7 @@ namespace Valit.Tests.ExtensionsTests
                     .Required()
                     .WithMessage("Should add message 3")
                     .When(() => true))
+                .For(_model)
                 .Validate();
 
             Assert.Equal(false, result.Succeeded);
@@ -173,7 +180,7 @@ namespace Valit.Tests.ExtensionsTests
         public void shoud_add_message_1_and_2_and_3()
         {
             var result = ValitRules<Model>
-                .For(_model)
+                .Create()
                 .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(m => m.Int32, _ => _
                     .Required()
@@ -185,6 +192,7 @@ namespace Valit.Tests.ExtensionsTests
                     .Required()
                     .WithMessage("Should add message 3")
                     .When(() => true))
+                .For(_model)
                 .Validate();
 
             Assert.Equal(false, result.Succeeded);
@@ -196,12 +204,13 @@ namespace Valit.Tests.ExtensionsTests
         public void should_not_pass_double_required_and_when()
         {
             var result = ValitRules<Model>
-                .For(_model)
+                .Create()
                 .WithStrategy(ValitRulesStrategies.Complete)
                 .Ensure(m => m.Int32, _ => _
                     .Required()
                     .Required()
                     .When(() => false))
+                .For(_model)
                 .Validate();
 
             Assert.Equal(false, result.Succeeded);

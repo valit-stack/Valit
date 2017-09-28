@@ -7,18 +7,17 @@ namespace Valit
 {
     public class ValitRules<TObject> : IValitRules<TObject>, IValitRulesStrategyPicker<TObject> where TObject : class
     {
-        private readonly TObject _object;       
+        private TObject _object;       
         private readonly List<IValitRule<TObject>> _rules;
         private ValitRulesStrategies _strategy;
 
-        private ValitRules(TObject @object, IEnumerable<IValitRule<TObject>> rules)
-        {
-            _object = @object;      
+        private ValitRules(IEnumerable<IValitRule<TObject>> rules)
+        {   
             _rules = rules?.ToList() ?? new List<IValitRule<TObject>>();  
         }
 
-        public static IValitRulesStrategyPicker<TObject> For(TObject @object, IEnumerable<IValitRule<TObject>> rules = null)
-            => new ValitRules<TObject>(@object, rules);
+        public static IValitRulesStrategyPicker<TObject> Create(IEnumerable<IValitRule<TObject>> rules = null)
+            => new ValitRules<TObject>(rules);
 
         IValitRules<TObject> IValitRulesStrategyPicker<TObject>.WithStrategy(ValitRulesStrategies strategy)
 		{
@@ -31,6 +30,13 @@ namespace Valit
             AddEnsureRulesAccessors(selector, ruleFunc);
             return this;
         }
+
+        IValitRules<TObject> IValitRules<TObject>.For(TObject @object)
+        {
+            @object.ThrowIfNull();
+            _object = @object;
+            return this;
+        } 
 
         IEnumerable<IValitRule<TObject>> IValitRules<TObject>.GetTaggedRules()
             => _rules.Where(r => r.Tags.Any());
