@@ -11,14 +11,14 @@ namespace Valit
         private readonly List<IValitRule<TObject>> _rules;
         private ValitRulesStrategies _strategy;
 
-        private ValitRules(TObject @object)
+        private ValitRules(TObject @object, IEnumerable<IValitRule<TObject>> rules)
         {
             _object = @object;      
-            _rules = new List<IValitRule<TObject>>();  
+            _rules = rules?.ToList() ?? new List<IValitRule<TObject>>();  
         }
 
-        public static IValitRulesStrategyPicker<TObject> For(TObject @object)
-            => new ValitRules<TObject>(@object);
+        public static IValitRulesStrategyPicker<TObject> For(TObject @object, IEnumerable<IValitRule<TObject>> rules = null)
+            => new ValitRules<TObject>(@object, rules);
 
         IValitRules<TObject> IValitRulesStrategyPicker<TObject>.WithStrategy(ValitRulesStrategies strategy)
 		{

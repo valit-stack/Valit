@@ -14,10 +14,6 @@ namespace Valit
         Func<TObject, TProperty> IValitRuleAccessor<TObject, TProperty>.PropertySelector => _propertySelector;
         IValitRule<TObject, TProperty> IValitRuleAccessor<TObject, TProperty>.PreviousRule => _previousRule;
 
-		ValitRulesStrategies IValitRule.Strategy => throw new NotImplementedException();
-
-		IEnumerable<string> IValitRule.Tags => throw new NotImplementedException();
-
 		private readonly Func<TObject, TProperty> _propertySelector;
         private Predicate<TProperty> _predicate;
         private readonly List<Func<bool>> _conditions;
