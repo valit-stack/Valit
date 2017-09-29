@@ -12,7 +12,7 @@ namespace Valit
 
             if (accessor == null)
             {
-                throw new ArgumentException("Rule doesn't have an accessor");
+                throw new ValitException("Rule doesn't have an accessor");
             }
 
             return accessor;

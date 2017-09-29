@@ -16,7 +16,7 @@ namespace Valit
 
 		private readonly Func<TObject, TProperty> _propertySelector;
         private Predicate<TProperty> _predicate;
-        private readonly List<Func<bool>> _conditions;
+        private readonly List<Predicate<TObject>> _conditions;
         private readonly IValitRule<TObject, TProperty> _previousRule;
 		private readonly List<string> _errorMessages;
         private readonly ValitRulesStrategies _strategy;
@@ -39,7 +39,7 @@ namespace Valit
         private ValitRule()
         {            
             _errorMessages = new List<string>();
-            _conditions = new List<Func<bool>>();
+            _conditions = new List<Predicate<TObject>>();
             _tags = new List<string>();
         }		
 
@@ -53,9 +53,9 @@ namespace Valit
 			_errorMessages.Add(message);
 		}
 
-		void IValitRuleAccessor.AddCondition(Func<bool> predicate)
+		void IValitRuleAccessor<TObject, TProperty>.AddCondition(Predicate<TObject> condition)
 		{
-			_conditions.Add(predicate);
+			_conditions.Add(condition);
 		}
 
 		void IValitRuleAccessor.AddTags(params string[] tags)
@@ -69,7 +69,7 @@ namespace Valit
 			var hasAllConditionsFulfilled = true;
 
             foreach(var condition in _conditions)
-                hasAllConditionsFulfilled &= condition();
+                hasAllConditionsFulfilled &= condition(@object);
 
             var isSatisfied = (_predicate == null) ? true : _predicate(property);
 
