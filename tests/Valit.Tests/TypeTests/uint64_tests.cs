@@ -10,7 +10,7 @@ namespace Valit.Tests.TypeTests
         {
             var result = ValitRules<object>
                 .Create()
-                .WithStrategy(ValitRulesStrategies.Complete)
+                .WithStrategy(x=>x.Complete)
                 .Ensure(_ => UInt64.Parse("1"), _ => _
                     .IsGreaterThan(UInt64.MinValue)
                     .IsLessThan(UInt64.MaxValue)
@@ -18,7 +18,7 @@ namespace Valit.Tests.TypeTests
                 .For(0)
                 .Validate();
 
-            Assert.True(result.Succeeded);
+            Assert.True(result.Succeded);
         }
 
         [Fact]
@@ -26,7 +26,7 @@ namespace Valit.Tests.TypeTests
         {
             var result = ValitRules<object>
                 .Create()
-                .WithStrategy(ValitRulesStrategies.Complete)
+                .WithStrategy(x => x.Complete)
                 .Ensure(_ => UInt64.Parse("1"), _ => _
                     .IsGreaterThan(UInt64.Parse("2"))
                     .WithMessage("Not greater than 2")
@@ -35,7 +35,7 @@ namespace Valit.Tests.TypeTests
                 .For(0)
                 .Validate();
 
-            Assert.False(result.Succeeded);
+            Assert.False(result.Succeded);
             Assert.Equal(2, result.Errors.Length);
             Assert.True(true);
         }

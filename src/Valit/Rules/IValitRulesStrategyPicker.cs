@@ -1,8 +1,10 @@
+using Valit.Strategies;
+
 namespace Valit
 {
     public interface IValitRulesStrategyPicker<TObject> : IValitRules<TObject>
         where TObject : class
     {
-         IValitRules<TObject> WithStrategy(ValitRulesStrategies strategy);
+         IValitRules<TObject> WithStrategy(IValitStrategy strategy);
     }
 }
