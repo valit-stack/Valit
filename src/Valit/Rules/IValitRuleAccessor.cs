@@ -7,7 +7,6 @@ namespace Valit
     internal interface IValitRuleAccessor
     {
         void AddErrorMessage(string message);
-        void AddCondition(Func<bool> predicate);
         void AddTags(params string[] tags);
     }
     
@@ -16,5 +15,6 @@ namespace Valit
         Func<TObject, TProperty> PropertySelector { get; }
         IValitRule<TObject, TProperty> PreviousRule { get; }
         void SetPredicate(Predicate<TProperty> predicate);     
+        void AddCondition(Predicate<TObject> condition);        
     }
 }

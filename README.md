@@ -142,7 +142,7 @@ Each validation rule can be combined with plenty different conditions which may 
                 .Create()
                 .Ensure(m => m.IntegerValue, _=>_
                     .IsLessThan(5)
-                    .When(() => model.BooleanValue)
+                    .When(model => model.BooleanValue)
                 .For(model)
                 .Validate();
         }
