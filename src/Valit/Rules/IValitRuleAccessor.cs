@@ -6,7 +6,7 @@ namespace Valit
 {
     internal interface IValitRuleAccessor
     {
-        void AddErrorMessage(string message);
+        void AddError(ValitRuleError error);
         void AddCondition(Func<bool> predicate);
         void AddTags(params string[] tags);
     }

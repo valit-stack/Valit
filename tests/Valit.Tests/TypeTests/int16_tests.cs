@@ -36,7 +36,7 @@ namespace Valit.Tests.TypeTests
                 .Validate();
 
             Assert.False(result.Succeeded);
-            Assert.Equal(2, result.Errors.Length);
+            Assert.Equal(2, result.ErrorMessages.Length);
         }
     }
 }

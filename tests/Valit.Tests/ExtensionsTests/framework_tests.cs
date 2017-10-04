@@ -29,7 +29,7 @@ namespace Valit.Tests.ExtensionsTests
                 .Validate();
 
             Assert.Equal(true, result.Succeeded);
-            Assert.Equal("", string.Join(", ", result.Errors ?? new string[1]));
+            Assert.Equal("", string.Join(", ", result.ErrorMessages ?? new string[1]));
         }
 
         [Fact]
@@ -53,7 +53,7 @@ namespace Valit.Tests.ExtensionsTests
 
             Assert.Equal(false, result1.Succeeded);
             Assert.Equal("Should add message 1", 
-                string.Join(", ", result1.Errors ?? new string[1]));
+                string.Join(", ", result1.ErrorMessages ?? new string[1]));
         }
 
         [Fact]
@@ -77,7 +77,7 @@ namespace Valit.Tests.ExtensionsTests
 
             Assert.Equal(false, result.Succeeded);
             Assert.Equal("Should add message 2", 
-                string.Join(", ", result.Errors ?? new string[1]));
+                string.Join(", ", result.ErrorMessages ?? new string[1]));
         }
 
         [Fact]
@@ -101,7 +101,7 @@ namespace Valit.Tests.ExtensionsTests
 
             Assert.Equal(false, result.Succeeded);
             Assert.Equal("Should add message 1, Should add message 2", 
-                string.Join(", ", result.Errors ?? new string[1]));
+                string.Join(", ", result.ErrorMessages ?? new string[1]));
         }
 
         [Fact]
@@ -125,7 +125,7 @@ namespace Valit.Tests.ExtensionsTests
 
             Assert.Equal(false, result.Succeeded);
             Assert.Equal("Should add message 3", 
-                string.Join(", ", result.Errors ?? new string[1]));
+                string.Join(", ", result.ErrorMessages ?? new string[1]));
         }
 
         [Fact]
@@ -149,7 +149,7 @@ namespace Valit.Tests.ExtensionsTests
 
             Assert.Equal(false, result.Succeeded);
             Assert.Equal("Should add message 1, Should add message 3", 
-                string.Join(", ", result.Errors ?? new string[1]));
+                string.Join(", ", result.ErrorMessages ?? new string[1]));
         }
 
         [Fact]
@@ -173,7 +173,7 @@ namespace Valit.Tests.ExtensionsTests
 
             Assert.Equal(false, result.Succeeded);
             Assert.Equal("Should add message 2, Should add message 3", 
-                string.Join(", ", result.Errors ?? new string[1]));
+                string.Join(", ", result.ErrorMessages ?? new string[1]));
         }
 
         [Fact]
@@ -197,7 +197,7 @@ namespace Valit.Tests.ExtensionsTests
 
             Assert.Equal(false, result.Succeeded);
             Assert.Equal("Should add message 1, Should add message 2, Should add message 3", 
-                string.Join(", ", result.Errors ?? new string[1]));
+                string.Join(", ", result.ErrorMessages ?? new string[1]));
         }
 
         [Fact]
