@@ -18,13 +18,13 @@ namespace Valit.Tests.ExtensionsTests
                 .Ensure(m => m.Int32, _ => _
                     .Required()
                     .WithMessage("Should not add message 1")
-                    .When(() => false)
+                    .When(model => false)
                     .Required()
                     .WithMessage("Should not add message 2")
-                    .When(() => false)
+                    .When(model => false)
                     .Required()
                     .WithMessage("Should not add message 3")
-                    .When(() => false))
+                    .When(model => false))
                 .For(_model)
                 .Validate();
 
@@ -41,13 +41,13 @@ namespace Valit.Tests.ExtensionsTests
                 .Ensure(m => m.Int32, _ => _
                     .Required()
                     .WithMessage("Should add message 1")
-                    .When(() => true)
+                    .When(model => true)
                     .Required()
                     .WithMessage("Should not add message 2")
-                    .When(() => false)
+                    .When(model => false)
                     .Required()
                     .WithMessage("Should not add message 3")
-                    .When(() => false))
+                    .When(model => false))
                 .For(_model)
                 .Validate();
 
@@ -65,13 +65,13 @@ namespace Valit.Tests.ExtensionsTests
                 .Ensure(m => m.Int32, _ => _
                     .Required()
                     .WithMessage("Should not add message 1")
-                    .When(() => false)
+                    .When(model => false)
                     .Required()
                     .WithMessage("Should add message 2")
-                    .When(() => true)
+                    .When(model => true)
                     .Required()
                     .WithMessage("Should not add message 3")
-                    .When(() => false))
+                    .When(model => false))
                 .For(_model)
                 .Validate();
 
@@ -89,13 +89,13 @@ namespace Valit.Tests.ExtensionsTests
                 .Ensure(m => m.Int32, _ => _
                     .Required()
                     .WithMessage("Should add message 1")
-                    .When(() => true)
+                    .When(model => true)
                     .Required()
                     .WithMessage("Should add message 2")
-                    .When(() => true)
+                    .When(model => true)
                     .Required()
                     .WithMessage("Should not add message 3")
-                    .When(() => false))
+                    .When(model => false))
                 .For(_model)
                 .Validate();
 
@@ -113,13 +113,13 @@ namespace Valit.Tests.ExtensionsTests
                 .Ensure(m => m.Int32, _ => _
                     .Required()
                     .WithMessage("Should not add message 1")
-                    .When(() => false)
+                    .When(model => false)
                     .Required()
                     .WithMessage("Should not add message 2")
-                    .When(() => false)
+                    .When(model => false)
                     .Required()
                     .WithMessage("Should add message 3")
-                    .When(() => true))
+                    .When(model => true))
                 .For(_model)
                 .Validate();
 
@@ -137,13 +137,13 @@ namespace Valit.Tests.ExtensionsTests
                 .Ensure(m => m.Int32, _ => _
                     .Required()
                     .WithMessage("Should add message 1")
-                    .When(() => true)
+                    .When(model => true)
                     .Required()
                     .WithMessage("Should not add message 2")
-                    .When(() => false)
+                    .When(model => false)
                     .Required()
                     .WithMessage("Should add message 3")
-                    .When(() => true))
+                    .When(model => true))
                 .For(_model)
                 .Validate();
 
@@ -161,13 +161,13 @@ namespace Valit.Tests.ExtensionsTests
                 .Ensure(m => m.Int32, _ => _
                     .Required()
                     .WithMessage("Should not add message 1")
-                    .When(() => false)
+                    .When(model => false)
                     .Required()
                     .WithMessage("Should add message 2")
-                    .When(() => true)
+                    .When(model => true)
                     .Required()
                     .WithMessage("Should add message 3")
-                    .When(() => true))
+                    .When(model => true))
                 .For(_model)
                 .Validate();
 
@@ -185,13 +185,13 @@ namespace Valit.Tests.ExtensionsTests
                 .Ensure(m => m.Int32, _ => _
                     .Required()
                     .WithMessage("Should add message 1")
-                    .When(() => true)
+                    .When(model => true)
                     .Required()
                     .WithMessage("Should add message 2")
-                    .When(() => true)
+                    .When(model => true)
                     .Required()
                     .WithMessage("Should add message 3")
-                    .When(() => true))
+                    .When(model => true))
                 .For(_model)
                 .Validate();
 
@@ -209,7 +209,7 @@ namespace Valit.Tests.ExtensionsTests
                 .Ensure(m => m.Int32, _ => _
                     .Required()
                     .Required()
-                    .When(() => false))
+                    .When(model => false))
                 .For(_model)
                 .Validate();
 

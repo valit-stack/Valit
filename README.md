@@ -142,11 +142,11 @@ Each validation rule can be combined with plenty different conditions which may 
                 .Create()
                 .Ensure(m => m.IntegerValue, _=>_
                     .IsLessThan(5)
-                    .When(() => model.BooleanValue)
+                    .When(model => model.BooleanValue)
                 .For(model)
                 .Validate();
         }
     }
 ```
 
-It's worth to mention that you can apply as much **When()** conditions as you want. If so, they will be merged in one condition using **AND (&&) operator**.
+It's worth to mention that you can apply as much **When()** conditions as you want. If so, they will be merged in one condition using logical **AND** operation.
