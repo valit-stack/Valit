@@ -116,15 +116,15 @@ namespace Valit
             return rule.Matches(@"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
         }
 
-        public static IValitRule<TObject, TProperty> When<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, Func<bool> predicate) where TObject : class
+        public static IValitRule<TObject, TProperty> When<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, Predicate<TObject> condition) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);             
-            predicate.ThrowIfNull(ValitExceptionMessages.NullPredicate);
+            condition.ThrowIfNull(ValitExceptionMessages.NullPredicate);
 
             var accessor = rule.GetAccessor();
             var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
 
-            previousRuleAccessor.AddCondition(predicate);            
+            previousRuleAccessor.AddCondition(condition);            
             return new ValitRule<TObject, TProperty>(accessor.PreviousRule);
         }
 
