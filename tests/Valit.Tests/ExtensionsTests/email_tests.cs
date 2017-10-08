@@ -9,7 +9,7 @@ namespace Valit.Tests.ExtensionsTests
         {
             return ValitRules<Model>
                 .Create()
-                .WithStrategy(ValitRulesStrategies.Complete)
+                .WithStrategy(x=>x.Complete)
                 .Ensure(m => m.Email, _=>_ 
                     .Email())
                 .For(model)
@@ -22,7 +22,7 @@ namespace Valit.Tests.ExtensionsTests
             var model = new Model(null);
             var result = act(model);
 
-            Assert.Equal(result.Succeeded, false);
+            Assert.Equal(result.Succeded, false);
         }
 
         [Fact]
@@ -31,7 +31,7 @@ namespace Valit.Tests.ExtensionsTests
             var model = new Model(string.Empty);
             var result = act(model);
 
-            Assert.Equal(result.Succeeded, false);
+            Assert.Equal(result.Succeded, false);
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace Valit.Tests.ExtensionsTests
             var model = new Model("testemail.com");
             var result = act(model);
 
-            Assert.Equal(result.Succeeded, false);
+            Assert.Equal(result.Succeded, false);
         }
 
         [Fact]
@@ -61,7 +61,7 @@ namespace Valit.Tests.ExtensionsTests
             var model = new Model("test@emailcom");
             var result = act(model);
 
-            Assert.Equal(result.Succeeded, false);
+            Assert.Equal(result.Succeded, false);
         }
 
         [Fact]
@@ -70,7 +70,7 @@ namespace Valit.Tests.ExtensionsTests
             var model = new Model("test@@emailcom");
             var result = act(model);
 
-            Assert.Equal(result.Succeeded, false);
+            Assert.Equal(result.Succeded, false);
         }
 
         [Fact]
@@ -79,7 +79,7 @@ namespace Valit.Tests.ExtensionsTests
             var model = new Model("test@email.");
             var result = act(model);
 
-            Assert.Equal(result.Succeeded, false);
+            Assert.Equal(result.Succeded, false);
         }
 
         [Fact]
@@ -88,7 +88,7 @@ namespace Valit.Tests.ExtensionsTests
             var model = new Model("test@email.com");
             var result = act(model);
 
-            Assert.Equal(result.Succeeded, true);
+            Assert.Equal(result.Succeded, true);
         }
 
         public class Model

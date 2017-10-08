@@ -1,37 +1,39 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+
+using static Valit.Exceptions.SemanticExceptions;
 
 namespace Valit
 {
     internal class ValitResult : IValitResult
     {
-        public bool Succeeded { get; private set; }
+        public static readonly ValitResult Success = new ValitResult();
+        public static readonly ValitResult Failed = new ValitResult(false, Array.Empty<string>());
 
-        public string[] Errors { get; private set; }
+        public bool Succeded { get; }
+
+        public string[] Errors { get; }
 
         private ValitResult()
         {
-            Succeeded = true;
-            Errors = Enumerable.Empty<string>().ToArray();
+            Succeded = true;
+            Errors = Array.Empty<string>();
         }
 
-        private ValitResult(string[] errors)
+        private ValitResult(bool succeded, string[] errors)
         {
-            Succeeded = false;
+            Succeded = succeded; 
             Errors = errors;
         }
 
-        internal static ValitResult CreateSucceeded()
-            => new ValitResult();
-
-        internal static ValitResult CreateFailed(string[] errors)
-            => new ValitResult( errors);
-
-
+        internal static ValitResult Fail(string[] errors)
+            => new ValitResult(false, errors);
+       
         public static ValitResult operator &(ValitResult result1, IValitResult result2)
         {
-            var succeed = result1.Succeeded && result2.Succeeded;
+            var succeed = result1.Succeded && result2.Succeded;
             var errors = result1.Errors.Concat(result2.Errors).ToArray();
-            return succeed? ValitResult.CreateSucceeded() : ValitResult.CreateFailed(errors);
+            return succeed ? Success : Fail(errors);
         }
     }
 }

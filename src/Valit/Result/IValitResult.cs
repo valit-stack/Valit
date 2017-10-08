@@ -2,7 +2,7 @@ namespace Valit
 {
     public interface IValitResult
     {
-         bool Succeeded { get; }
+         bool Succeded { get; }
 
          string[] Errors { get; }
     }

@@ -12,7 +12,7 @@ namespace Valit.Tests.ExtensionsTests
         {
             var result = ValitRules<Model>
                 .Create()
-                .WithStrategy(ValitRulesStrategies.Complete)
+                .WithStrategy(x => x.Complete)
                 .Ensure(model => model.StringValue, _=>_
                     .Satisfies(p => !String.IsNullOrWhiteSpace(p)))
                 .Ensure(model => model.GuidValue, _=>_ 
@@ -24,7 +24,7 @@ namespace Valit.Tests.ExtensionsTests
                 .For(_model)
                 .Validate();
             
-            Assert.Equal(result.Succeeded, true);
+            Assert.Equal(result.Succeded, true);
         }
 
         [Fact]
@@ -32,7 +32,7 @@ namespace Valit.Tests.ExtensionsTests
         {
             var result = ValitRules<Model>
                 .Create()
-                .WithStrategy(ValitRulesStrategies.Complete)
+                .WithStrategy(x => x.Complete)
                 .Ensure(model => model.StringValue, _=>_
                     .Satisfies(p => !String.IsNullOrWhiteSpace(p)))
                 .Ensure(model => model.GuidValue, _=>_ 
@@ -44,7 +44,7 @@ namespace Valit.Tests.ExtensionsTests
                 .For(_model)
                 .Validate();
             
-            Assert.Equal(result.Succeeded, false);
+            Assert.Equal(result.Succeded, false);
         }
 
         [Fact]
@@ -66,7 +66,7 @@ namespace Valit.Tests.ExtensionsTests
             {
                 ValitRules<Model>
                 .Create()
-                .WithStrategy(ValitRulesStrategies.Complete)
+                .WithStrategy(x=>x.Complete)
                 .Ensure(model => model.StringValue, _=>_
                     .Satisfies(null))
                 .For(_model)
