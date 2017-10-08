@@ -1,0 +1,19 @@
+using System;
+
+namespace Valit
+{
+    public static class ValitRuleUInt64Extensions
+    {
+        public static IValitRule<TObject, ulong> IsGreaterThan<TObject>(this IValitRule<TObject, ulong> rule, ulong value)  where TObject : class
+            => rule.Satisfies(p =>  p > value);         
+
+        public static IValitRule<TObject, ulong> IsLessThan<TObject>(this IValitRule<TObject, ulong> rule, ulong value)  where TObject : class
+            => rule.Satisfies(p =>  p < value);                  
+
+        public static IValitRule<TObject, ulong> IsEqualTo<TObject>(this IValitRule<TObject, ulong> rule, ulong value) where TObject : class
+            => rule.Satisfies(p =>  p < value);
+
+        public static IValitRule<TObject, ulong> IsNonZero<TObject>(this IValitRule<TObject, ulong> rule) where TObject : class
+            => rule.Satisfies(p =>  p != 0);
+    }
+}

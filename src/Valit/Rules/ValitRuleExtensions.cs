@@ -30,29 +30,7 @@ namespace Valit
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);            
             return rule.Satisfies(p => p != null && p.Equals(expectedValue));
-        }
-        
-        public static IValitRule<TObject, TProperty> IsGreaterThan<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, TProperty expectedValue)  where TObject : class
-            where TProperty : IComparable
-        {
-            rule.ThrowIfNull(ValitExceptionMessages.NullRule); 
-            return rule.Satisfies(p => 
-                p != null 
-                && expectedValue != null 
-                && typeof(TProperty).IsNumericType() 
-                && Comparer<TProperty>.Default.Compare(p, expectedValue) > 0);
-        }         
-
-        public static IValitRule<TObject, TProperty> IsLessThan<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, TProperty expectedValue) where TObject : class
-            where TProperty : IComparable
-        {
-            rule.ThrowIfNull(ValitExceptionMessages.NullRule);             
-            return rule.Satisfies(p => 
-                p != null 
-                && expectedValue != null 
-                && typeof(TProperty).IsNumericType() 
-                && Comparer<TProperty>.Default.Compare(p, expectedValue) < 0);
-        }      
+        }   
 
         public static IValitRule<TObject, TProperty> MinLength<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, int length) where TObject : class
             where TProperty : IEnumerable<char>, IComparable<String>, IEquatable<String>
