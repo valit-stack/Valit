@@ -136,7 +136,20 @@ namespace Valit
             var accessor = rule.GetAccessor();
             var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
 
-            previousRuleAccessor.AddErrorMessage(message);
+            var error = ValitRuleError.CreateForMessage(message);
+            previousRuleAccessor.AddError(error);
+            return new ValitRule<TObject, TProperty>(accessor.PreviousRule);
+        }    
+
+        public static IValitRule<TObject, TProperty> WithErrorCode<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, int errorCode) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            
+            var accessor = rule.GetAccessor();
+            var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
+
+            var error = ValitRuleError.CreateForErrorCode(errorCode);
+            previousRuleAccessor.AddError(error);
             return new ValitRule<TObject, TProperty>(accessor.PreviousRule);
         }           
 
