@@ -5,21 +5,39 @@ namespace Valit
     public static class ValitRuleDecimalExtensions
     {
         public static IValitRule<TObject, decimal> IsGreaterThan<TObject>(this IValitRule<TObject, decimal> rule, decimal value)  where TObject : class
-            => rule.Satisfies(p =>  p > value);         
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);    
+            return rule.Satisfies(p =>  p > value);   
+        }      
 
         public static IValitRule<TObject, decimal> IsLessThan<TObject>(this IValitRule<TObject, decimal> rule, decimal value)  where TObject : class
-            => rule.Satisfies(p =>  p < value);                  
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);    
+            return rule.Satisfies(p =>  p < value);      
+        }            
 
         public static IValitRule<TObject, decimal> IsEqualTo<TObject>(this IValitRule<TObject, decimal> rule, decimal value) where TObject : class
-            => rule.Satisfies(p =>  p < value);
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);    
+            return rule.Satisfies(p =>  p == value);
+        }
 
         public static IValitRule<TObject, decimal> IsPositive<TObject>(this IValitRule<TObject, decimal> rule) where TObject : class
-            => rule.Satisfies(p =>  Math.Sign(p) > 0);
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);    
+            return rule.Satisfies(p =>  Math.Sign(p) > 0);
+        }
 
         public static IValitRule<TObject, decimal> IsNegative<TObject>(this IValitRule<TObject, decimal> rule) where TObject : class
-            => rule.Satisfies(p =>  Math.Sign(p) < 0);
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);    
+            return rule.Satisfies(p =>  Math.Sign(p) < 0);
+        }
 
         public static IValitRule<TObject, decimal> IsNonZero<TObject>(this IValitRule<TObject, decimal> rule) where TObject : class
-            => rule.Satisfies(p =>  Math.Sign(p) != 0);
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);    
+            return rule.Satisfies(p =>  Math.Sign(p) != 0);
+        }
     }
 }
