@@ -1,0 +1,224 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cake.Codecov</name>
+    </assembly>
+    <members>
+        <member name="T:Cake.Codecov.CodecovAliases">
+            <summary>
+            <para>
+            Uploads coverage reports to <see href="https://codecov.io">Codecov</see>. Note that, many CI
+            services (like AppVeyor) do not require you to provide a Codecov upload token. However,
+            TeamCity is a rare exception.
+            </para>
+            <para>
+            In order to use the commands for this addin, you will need to include the following in your
+            cake script:
+            <code>
+            #tool nuget:?package=Codecov
+            </code>
+            <code>
+            #addin nuget:?package=Cake.Codecov
+            </code>
+            </para>
+            </summary>
+        </member>
+        <member name="M:Cake.Codecov.CodecovAliases.Codecov(Cake.Core.ICakeContext,Cake.Codecov.CodecovSettings)">
+            <summary>
+            Uploads coverage reports to <see href="https://codecov.io">Codecov</see> using the given settings.
+            </summary>
+            <param name="context">The context.</param>
+            <param name="settings">The settings.</param>
+        </member>
+        <member name="M:Cake.Codecov.CodecovAliases.Codecov(Cake.Core.ICakeContext,System.Collections.Generic.IEnumerable{System.String},System.String)">
+            <summary>
+            Uploads coverage reports to <see href="https://codecov.io">Codecov</see> by specifying
+            the report files and Codecov token.
+            </summary>
+            <param name="context">The context.</param>
+            <param name="files">The coverage reports.</param>
+            <param name="token">The Codecov upload token.</param>
+        </member>
+        <member name="M:Cake.Codecov.CodecovAliases.Codecov(Cake.Core.ICakeContext,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Uploads coverage reports to <see href="https://codecov.io">Codecov</see> by specifying
+            the report files. Note that, many CI services (like AppVeyor) do not require you to
+            provide a Codecov upload token. However, TeamCity is a rare exception.
+            </summary>
+            <param name="context">The context.</param>
+            <param name="files">The coverage reports.</param>
+        </member>
+        <member name="M:Cake.Codecov.CodecovAliases.Codecov(Cake.Core.ICakeContext,System.String,System.String)">
+            <summary>
+            Uploads coverage report to <see href="https://codecov.io">Codecov</see> by specifying the
+            report file and Codecov token.
+            </summary>
+            <param name="context">The context.</param>
+            <param name="file">The coverage report.</param>
+            <param name="token">The Codecov upload token.</param>
+        </member>
+        <member name="M:Cake.Codecov.CodecovAliases.Codecov(Cake.Core.ICakeContext,System.String)">
+            <summary>
+            Uploads coverage report to <see href="https://codecov.io">Codecov</see> by specifying the
+            report file. Note that, many CI services (like AppVeyor) do not require you to provide a
+            Codecov upload token. However, TeamCity is a rare exception.
+            </summary>
+            <param name="context">The context.</param>
+            <param name="file">The coverage report.</param>
+        </member>
+        <member name="T:Cake.Codecov.CodecovSettings">
+            <summary>
+            Contains settings used by <see cref="T:Cake.Codecov.CodecovRunner"/>. See <see
+            href="https://github.com/codecov/codecov-exe/blob/master/Source/Codecov/Program/CommandLineOptions.cs">CommandLineOptions</see>
+            or run
+            <code>
+            .\codecov.exe --help
+            </code>
+            for more details.
+            </summary>
+        </member>
+        <member name="P:Cake.Codecov.CodecovSettings.Branch">
+            <summary>
+            Gets or sets a property specifing the branch name.
+            </summary>
+            <value>A property specifing the branch name.</value>
+        </member>
+        <member name="P:Cake.Codecov.CodecovSettings.Build">
+            <summary>
+            Gets or sets a property specifing the build number.
+            </summary>
+            <value>A property specifing the build number.</value>
+        </member>
+        <member name="P:Cake.Codecov.CodecovSettings.Commit">
+            <summary>
+            Gets or sets a property specifing the commit sha.
+            </summary>
+            <value>A property specifing the commit sha.</value>
+        </member>
+        <member name="P:Cake.Codecov.CodecovSettings.DisableNetwork">
+            <summary>
+            Gets or sets a value indicating whether to toggle functionalities. (1) --disable-network.
+            Disable uploading the file network.
+            </summary>
+            <value>
+            A value indicating whether to toggle functionalities. (1) --disable-network. Disable
+            uploading the file network.
+            </value>
+        </member>
+        <member name="P:Cake.Codecov.CodecovSettings.Dump">
+            <summary>
+            Gets or sets a value indicating whether to don't upload and dump to stdin.
+            </summary>
+            <value>A value indicating whether to don't upload and dump to stdin.</value>
+        </member>
+        <member name="P:Cake.Codecov.CodecovSettings.Envs">
+            <summary>
+            Gets or sets a value specifing the enviornment variables to be included with this build.
+            (1) CODECOV_ENV=VAR1,VAR2. (2) -e VAR1 VAR2.
+            </summary>
+            <value>
+            A value specifing the enviornment variables to be included with this build. (1)
+            CODECOV_ENV=VAR1,VAR2. (2) -e VAR1 VAR2.
+            </value>
+        </member>
+        <member name="P:Cake.Codecov.CodecovSettings.Files">
+            <summary>
+            Gets or sets a value specifing the target file(s) to upload. (1) -f 'path/to/file'. Only
+            upload this file. (2) -f 'path/to/file1 path/to/file2'. Only upload these files.
+            </summary>
+            <value>
+            A value specifing the target file(s) to upload. (1) -f 'path/to/file'. Only upload this
+            file. (2) -f 'path/to/file1 path/to/file2'. Only upload these files.
+            </value>
+        </member>
+        <member name="P:Cake.Codecov.CodecovSettings.Flags">
+            <summary>
+            Gets or sets a value specifing the flag the upload to group coverage metrics. (1) --flag
+            unittests. This upload is only unittests. (2) --flag integration. This upload is only
+            integration tests. (3) --flag ut,chrome. This upload is chrome - UI tests.
+            </summary>
+            <value>
+            A value specifing the flag the upload to group coverage metrics. (1) --flag unittests.
+            This upload is only unittests. (2) --flag integration. This upload is only integration
+            tests. (3) --flag ut,chrome. This upload is chrome - UI tests.
+            </value>
+        </member>
+        <member name="P:Cake.Codecov.CodecovSettings.Name">
+            <summary>
+            Gets or sets a value specifing the custom defined name of the upload. Visible in Codecov UI.
+            </summary>
+            <value>
+            A value specifing the custom defined name of the upload. Visible in Codecov UI.
+            </value>
+        </member>
+        <member name="P:Cake.Codecov.CodecovSettings.NoColor">
+            <summary>
+            Gets or sets a value indicating whether to remove color from the output.
+            </summary>
+            <value>A value indicating whether to remove color from the output.</value>
+        </member>
+        <member name="P:Cake.Codecov.CodecovSettings.Pr">
+            <summary>
+            Gets or sets a value specifing the pull request number.
+            </summary>
+            <value>A value specifing the pull request number.</value>
+        </member>
+        <member name="P:Cake.Codecov.CodecovSettings.Required">
+            <summary>
+            Gets or sets a value indicating whether to exit with 1 if not successful. Default will
+            Exit with 0.
+            </summary>
+            <value>
+            A value indicating whether to exit with 1 if not successful. Default will Exit with 0.
+            </value>
+        </member>
+        <member name="P:Cake.Codecov.CodecovSettings.Root">
+            <summary>
+            Gets or sets a value used when not in git project to identify project root directory.
+            </summary>
+            <value>A value used when not in git project to identify project root directory.</value>
+        </member>
+        <member name="P:Cake.Codecov.CodecovSettings.Slug">
+            <summary>
+            Gets or sets a value specifing the owner/repo slug used instead of the private repo token
+            in Enterprise. (option) Set environment variable CODECOV_SLUG=:owner/:repo.
+            </summary>
+            <value>
+            A value specifing the owner/repo slug used instead of the private repo token in
+            Enterprise. (option) Set environment variable CODECOV_SLUG=:owner/:repo.
+            </value>
+        </member>
+        <member name="P:Cake.Codecov.CodecovSettings.Tag">
+            <summary>
+            Gets or sets a value specifing the git tag.
+            </summary>
+            <value>A value specifing the git tag.</value>
+        </member>
+        <member name="P:Cake.Codecov.CodecovSettings.Token">
+            <summary>
+            Gets or sets a value specifing the private repository token. (option) set the enviornment
+            variable CODECOV_TOKEN-uuid. (1) -t @/path/to/token_file. (2) -t uuid.
+            </summary>
+            <value>
+            A value specifing the private repository token. (option) set the enviornment variable
+            CODECOV_TOKEN-uuid. (1) -t @/path/to/token_file. (2) -t uuid.
+            </value>
+        </member>
+        <member name="P:Cake.Codecov.CodecovSettings.Url">
+            <summary>
+            Gets or sets a value specifing the target url for Enterprise customers. (option) Set
+            environment variable CODECOV_URL=https://my-hosted-codecov.com.
+            </summary>
+            <value>
+            A value specifing the target url for Enterprise customers. (option) Set environment
+            variable CODECOV_URL=https://my-hosted-codecov.com.
+            </value>
+        </member>
+        <member name="P:Cake.Codecov.CodecovSettings.Verbose">
+            <summary>
+            Gets or sets a value indicating whether to run in verbose mode.
+            </summary>
+            <value>A value indicating whether to run in verbose mode.</value>
+        </member>
+    </members>
+</doc>
