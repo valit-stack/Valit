@@ -19,6 +19,7 @@ Valit offers plenty different validation rules to use, such as:
 - **MaxItems()**
 - **Email()**
 
+
 ```cs
     public class Model
     {
