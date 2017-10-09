@@ -14,7 +14,19 @@ namespace Valit
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);    
             return rule.Satisfies(p =>  p < value);      
-        }            
+        }          
+
+        public static IValitRule<TObject, decimal> IsGreaterThanOrEqualTo<TObject>(this IValitRule<TObject, decimal> rule, decimal value)  where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p =>  p >= value);
+        }          
+
+        public static IValitRule<TObject, decimal> IsLessThanOrEqualTo<TObject>(this IValitRule<TObject, decimal> rule, decimal value)  where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p =>  p <= value);
+        }   
 
         public static IValitRule<TObject, decimal> IsEqualTo<TObject>(this IValitRule<TObject, decimal> rule, decimal value) where TObject : class
         {
@@ -25,19 +37,19 @@ namespace Valit
         public static IValitRule<TObject, decimal> IsPositive<TObject>(this IValitRule<TObject, decimal> rule) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);    
-            return rule.Satisfies(p =>  Math.Sign(p) > 0);
+            return rule.Satisfies(p => p > 0m);
         }
 
         public static IValitRule<TObject, decimal> IsNegative<TObject>(this IValitRule<TObject, decimal> rule) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);    
-            return rule.Satisfies(p =>  Math.Sign(p) < 0);
+            return rule.Satisfies(p => p < 0m);
         }
 
         public static IValitRule<TObject, decimal> IsNonZero<TObject>(this IValitRule<TObject, decimal> rule) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);    
-            return rule.Satisfies(p =>  Math.Sign(p) != 0);
+            return rule.Satisfies(p => p != 0);
         }
     }
 }

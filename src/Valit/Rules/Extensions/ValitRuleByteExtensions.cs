@@ -9,15 +9,25 @@ namespace Valit
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
             return rule.Satisfies(p =>  p > value);
-        } 
-         
+        }          
 
         public static IValitRule<TObject, byte> IsLessThan<TObject>(this IValitRule<TObject, byte> rule, byte value)  where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
             return rule.Satisfies(p =>  p < value);
-        } 
-                  
+        }    
+
+        public static IValitRule<TObject, byte> IsGreaterThanOrEqualTo<TObject>(this IValitRule<TObject, byte> rule, byte value)  where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p =>  p >= value);
+        }          
+
+        public static IValitRule<TObject, byte> IsLessThanOrEqualTo<TObject>(this IValitRule<TObject, byte> rule, byte value)  where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p =>  p <= value);
+        }               
 
         public static IValitRule<TObject, byte> IsEqualTo<TObject>(this IValitRule<TObject, byte> rule, byte value) where TObject : class
         {
@@ -28,7 +38,7 @@ namespace Valit
         public static IValitRule<TObject, byte> IsNonZero<TObject>(this IValitRule<TObject, byte> rule) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);    
-            return rule.Satisfies(p =>  Math.Sign(p) != 0);
+            return rule.Satisfies(p => p != 0);
         }
     }
 }

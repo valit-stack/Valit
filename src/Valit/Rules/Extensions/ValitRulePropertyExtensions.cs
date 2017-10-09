@@ -62,6 +62,12 @@ namespace Valit
             return new ValitRule<TObject, TProperty>(accessor.PreviousRule);
         }
 
+        internal static IValitRule<TObject, TProperty> NotNull<TObject, TProperty>(this IValitRule<TObject, TProperty> rule) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);    
+            return rule;
+        }
+
         internal static IEnumerable<IValitRule<TObject>> GetAllEnsureRules<TObject, TProperty>(this IValitRule<TObject, TProperty> rule) where TObject : class
         {
             var rules = new List<IValitRule<TObject>>();
