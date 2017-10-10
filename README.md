@@ -2,8 +2,8 @@
 
 Valit is **dead simple** validation for .NET Core. No more if-statements all around your code. Write nice and clean **fluent validators** instead! 
 
-[![buddy pipeline](https://app.buddy.works/foreverframenet/valit/pipelines/pipeline/61801/badge.svg?token=da124439d92a63ad5b0eb713f8eee5c2bca7a1b31258f4694d88036c976751e8 "buddy pipeline")](https://app.buddy.works/foreverframenet/valit/pipelines/pipeline/61801)
-[![buddy pipeline](https://app.buddy.works/foreverframenet/valit/pipelines/pipeline/61803/badge.svg?token=da124439d92a63ad5b0eb713f8eee5c2bca7a1b31258f4694d88036c976751e8 "buddy pipeline")](https://app.buddy.works/foreverframenet/valit/pipelines/pipeline/61803)
+[![buddy pipeline](https://app.buddy.works/foreverframenet/valit/pipelines/pipeline/61826/badge.svg?token=da124439d92a63ad5b0eb713f8eee5c2bca7a1b31258f4694d88036c976751e8 "buddy pipeline")](https://app.buddy.works/foreverframenet/valit/pipelines/pipeline/61826)
+[![buddy pipeline](https://app.buddy.works/foreverframenet/valit/pipelines/pipeline/61827/badge.svg?token=da124439d92a63ad5b0eb713f8eee5c2bca7a1b31258f4694d88036c976751e8 "buddy pipeline")](https://app.buddy.works/foreverframenet/valit/pipelines/pipeline/61827)
 
 ## Basic Usage
 Valit offers plenty different validation rules to use, such as:
