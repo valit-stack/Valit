@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 
+
 namespace Valit
 {
     public static class ValitRuleByteExtensions
