@@ -77,7 +77,7 @@ namespace Valit
             return rule.Satisfies(p => p.HasValue && p != 0);
         }
 
-        public static IValitRule<TObject, byte?> IsNotNull<TObject>(this IValitRule<TObject, byte?> rule) where TObject : class
+        public static IValitRule<TObject, byte?> Required<TObject>(this IValitRule<TObject, byte?> rule) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
             return rule.Satisfies(p => p.HasValue);
