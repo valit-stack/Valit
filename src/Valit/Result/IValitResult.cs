@@ -4,6 +4,8 @@ namespace Valit
     {
          bool Succeeded { get; }
 
-         string[] Errors { get; }
+         string[] ErrorMessages { get; }
+
+         int[] ErrorCodes { get; }
     }
 }
