@@ -3,6 +3,7 @@
 Valit is **dead simple** validation for .NET Core. No more if-statements all around your code. Write nice and clean **fluent validators** instead! 
 
 [![buddy pipeline](https://app.buddy.works/foreverframenet/valit/pipelines/pipeline/60349/badge.svg?token=da124439d92a63ad5b0eb713f8eee5c2bca7a1b31258f4694d88036c976751e8 "buddy pipeline")](https://app.buddy.works/foreverframenet/valit/pipelines/pipeline/60349)
+[![buddy pipeline](https://app.buddy.works/foreverframenet/valit/pipelines/pipeline/61579/badge.svg?token=da124439d92a63ad5b0eb713f8eee5c2bca7a1b31258f4694d88036c976751e8 "buddy pipeline")](https://app.buddy.works/foreverframenet/valit/pipelines/pipeline/61579)
 
 ## Basic Usage
 Valit offers plenty different validation rules to use, such as:
@@ -17,6 +18,7 @@ Valit offers plenty different validation rules to use, such as:
 - **MinItems()**
 - **MaxItems()**
 - **Email()**
+
 
 ```cs
     public class Model
