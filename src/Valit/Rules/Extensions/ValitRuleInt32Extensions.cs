@@ -8,11 +8,25 @@ namespace Valit
             return rule.Satisfies(p =>  p > value);      
         }
 
+        public static IValitRule<TObject, int> IsGreaterThan<TObject>(this IValitRule<TObject, int> rule, int? value) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p => value.HasValue && p > value);
+        }
+
+
         public static IValitRule<TObject, int?> IsGreaterThan<TObject>(this IValitRule<TObject, int?> rule, int value) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
             return rule.Satisfies(p => p.HasValue && p > value);
         }
+
+        public static IValitRule<TObject, int?> IsGreaterThan<TObject>(this IValitRule<TObject, int?> rule, int? value) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p => p.HasValue && value.HasValue && p > value);
+        }
+
 
         public static IValitRule<TObject, int> IsLessThan<TObject>(this IValitRule<TObject, int> rule, int value)  where TObject : class
         {
@@ -20,11 +34,25 @@ namespace Valit
             return rule.Satisfies(p =>  p < value);
         }
 
+        public static IValitRule<TObject, int> IsLessThan<TObject>(this IValitRule<TObject, int> rule, int? value) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p => value.HasValue && p < value);
+        }
+
+
         public static IValitRule<TObject, int?> IsLessThan<TObject>(this IValitRule<TObject, int?> rule, int value) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
             return rule.Satisfies(p => p.HasValue && p < value);
         }
+
+        public static IValitRule<TObject, int?> IsLessThan<TObject>(this IValitRule<TObject, int?> rule, int? value) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p => p.HasValue && value.HasValue && p < value);
+        }
+
 
         public static IValitRule<TObject, int> IsGreaterThanOrEqualTo<TObject>(this IValitRule<TObject, int> rule, int value)  where TObject : class
         {
@@ -32,11 +60,25 @@ namespace Valit
             return rule.Satisfies(p =>  p >= value);
         }
 
+        public static IValitRule<TObject, int> IsGreaterThanOrEqualTo<TObject>(this IValitRule<TObject, int> rule, int? value) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p => value.HasValue && p >= value);
+        }
+
+
         public static IValitRule<TObject, int?> IsGreaterThanOrEqualTo<TObject>(this IValitRule<TObject, int?> rule, int value) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
             return rule.Satisfies(p => p.HasValue && p >= value);
         }
+
+        public static IValitRule<TObject, int?> IsGreaterThanOrEqualTo<TObject>(this IValitRule<TObject, int?> rule, int? value) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p => p.HasValue && value.HasValue && p >= value);
+        }
+
 
         public static IValitRule<TObject, int> IsLessThanOrEqualTo<TObject>(this IValitRule<TObject, int> rule, int value)  where TObject : class
         {
@@ -44,11 +86,25 @@ namespace Valit
             return rule.Satisfies(p =>  p <= value);
         }
 
+        public static IValitRule<TObject, int> IsLessThanOrEqualTo<TObject>(this IValitRule<TObject, int> rule, int? value) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p => value.HasValue && p <= value);
+        }
+
+
         public static IValitRule<TObject, int?> IsLessThanOrEqualTo<TObject>(this IValitRule<TObject, int?> rule, int value) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
             return rule.Satisfies(p => p.HasValue && p <= value);
         }
+
+        public static IValitRule<TObject, int?> IsLessThanOrEqualTo<TObject>(this IValitRule<TObject, int?> rule, int? value) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p => p.HasValue && value.HasValue && p <= value);
+        }
+
 
         public static IValitRule<TObject, int> IsEqualTo<TObject>(this IValitRule<TObject, int> rule, int value) where TObject : class
         {
@@ -56,11 +112,25 @@ namespace Valit
             return rule.Satisfies(p =>  p == value);
         }
 
+        public static IValitRule<TObject, int> IsEqualTo<TObject>(this IValitRule<TObject, int> rule, int? value) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p => value.HasValue && p == value);
+        }
+
+
         public static IValitRule<TObject, int?> IsEqualTo<TObject>(this IValitRule<TObject, int?> rule, int value) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
             return rule.Satisfies(p => p.HasValue && p == value);
         }
+
+        public static IValitRule<TObject, int?> IsEqualTo<TObject>(this IValitRule<TObject, int?> rule, int? value) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p => p.HasValue && value.HasValue && p == value);
+        }
+
 
         public static IValitRule<TObject, int> IsPositive<TObject>(this IValitRule<TObject, int> rule) where TObject : class
         {

@@ -10,10 +10,22 @@ namespace Valit
             return rule.Satisfies(p => !Single.IsNaN(p) && !Single.IsNaN(value) && p > value);
         }
 
+        public static IValitRule<TObject, float> IsGreaterThan<TObject>(this IValitRule<TObject, float> rule, float? value) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p => value.HasValue && !Single.IsNaN(p) && !Single.IsNaN(value.Value) && p > value);
+        }
+
         public static IValitRule<TObject, float?> IsGreaterThan<TObject>(this IValitRule<TObject, float?> rule, float value) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
             return rule.Satisfies(p => p.HasValue && !Single.IsNaN(p.Value) && !Single.IsNaN(value) && p > value);
+        }
+
+        public static IValitRule<TObject, float?> IsGreaterThan<TObject>(this IValitRule<TObject, float?> rule, float? value) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p => p.HasValue && value.HasValue && !Single.IsNaN(p.Value) && !Single.IsNaN(value.Value) && p > value);
         }
 
         public static IValitRule<TObject, float> IsLessThan<TObject>(this IValitRule<TObject, float> rule, float value) where TObject : class
@@ -22,34 +34,70 @@ namespace Valit
             return rule.Satisfies(p => !Single.IsNaN(p) && !Single.IsNaN(value) && value > p);
         }
 
+        public static IValitRule<TObject, float> IsLessThan<TObject>(this IValitRule<TObject, float> rule, float? value) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p => value.HasValue && !Single.IsNaN(p) && !Single.IsNaN(value.Value) && value > p);
+        }
+
         public static IValitRule<TObject, float?> IsLessThan<TObject>(this IValitRule<TObject, float?> rule, float value) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
             return rule.Satisfies(p => p.HasValue && !Single.IsNaN(p.Value) && !Single.IsNaN(value) && value > p);
         }
 
+        public static IValitRule<TObject, float?> IsLessThan<TObject>(this IValitRule<TObject, float?> rule, float? value) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p => p.HasValue && value.HasValue && !Single.IsNaN(p.Value) && !Single.IsNaN(value.Value) && value > p);
+        }
+
         public static IValitRule<TObject, float> IsGreaterThanOrEqualTo<TObject>(this IValitRule<TObject, float> rule, float value) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
-            return rule.Satisfies(p => p >= value);
+            return rule.Satisfies(p => !Single.IsNaN(p) && !Single.IsNaN(value) && p >= value);
+        }
+
+        public static IValitRule<TObject, float> IsGreaterThanOrEqualTo<TObject>(this IValitRule<TObject, float> rule, float? value) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p => value.HasValue && !Single.IsNaN(p) && !Single.IsNaN(value.Value) && p >= value);
         }
 
         public static IValitRule<TObject, float?> IsGreaterThanOrEqualTo<TObject>(this IValitRule<TObject, float?> rule, float value) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
-            return rule.Satisfies(p => p.HasValue && p >= value);
+            return rule.Satisfies(p => p.HasValue && !Single.IsNaN(p.Value) && !Single.IsNaN(value) && p >= value);
+        }
+
+        public static IValitRule<TObject, float?> IsGreaterThanOrEqualTo<TObject>(this IValitRule<TObject, float?> rule, float? value) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p => p.HasValue && value.HasValue && !Single.IsNaN(p.Value) && !Single.IsNaN(value.Value) && p >= value);
         }
 
         public static IValitRule<TObject, float> IsLessThanOrEqualTo<TObject>(this IValitRule<TObject, float> rule, float value) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
-            return rule.Satisfies(p => p <= value);
+            return rule.Satisfies(p => !Single.IsNaN(p) && !Single.IsNaN(value) && p <= value);
+        }
+
+        public static IValitRule<TObject, float> IsLessThanOrEqualTo<TObject>(this IValitRule<TObject, float> rule, float? value) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p => value.HasValue && !Single.IsNaN(p) && !Single.IsNaN(value.Value) && p <= value);
         }
 
         public static IValitRule<TObject, float?> IsLessThanOrEqualTo<TObject>(this IValitRule<TObject, float?> rule, float value) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
-            return rule.Satisfies(p => p.HasValue && p <= value);
+            return rule.Satisfies(p => p.HasValue && !Single.IsNaN(p.Value) && !Single.IsNaN(value) && p <= value);
+        }
+
+        public static IValitRule<TObject, float?> IsLessThanOrEqualTo<TObject>(this IValitRule<TObject, float?> rule, float? value) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p => p.HasValue && value.HasValue && !Single.IsNaN(p.Value) && !Single.IsNaN(value.Value) && p <= value);
         }
 
         public static IValitRule<TObject, float> IsEqualTo<TObject>(this IValitRule<TObject, float> rule, float value) where TObject : class
@@ -58,10 +106,22 @@ namespace Valit
             return rule.Satisfies(p => !Single.IsNaN(p) && !Single.IsNaN(value) && p == value);
         }
 
+        public static IValitRule<TObject, float> IsEqualTo<TObject>(this IValitRule<TObject, float> rule, float? value) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p => value.HasValue && !Single.IsNaN(p) && !Single.IsNaN(value.Value) && p == value);
+        }
+
         public static IValitRule<TObject, float?> IsEqualTo<TObject>(this IValitRule<TObject, float?> rule, float value) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
             return rule.Satisfies(p => p.HasValue && !Single.IsNaN(p.Value) && !Single.IsNaN(value) && p == value);
+        }
+
+        public static IValitRule<TObject, float?> IsEqualTo<TObject>(this IValitRule<TObject, float?> rule, float? value) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            return rule.Satisfies(p => p.HasValue && value.HasValue && !Single.IsNaN(p.Value) && !Single.IsNaN(value.Value) && p == value);
         }
 
         public static IValitRule<TObject, float> IsPositive<TObject>(this IValitRule<TObject, float> rule) where TObject : class
