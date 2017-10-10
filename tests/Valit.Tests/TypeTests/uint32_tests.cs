@@ -10,7 +10,7 @@ namespace Valit.Tests.TypeTests
         {
             var result = ValitRules<object>
                 .Create()
-                .WithStrategy(ValitRulesStrategies.Complete)
+                .WithStrategy(x => x.Complete)
                 .Ensure(_ => UInt32.Parse("1"), _ => _
                     .IsGreaterThan(UInt32.MinValue)
                     .IsLessThan(UInt32.MaxValue)
@@ -26,7 +26,7 @@ namespace Valit.Tests.TypeTests
         {
             var result = ValitRules<object>
                 .Create()
-                .WithStrategy(ValitRulesStrategies.Complete)
+                .WithStrategy(x => x.Complete)
                 .Ensure(_ => UInt32.Parse("1"), _ => _
                     .IsGreaterThan(UInt32.Parse("2"))
                     .WithMessage("Not greater than 2")
