@@ -1,5 +1,3 @@
-using System;
-
 namespace Valit
 {
     public static class ValitRuleUInt32Extensions
