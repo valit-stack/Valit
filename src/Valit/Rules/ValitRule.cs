@@ -18,7 +18,7 @@ namespace Valit
         private Predicate<TProperty> _predicate;
         private readonly List<Predicate<TObject>> _conditions;
         private readonly IValitRule<TObject, TProperty> _previousRule;
-		private readonly List<string> _errorMessages;
+		private readonly List<ValitRuleError> _errors;
         private readonly ValitRulesStrategies _strategy;
         private readonly List<string> _tags;
 
@@ -37,8 +37,8 @@ namespace Valit
         }
 
         private ValitRule()
-        {            
-            _errorMessages = new List<string>();
+        {        
+            _errors = new List<ValitRuleError>();
             _conditions = new List<Predicate<TObject>>();
             _tags = new List<string>();
         }		
@@ -48,9 +48,9 @@ namespace Valit
 			_predicate = predicate;
 		}
 
-		void IValitRuleAccessor.AddErrorMessage(string message)
+		void IValitRuleAccessor.AddError(ValitRuleError error)
 		{
-			_errorMessages.Add(message);
+			_errors.Add(error);
 		}
 
 		void IValitRuleAccessor<TObject, TProperty>.AddCondition(Predicate<TObject> condition)
@@ -73,7 +73,7 @@ namespace Valit
 
             var isSatisfied = (_predicate == null) ? true : _predicate(property);
 
-            return hasAllConditionsFulfilled && !isSatisfied? ValitResult.CreateFailed(_errorMessages.ToArray()) : ValitResult.CreateSucceeded();		
+            return hasAllConditionsFulfilled && !isSatisfied? ValitResult.CreateFailed(_errors) : ValitResult.CreateSucceeded();		
         }
 	}
 }
