@@ -11,7 +11,7 @@ namespace Valit
         {
             if(@object == null)
             {
-                throw Null_dereferenced();
+                throw NullDereferenced();
             }
         }
 
@@ -20,7 +20,7 @@ namespace Valit
         {
             if(@object == null)
             {
-                throw Null_dereferenced(message);
+                throw NullDereferenced(message);
             }
         }
     }

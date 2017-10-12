@@ -3,7 +3,7 @@ namespace Valit.Strategies
 {
     public class FailFastValitStrategy : IValitStrategy
     {
-        public void Fail<TObject>(IValitRule<TObject> rule, IValitResult result, ref bool cancel)
+        public void Fail<TObject>(IValitRule<TObject> rule, IValitResult result, out bool cancel)
            where TObject : class
         {
             cancel = true;

@@ -75,10 +75,11 @@ namespace Valit
 
                 if(!result.Succeeded)
                 {
-                    bool cancel = false;
-                    _strategy.Fail(rule, result, ref cancel);
+                    _strategy.Fail(rule, result, out bool cancel);
                     if(cancel)
+                    {
                         break;
+                    }
                 }
             }
 

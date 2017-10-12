@@ -47,9 +47,7 @@ namespace Valit
             => _errors.Add(error);
 
 		void IValitRuleAccessor<TObject, TProperty>.AddCondition(Predicate<TObject> condition)
-		{
-			_conditions.Add(condition);
-		}
+            => _conditions.Add(condition);		
 
 		void IValitRuleAccessor.AddTags(params string[] tags)
             => _tags.AddRange(tags);

@@ -4,12 +4,11 @@ namespace Valit.Strategies
 {
     public struct DefaultValitStrategies
     {
-        static readonly CompleteValitStrategy _Complete = new CompleteValitStrategy();
-        static readonly FailFastValitStrategy _FailFast = new FailFastValitStrategy();
-
+        static readonly CompleteValitStrategy _complete = new CompleteValitStrategy();
+        static readonly FailFastValitStrategy _failFast = new FailFastValitStrategy();
         
-        public CompleteValitStrategy Complete { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { return _Complete; } }
+        public CompleteValitStrategy Complete => _complete;
 
-        public FailFastValitStrategy FailFast { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { return _FailFast; } }
+        public FailFastValitStrategy FailFast => _failFast;
     }
 }
