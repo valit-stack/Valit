@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Valit.Exceptions
 {
-    static class SemanticExceptions
+    internal static class SemanticExceptions
     {
         public static ValitException NullDereferenced(string message)
             => throw new ValitException(message, new ArgumentNullException());
