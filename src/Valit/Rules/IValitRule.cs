@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Valit.Strategies;
 
 namespace Valit
 {
     public interface IValitRule
     {
-        ValitRulesStrategies Strategy { get; }
+        IValitStrategy Strategy { get; }
         IEnumerable<string> Tags { get; }
     }
 
