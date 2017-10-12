@@ -9,7 +9,7 @@ namespace Valit.Tests.ExtensionsTests
         {
             return ValitRules<Model>
                 .Create()
-                .WithStrategy(ValitRulesStrategies.Complete)
+                .WithStrategy(x=>x.Complete)
                 .Ensure(m => m.Email, _=>_ 
                     .Email())
                 .For(model)
