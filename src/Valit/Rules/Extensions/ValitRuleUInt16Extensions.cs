@@ -131,7 +131,6 @@ namespace Valit
             return rule.Satisfies(p => p.HasValue && value.HasValue && p.Value == value.Value);
         }
 
-
         public static IValitRule<TObject, ushort> IsNonZero<TObject>(this IValitRule<TObject, ushort> rule) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);    

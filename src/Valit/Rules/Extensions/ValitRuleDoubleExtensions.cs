@@ -4,7 +4,7 @@ namespace Valit
 {
     public static class ValitRuleDoubleExtensions
     {
-        public static IValitRule<TObject, double> IsGreaterThan<TObject>(this IValitRule<TObject, double> rule, double value) where TObject : class
+        public static IValitRule<TObject, double> IsGreaterThan<TObject>(this IValitRule<TObject, double> rule, double value, double epislon = 0.0d) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
             return rule.Satisfies(p => !Double.IsNaN(p) && !Double.IsNaN(value) && p > value);
