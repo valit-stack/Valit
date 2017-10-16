@@ -10,7 +10,7 @@ namespace Valit.Tests.TypeTests
         {
             var result = ValitRules<object>
                 .Create()
-                .WithStrategy(ValitRulesStrategies.Complete)
+                .WithStrategy(x => x.Complete)
                 .Ensure(_ => Decimal.Parse("0"), _ => _
                     .IsGreaterThan(Decimal.MinValue)
                     .IsLessThan(Decimal.MaxValue)
@@ -26,7 +26,7 @@ namespace Valit.Tests.TypeTests
         {
             var result = ValitRules<object>
                 .Create()
-                .WithStrategy(ValitRulesStrategies.Complete)
+                .WithStrategy(x => x.Complete)
                 .Ensure(_ => Decimal.Parse("0"), _ => _
                     .IsGreaterThan(Decimal.Parse("1"))
                     .WithMessage("Not greater than 1")

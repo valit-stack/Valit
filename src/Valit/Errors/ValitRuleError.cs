@@ -2,8 +2,8 @@ namespace Valit
 {
     internal class ValitRuleError
     {
-        public string Message  { get; private set; }
-        public int? ErrorCode { get; private set; }
+        public string Message  { get; }
+        public int? ErrorCode { get; }
 
         private ValitRuleError(string message)
         {

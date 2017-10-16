@@ -1,11 +1,13 @@
+using System.Collections.Immutable;
+
 namespace Valit
 {
     public interface IValitResult
     {
          bool Succeeded { get; }
 
-         string[] ErrorMessages { get; }
+         ImmutableArray<string> ErrorMessages { get; }
 
-         int[] ErrorCodes { get; }
+         ImmutableArray<int> ErrorCodes { get; }
     }
 }
