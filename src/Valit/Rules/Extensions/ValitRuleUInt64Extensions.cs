@@ -105,7 +105,6 @@ namespace Valit
             return rule.Satisfies(p => p.HasValue && value.HasValue && p.Value <= value.Value);
         }
 
-
         public static IValitRule<TObject, ulong> IsEqualTo<TObject>(this IValitRule<TObject, ulong> rule, ulong value) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);    
