@@ -27,10 +27,13 @@ Task("run-xunit-tests")
 	.IsDependentOn("dotnet-build")
 	.Does(() => 
 	{
-		DotNetCoreTest("./tests/Valit.Tests/Valit.Tests.csproj", new DotNetCoreTestSettings
-		{
-			Configuration = configuration
-		});
+		var settings = new DotNetCoreTestSettings
+        {
+ 			Configuration = configuration,			
+            ArgumentCustomization = args => args.Append("--logger \"trx;LogFileName=valit_tests_result.xml\"")
+        };
+		
+		DotNetCoreTest("./tests/Valit.Tests/Valit.Tests.csproj", settings);
 	});	
 
 Task("Default")
