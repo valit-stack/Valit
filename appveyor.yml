@@ -1,0 +1,20 @@
+init:
+  - git config --global core.autocrlf true
+
+build_script:
+  - ps: .\build.ps1
+
+test: off
+
+branches:
+  only:
+    - develop
+    - master
+    - /r/.*/
+    - /release/.*/
+    - /hotfix/.*/
+    - /feature/.*/
+
+cache:
+- tools -> build.cake
+- packages -> build.cake
