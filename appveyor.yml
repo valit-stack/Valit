@@ -10,10 +10,6 @@ branches:
   only:
     - develop
     - master
-    - /r/.*/
-    - /release/.*/
-    - /hotfix/.*/
-    - /feature/.*/
 
 cache:
 - tools -> build.cake
