@@ -15,6 +15,7 @@
 #paths
 src/Valit/obj/
 src/Valit/bin/
+tests/Valit.Tests/TestResults
 
 # User-specific files
 *.suo
@@ -310,3 +311,6 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+
+# diff 
+*.orig 

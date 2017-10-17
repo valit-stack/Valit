@@ -1,20 +1,26 @@
+using System;
+
+using static Valit.Exceptions.SemanticExceptions;
+
 namespace Valit
 {
     public static class ValitExceptionExtensions
     {
-        internal static void ThrowIfNull(this object @object)
+        internal static void ThrowIfNull<T>(this T @object)
+            where T : class
         {
-            if(@object == default(object))
+            if(@object == null)
             {
-                throw new ValitException();
+                throw NullDereferenced();
             }
         }
 
-        internal static void ThrowIfNull(this object @object, string message)
+        internal static void ThrowIfNull<T>(this T @object, string message)
+            where T: class
         {
-            if(@object == default(object))
+            if(@object == null)
             {
-                throw new ValitException(message);
+                throw NullDereferenced(message);
             }
         }
     }

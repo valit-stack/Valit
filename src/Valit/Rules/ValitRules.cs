@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Valit.Strategies;
 
 namespace Valit
 {
@@ -9,18 +9,18 @@ namespace Valit
     {
         private TObject _object;       
         private readonly List<IValitRule<TObject>> _rules;
-        private ValitRulesStrategies _strategy;
+        private IValitStrategy _strategy;
 
         private ValitRules(IEnumerable<IValitRule<TObject>> rules)
         {   
             _rules = rules?.ToList() ?? new List<IValitRule<TObject>>();
-            _strategy = ValitRulesStrategies.Complete;
+            _strategy = default(DefaultValitStrategies).Complete;
         }
 
         public static IValitRulesStrategyPicker<TObject> Create(IEnumerable<IValitRule<TObject>> rules = null)
             => new ValitRules<TObject>(rules);
 
-        IValitRules<TObject> IValitRulesStrategyPicker<TObject>.WithStrategy(ValitRulesStrategies strategy)
+        IValitRules<TObject> IValitRulesStrategyPicker<TObject>.WithStrategy(IValitStrategy strategy)
 		{
 			_strategy = strategy;
             return this;
@@ -35,6 +35,7 @@ namespace Valit
         IValitRules<TObject> IValitRules<TObject>.For(TObject @object)
         {
             @object.ThrowIfNull();
+
             _object = @object;
             return this;
         } 
@@ -66,20 +67,27 @@ namespace Valit
 
         private IValitResult Validate(IEnumerable<IValitRule<TObject>> rules)
         {
-            var result = ValitResult.CreateSucceeded();
+            var result = ValitResult.Success;
 
             foreach(var rule in rules.ToList())
             {
                 result &= rule.Validate(_object);
 
-                if(_strategy == ValitRulesStrategies.FailFast && !result.Succeeded)
+                if(!result.Succeeded)
                 {
-                    break;
+                    _strategy.Fail(rule, result, out bool cancel);
+                    if(cancel)
+                    {
+                        break;
+                    }
                 }
-            }               
+            }
+
+            _strategy.Done(result);
 
             return result;
         }
+
         private void AddEnsureRulesAccessors<TProperty>(Func<TObject,TProperty> propertySelector, Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> ruleFunc)
         {
             var lastEnsureRule = ruleFunc(new ValitRule<TObject, TProperty>(propertySelector, _strategy));
