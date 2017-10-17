@@ -1,30 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Valit.MessageProvider;
 using Valit.Strategies;
 
 namespace Valit
 {
-    public class ValitRules<TObject> : IValitRules<TObject>, IValitRulesStrategyPicker<TObject> where TObject : class
+    public class ValitRules<TObject> : 
+        IValitRules<TObject>,
+        IValitRulesMessageProvider<TObject>, 
+        IValitRulesStrategyPicker<TObject> 
+        where TObject : class
     {
         private TObject _object;       
         private readonly List<IValitRule<TObject>> _rules;
         private IValitStrategy _strategy;
+        private IValitMessageProvider _messageProvider;
 
         private ValitRules(IEnumerable<IValitRule<TObject>> rules)
         {   
             _rules = rules?.ToList() ?? new List<IValitRule<TObject>>();
             _strategy = default(DefaultValitStrategies).Complete;
+            _messageProvider = new EmptyMessageProvider();
         }
 
-        public static IValitRulesStrategyPicker<TObject> Create(IEnumerable<IValitRule<TObject>> rules = null)
+        public static IValitRulesMessageProvider<TObject> Create(IEnumerable<IValitRule<TObject>> rules = null)
             => new ValitRules<TObject>(rules);
 
-        IValitRules<TObject> IValitRulesStrategyPicker<TObject>.WithStrategy(IValitStrategy strategy)
-		{
-			_strategy = strategy;
+        IValitRulesStrategyPicker<TObject> IValitRulesMessageProvider<TObject>.WithMessageProvider<TKey>(MessageProvider.IValitMessageProvider<TKey> messageProvider)
+        {
+            _messageProvider = messageProvider;
             return this;
-		}
+        }
+
+        IValitRules<TObject> IValitRulesStrategyPicker<TObject>.WithStrategy(IValitStrategy strategy)
+        {
+            _strategy = strategy;
+            return this;
+        }
 
         IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> ruleFunc)
         {                       
@@ -90,7 +103,7 @@ namespace Valit
 
         private void AddEnsureRulesAccessors<TProperty>(Func<TObject,TProperty> propertySelector, Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> ruleFunc)
         {
-            var lastEnsureRule = ruleFunc(new ValitRule<TObject, TProperty>(propertySelector, _strategy));
+            var lastEnsureRule = ruleFunc(new ValitRule<TObject, TProperty>(propertySelector, _strategy, _messageProvider));
             var ensureRules = lastEnsureRule.GetAllEnsureRules();
             _rules.AddRange(ensureRules);
         }
