@@ -2,10 +2,9 @@
 
 Valit is **dead simple** validation for .NET Core. No more if-statements all around your code. Write nice and clean **fluent validators** instead! 
 
-[![Build status](https://ci.appveyor.com/api/projects/status/nb8sjpx2ft4sc2kw/branch/master?svg=true?branch=master)](https://ci.appveyor.com/project/GooRiOn/valit/branch/master)
-[![Build status](https://ci.appveyor.com/api/projects/status/nb8sjpx2ft4sc2kw/branch/develop?svg=true?branch=develop)](https://ci.appveyor.com/project/GooRiOn/valit/branch/develop)
-
 [![Build status](https://ci.appveyor.com/api/projects/status/github/valit-stack/Valit?branch=master&svg=true&passingText=master%20passing&failingText=master%20failing&pendingText=master%20pending)](https://ci.appveyor.com/project/GooRiOn/valit/branch/master)
+
+[![Build status](https://ci.appveyor.com/api/projects/status/github/valit-stack/Valit?branch=develop&svg=true&passingText=master%20passing&failingText=master%20failing&pendingText=master%20pending)](https://ci.appveyor.com/project/GooRiOn/valit/branch/develop)
 
 ## Basic Usage
 Valit offers plenty different validation rules to use, such as:
