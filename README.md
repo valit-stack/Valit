@@ -2,8 +2,8 @@
 
 Valit is **dead simple** validation for .NET Core. No more if-statements all around your code. Write nice and clean **fluent validators** instead! 
 
-[![buddy pipeline](https://app.buddy.works/foreverframenet/valit/pipelines/pipeline/61826/badge.svg?token=da124439d92a63ad5b0eb713f8eee5c2bca7a1b31258f4694d88036c976751e8 "buddy pipeline")](https://app.buddy.works/foreverframenet/valit/pipelines/pipeline/61826)
-[![buddy pipeline](https://app.buddy.works/foreverframenet/valit/pipelines/pipeline/61827/badge.svg?token=da124439d92a63ad5b0eb713f8eee5c2bca7a1b31258f4694d88036c976751e8 "buddy pipeline")](https://app.buddy.works/foreverframenet/valit/pipelines/pipeline/61827)
+[![Build status](https://ci.appveyor.com/api/projects/status/github/valit-stack/Valit?branch=master&svg=true&passingText=master%20passing&failingText=master%20failing&pendingText=master%20pending)](https://ci.appveyor.com/project/GooRiOn/valit/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/github/valit-stack/Valit?branch=develop&svg=true&passingText=develop%20passing&failingText=develop%20failing&pendingText=develop%20pending)](https://ci.appveyor.com/project/GooRiOn/valit/branch/develop)
 
 ## Basic Usage
 Valit offers plenty different validation rules to use, such as:
