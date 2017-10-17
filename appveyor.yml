@@ -3,6 +3,8 @@ init:
 
 build_script:
   - ps: .\build.ps1
+  - choco install codecov
+  - codecov -f tests/Valit.Tests/TestResults/valit_tests_result.xml -t $(codecov_token)
 
 test: off
 
