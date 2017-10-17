@@ -2,7 +2,7 @@ using System;
 
 namespace Valit
 {
-    public static class ValitRuleDateTimeOffsetOffsetExtensions
+    public static class ValitRuleDateTimeOffsetExtensions
     {
         public static IValitRule<TObject, DateTimeOffset> IsAfter<TObject>(this IValitRule<TObject, DateTimeOffset> rule, DateTimeOffset dateTimeOffset) where TObject : class
         {
