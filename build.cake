@@ -29,8 +29,7 @@ Task("run-xunit-tests")
 	{
 		var settings = new DotNetCoreTestSettings
         {
- 			Configuration = configuration,			
-            ArgumentCustomization = args => args.Append("--logger \"trx;LogFileName=valit_tests_result.xml\"")
+ 			Configuration = configuration
         };
 		
 		DotNetCoreTest("./tests/Valit.Tests/Valit.Tests.csproj", settings);
