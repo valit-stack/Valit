@@ -2,6 +2,7 @@ init:
   - git config --global core.autocrlf true
 
 before_build:
+- choco install xunit
 - choco install opencover.portable
 - choco install codecov
 
