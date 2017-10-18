@@ -1,12 +1,13 @@
 init:
   - git config --global core.autocrlf true
 
+before_build:
+- choco install opencover.portable
+- choco install codecov
+
 build_script:
   - ps: .\build.ps1
-  - choco install xunit
-  - choco install opencover.portable
-  - OpenCover.Console.exe -register:user -target:"xunit.console.x86.exe" -targetargs:".\tests\Valit.Tests\bin\Release\netcoreapp2.0\Valit.Tests.dll -noshadow" -filter:"+[Valit*]* -[Valit.Tests*]*" -output:".\valit_coverage.xml"
-  - choco install codecov
+  - OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:".\tests\Valit.Tests\bin\Release\netcoreapp2.0\Valit.Tests.dll -noshadow" -filter:"+[Valit*]* -[Valit.Tests*]*" -output:".\valit_coverage.xml"
   - codecov -f .\valit_coverage.xml -t $(codecov_token)
 
 test: off
