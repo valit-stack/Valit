@@ -10,7 +10,7 @@ namespace Valit
         {
             var strat = picker(new DefaultValitStrategies());
 
-            return ValitRules<TObject>.Create().WithStrategy(strat);
+            return that.WithStrategy(strat);
         }
     }
 }

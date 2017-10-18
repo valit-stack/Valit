@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Valit.MessageProvider;
 using Valit.Strategies;
 
 namespace Valit
@@ -18,18 +19,21 @@ namespace Valit
         private readonly IValitRule<TObject, TProperty> _previousRule;
 		private readonly List<ValitRuleError> _errors;
         private readonly List<string> _tags;
+        private readonly IValitMessageProvider _messageProvider;
 
         internal ValitRule(IValitRule<TObject, TProperty> previousRule) : this()
         {
             var previousRuleAccessor = previousRule.GetAccessor();
             _propertySelector = previousRuleAccessor.PropertySelector;
             _previousRule = previousRule;
+            _messageProvider = previousRule.GetMessageProvider();
             Strategy = previousRule.Strategy;
         }
 
-        internal ValitRule(Func<TObject, TProperty> propertySelector, IValitStrategy strategy) : this()
+        internal ValitRule(Func<TObject, TProperty> propertySelector, IValitStrategy strategy, IValitMessageProvider messageProvider) : this()
         {
             _propertySelector = propertySelector;
+            _messageProvider = messageProvider;
             Strategy = strategy;
         }
 
@@ -52,7 +56,13 @@ namespace Valit
 		void IValitRuleAccessor.AddTags(params string[] tags)
             => _tags.AddRange(tags);
 
-		public IValitResult Validate(TObject @object)
+        IValitMessageProvider IValitRule.GetMessageProvider()
+            => _messageProvider;
+
+        IValitMessageProvider<TKey> IValitRule.GetMessageProvider<TKey>()
+            => _messageProvider as IValitMessageProvider<TKey>;
+
+        public IValitResult Validate(TObject @object)
 		{
             var property = _propertySelector(@object);
 			var hasAllConditionsFulfilled = true;
