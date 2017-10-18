@@ -1,5 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <DebugType>full</DebugType>
+
   <PropertyGroup>    
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
