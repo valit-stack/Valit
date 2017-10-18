@@ -4,13 +4,12 @@ init:
 image: Visual Studio 2015
 
 before_build:
-- nuget restore
 - choco install opencover.portable
 - choco install codecov
 
 build_script:
   - ps: .\build.ps1
-  - OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:".\tests\Valit.Tests\bin\Release\netcoreapp2.0\Valit.Tests.dll -noshadow" -filter:"+[Valit*]* -[Valit.Tests*]*" -output:".\valit_coverage.xml" 
+  - OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:".\tests\Valit.Tests\Valit.Tests.csproj" -filter:"+[Valit*]* -[Valit.Tests*]*" -output:".\valit_coverage.xml" 
   - codecov -f .\valit_coverage.xml -t $(codecov_token)
 
 test: off
