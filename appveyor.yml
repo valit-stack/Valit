@@ -10,7 +10,7 @@ before_build:
 
 build_script:
   - ps: .\build.ps1
-  - OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:".\tests\Valit.Tests\bin\Release\netcoreapp2.0\Valit.Tests.dll -noshadow" -filter:"+[Valit*]* -[Valit.Tests*]*" -output:".\valit_coverage.xml"
+  - OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:".\tests\Valit.Tests\bin\Release\netcoreapp2.0\Valit.Tests.dll -noshadow" -oldstyle -filter:"+[Valit*]* -[Valit.Tests*]*" -output:".\valit_coverage.xml" 
   - codecov -f .\valit_coverage.xml -t $(codecov_token)
 
 test: off
