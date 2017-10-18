@@ -1,9 +1,10 @@
 init:
   - git config --global core.autocrlf true
 
+image: Visual Studio 2015
+
 before_build:
 - nuget restore
-- choco install xunit
 - choco install opencover.portable
 - choco install codecov
 
