@@ -9,7 +9,7 @@ before_build:
 
 build_script:
   - ps: .\build.ps1
-  - OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test --logger:trx;LogFileName=results.trx /p:DebugType=full C:\projects\valit\tests\Valit.Tests\Valit.Tests.csproj --no-build" -filter:"+[Valit*]* -[Valit.Tests*]*" -output:".\valit_coverage.xml" -returntargetcode 
+  - OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test --logger:trx;LogFileName=results.trx /p:DebugType=full C:\projects\valit\tests\Valit.Tests\Valit.Tests.csproj" -filter:"+[Valit*]* -[Valit.Tests*]*" -output:".\valit_coverage.xml" -oldstyle
   - codecov -f .\valit_coverage.xml -t $(codecov_token)
 
 test: off
