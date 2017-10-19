@@ -2,8 +2,8 @@ coverage:
   notify:
     slack:
       default:
-        url: "https://hooks.slack.com/services/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"
-        threshold: 0%
+        url: $(codecov-webhook)
+        threshold: 1%
         only_pulls: false
         branches: 
           - master
