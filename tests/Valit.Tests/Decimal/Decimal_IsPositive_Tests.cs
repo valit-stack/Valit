@@ -28,38 +28,86 @@ namespace Valit.Tests.Decimal
         }
 
 
-        [Theory]
-        [InlineData(false, true)]
-        [InlineData(true, false)] 
-        public void Decimal_IsPositive_Returns_Proper_Results_For_Not_Nullable_Value(bool useZeroValue,  bool expected)
+        [Fact]
+        public void Decimal_IsPositive_Succeeds_When_Given_Value_Is_Postive()
         {            
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => useZeroValue? m.ZeroValue : m.Value, _=>_
+                .Ensure(m => m.PositiveValue, _=>_
                     .IsPositive())
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
-        }
-
-        [Theory]
-        [InlineData(false, true)]
-        [InlineData(true, false)] 
-        public void Decimal_IsPositive_Returns_Proper_Results_For_Nullable_Value(bool useZeroValue,  bool expected)
-        {            
-            IValitResult result = ValitRules<Model>
-                .Create()
-                .Ensure(m => useZeroValue? m.NullableZeroValue : m.NullableValue, _=>_
-                    .IsPositive())
-                .For(_model)
-                .Validate();
-
-            Assert.Equal(result.Succeeded, expected);
+            Assert.Equal(result.Succeeded, true);
         }
 
         [Fact]
-        public void Decimal_IsPositive_Fails_For_Null_Value()
+        public void Decimal_IsPositive_Fails_When_Given_Value_Is_Zero()
+        {            
+            IValitResult result = ValitRules<Model>
+                .Create()
+                .Ensure(m => m.ZeroValue, _=>_
+                    .IsPositive())
+                .For(_model)
+                .Validate();
+
+            Assert.Equal(result.Succeeded, false);
+        }
+
+        [Fact]
+        public void Decimal_IsPositive_Fails_When_Given_Value_Is_Negative()
+        {            
+            IValitResult result = ValitRules<Model>
+                .Create()
+                .Ensure(m => m.NegativeValue, _=>_
+                    .IsPositive())
+                .For(_model)
+                .Validate();
+
+            Assert.Equal(result.Succeeded, false);
+        }
+
+        [Fact]
+        public void Decimal_IsPositive_Succeeds_When_Given_Value_Is_NullablePostive()
+        {            
+            IValitResult result = ValitRules<Model>
+                .Create()
+                .Ensure(m => m.NullablePositiveValue, _=>_
+                    .IsPositive())
+                .For(_model)
+                .Validate();
+
+            Assert.Equal(result.Succeeded, true);
+        }
+
+        [Fact]
+        public void Decimal_IsPositive_Fails_When_Given_Value_Is_NullableZero()
+        {            
+            IValitResult result = ValitRules<Model>
+                .Create()
+                .Ensure(m => m.NullableZeroValue, _=>_
+                    .IsPositive())
+                .For(_model)
+                .Validate();
+
+            Assert.Equal(result.Succeeded, false);
+        }
+
+        [Fact]
+        public void Decimal_IsPositive_Fails_When_Given_Value_Is_NullableNegative()
+        {            
+            IValitResult result = ValitRules<Model>
+                .Create()
+                .Ensure(m => m.NullableNegativeValue, _=>_
+                    .IsPositive())
+                .For(_model)
+                .Validate();
+
+            Assert.Equal(result.Succeeded, false);
+        }
+
+        [Fact]
+        public void Decimal_IsPositive_Fails_When_Given_Value_Is_Null()
         {            
             IValitResult result = ValitRules<Model>
                 .Create()
@@ -81,10 +129,12 @@ namespace Valit.Tests.Decimal
 
         class Model
         {
-            public decimal Value => 10;
+            public decimal PositiveValue => 10;
             public decimal ZeroValue => 0;
-            public decimal? NullableValue => 10;
+            public decimal NegativeValue => -10;
+            public decimal? NullablePositiveValue => 10;
             public decimal? NullableZeroValue => 0;
+            public decimal? NullableNegativeValue => -10;
             public decimal? NullValue => null;
         }
 #endregion 
