@@ -1,27 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using Valit.MessageProvider;
+using System.Linq.Expressions;
 using Valit.Strategies;
 
 namespace Valit
 {
-    internal class ValitRule<TObject, TProperty> : IValitRule<TObject, TProperty>, IValitRuleAccessor<TObject, TProperty> where TObject : class
+    public class ValitRule<TTarget, TProperty> : IValitRule<TTarget, TProperty>, IValitRuleAccessor<TTarget, TProperty> where TTarget : class
     {
 		public IValitStrategy Strategy { get; }
         public IEnumerable<string> Tags => _tags;
 
-        Func<TObject, TProperty> IValitRuleAccessor<TObject, TProperty>.PropertySelector => _propertySelector;
-        IValitRule<TObject, TProperty> IValitRuleAccessor<TObject, TProperty>.PreviousRule => _previousRule;
+        Expression<Func<TTarget, TProperty>> IValitRuleAccessor<TTarget, TProperty>.PropertySelector => _propertySelector;
+        IValitRule<TTarget, TProperty> IValitRuleAccessor<TTarget, TProperty>.PreviousRule => _previousRule;
 
-		private readonly Func<TObject, TProperty> _propertySelector;
+		private readonly Expression<Func<TTarget, TProperty>> _propertySelector;
         private Predicate<TProperty> _predicate;
-        private readonly List<Predicate<TObject>> _conditions;
-        private readonly IValitRule<TObject, TProperty> _previousRule;
+        private readonly List<Predicate<TTarget>> _conditions;
+        private readonly IValitRule<TTarget, TProperty> _previousRule;
 		private readonly List<ValitRuleError> _errors;
         private readonly List<string> _tags;
         private readonly IValitMessageProvider _messageProvider;
 
-        internal ValitRule(IValitRule<TObject, TProperty> previousRule) : this()
+        protected internal ValitRule(IValitRule<TTarget, TProperty> previousRule) : this()
         {
             var previousRuleAccessor = previousRule.GetAccessor();
             _propertySelector = previousRuleAccessor.PropertySelector;
@@ -30,7 +31,7 @@ namespace Valit
             Strategy = previousRule.Strategy;
         }
 
-        internal ValitRule(Func<TObject, TProperty> propertySelector, IValitStrategy strategy, IValitMessageProvider messageProvider) : this()
+        protected internal ValitRule(Expression<Func<TTarget, TProperty>> propertySelector, IValitStrategy strategy, IValitMessageProvider messageProvider) : this()
         {
             _propertySelector = propertySelector;
             _messageProvider = messageProvider;
@@ -40,17 +41,17 @@ namespace Valit
         private ValitRule()
         {        
             _errors = new List<ValitRuleError>();
-            _conditions = new List<Predicate<TObject>>();
+            _conditions = new List<Predicate<TTarget>>();
             _tags = new List<string>();
         }		
 
-		void IValitRuleAccessor<TObject, TProperty>.SetPredicate(Predicate<TProperty> predicate)
+		void IValitRuleAccessor<TTarget, TProperty>.SetPredicate(Predicate<TProperty> predicate)
             => _predicate = predicate;
 
 		void IValitRuleAccessor.AddError(ValitRuleError error)
             => _errors.Add(error);
 
-		void IValitRuleAccessor<TObject, TProperty>.AddCondition(Predicate<TObject> condition)
+		void IValitRuleAccessor<TTarget, TProperty>.AddCondition(Predicate<TTarget> condition)
             => _conditions.Add(condition);		
 
 		void IValitRuleAccessor.AddTags(params string[] tags)
@@ -62,17 +63,17 @@ namespace Valit
         IValitMessageProvider<TKey> IValitRule.GetMessageProvider<TKey>()
             => _messageProvider as IValitMessageProvider<TKey>;
 
-        public IValitResult Validate(TObject @object)
+        public virtual IValitResult Validate(TTarget target)
 		{
-            var property = _propertySelector(@object);
+            var property = _propertySelector.Compile()(target);
 			var hasAllConditionsFulfilled = true;
 
             foreach(var condition in _conditions)
-                hasAllConditionsFulfilled &= condition(@object);
+                hasAllConditionsFulfilled &= condition(target);
 
             var isSatisfied = _predicate?.Invoke(property) != false;
 
-            return hasAllConditionsFulfilled && isSatisfied ? ValitResult.Success : ValitResult.Fail(_errors.ToArray());		
+            return _errors.Count == 0 && hasAllConditionsFulfilled && isSatisfied ? ValitResult.Success : ValitResult.Fail(_errors.ToArray());		
         }
 	}
 }

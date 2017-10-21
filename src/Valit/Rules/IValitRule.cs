@@ -16,6 +16,7 @@ namespace Valit
     {
         IValitResult Validate(TObject @object);
     }
+
     public interface IValitRule<TObject, TProperty> : IValitRule<TObject> where TObject : class
     {
     }

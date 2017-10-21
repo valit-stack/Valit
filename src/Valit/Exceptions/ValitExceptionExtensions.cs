@@ -6,22 +6,26 @@ namespace Valit
 {
     public static class ValitExceptionExtensions
     {
-        internal static void ThrowIfNull<T>(this T @object)
+        internal static T ThrowIfNull<T>(this T @object)
             where T : class
         {
             if(@object == null)
             {
                 throw NullDereferenced();
             }
+
+            return @object;
         }
 
-        internal static void ThrowIfNull<T>(this T @object, string message)
+        internal static T ThrowIfNull<T>(this T @object, string message)
             where T: class
         {
             if(@object == null)
             {
                 throw NullDereferenced(message);
             }
+
+            return @object;
         }
     }
 }
