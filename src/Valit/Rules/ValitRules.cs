@@ -2,93 +2,114 @@
 using System.Collections.Generic;
 using System.Linq;
 using Valit.MessageProvider;
+using System.Linq.Expressions;
+using Valit.Expressions;
 using Valit.Strategies;
 
 namespace Valit
 {
-    public class ValitRules<TObject> : 
-        IValitRules<TObject>,
-        IValitRulesMessageProvider<TObject>, 
-        IValitRulesStrategyPicker<TObject> 
-        where TObject : class
+    public static class ValitRules
     {
-        private TObject _object;       
-        private readonly List<IValitRule<TObject>> _rules;
+        public static IValitRulesStrategyPicker<TTarget> CreateFor<TTarget>(TTarget @object) where TTarget : class
+        {
+            var x = ValitRules<TTarget>.Create();
+            x.For(@object);
+            return x;
+        }
+    }
+
+    public class ValitRules<TTarget> : 
+        IValitRules<TTarget>,
+        IValitRulesMessageProvider<TTarget>, 
+        IValitRulesStrategyPicker<TTarget> 
+        where TTarget : class
+    {
+        private TTarget _target;       
+        private readonly List<IValitRule<TTarget>> _rules;
         private IValitStrategy _strategy;
         private IValitMessageProvider _messageProvider;
 
-        private ValitRules(IEnumerable<IValitRule<TObject>> rules)
+        private ValitRules(IEnumerable<IValitRule<TTarget>> rules)
         {   
-            _rules = rules?.ToList() ?? new List<IValitRule<TObject>>();
-            _strategy = default(DefaultValitStrategies).Complete;
+            _rules = rules?.ToList() ?? new List<IValitRule<TTarget>>();
+            _strategy = new DefaultValitStrategies().Complete;
             _messageProvider = new EmptyMessageProvider();
         }
+        
+        public static IValitRulesMessageProvider<TTarget> Create(IEnumerable<IValitRule<TTarget>> rules = null)
+            => new ValitRules<TTarget>(rules);
 
-        public static IValitRulesMessageProvider<TObject> Create(IEnumerable<IValitRule<TObject>> rules = null)
-            => new ValitRules<TObject>(rules);
+        internal TTarget GetTarget() => _target;
 
-        IValitRulesStrategyPicker<TObject> IValitRulesMessageProvider<TObject>.WithMessageProvider<TKey>(MessageProvider.IValitMessageProvider<TKey> messageProvider)
+        internal IValitStrategy GetStrategy() => _strategy;
+
+        IValitRulesStrategyPicker<TTarget> IValitRulesMessageProvider<TTarget>.WithMessageProvider<TKey>(MessageProvider.IValitMessageProvider<TKey> messageProvider)
         {
             _messageProvider = messageProvider;
             return this;
         }
 
-        IValitRules<TObject> IValitRulesStrategyPicker<TObject>.WithStrategy(IValitStrategy strategy)
+        IValitRules<TTarget> IValitRulesStrategyPicker<TTarget>.WithStrategy(IValitStrategy strategy)
         {
             _strategy = strategy;
             return this;
         }
 
-        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> ruleFunc)
+        IValitRules<TTarget> IValitRules<TTarget>.Ensure<TProperty>(Expression<Func<TTarget, TProperty>> selector, Func<IValitRule<TTarget, TProperty>, IValitRule<TTarget, TProperty>> ruleFunc)
         {                       
             AddEnsureRulesAccessors(selector, ruleFunc);
             return this;
-        }
+        }              
 
-        IValitRules<TObject> IValitRules<TObject>.For(TObject @object)
+        IValitRules<TTarget> IValitRules<TTarget>.For(TTarget target)
         {
-            @object.ThrowIfNull();
+            target.ThrowIfNull();
 
-            _object = @object;
+            _target = target;
             return this;
         } 
 
-        IEnumerable<IValitRule<TObject>> IValitRules<TObject>.GetTaggedRules()
+        IEnumerable<IValitRule<TTarget>> IValitRules<TTarget>.GetTaggedRules()
             => _rules.Where(r => r.Tags.Any());
 
-		IEnumerable<IValitRule<TObject>> IValitRules<TObject>.GetUntaggedRules()
+		IEnumerable<IValitRule<TTarget>> IValitRules<TTarget>.GetUntaggedRules()
             => _rules.Where(r => !r.Tags.Any());
 
-        IValitResult IValitRules<TObject>.Validate()
+        IValitResult IValitRules<TTarget>.Validate()
             => Validate(_rules);
 
-		IValitResult IValitRules<TObject>.Validate(params string[] tags)
-		{
+		IValitResult IValitRules<TTarget>.Validate(params string[] tags)
+		{          
             tags.ThrowIfNull();
+
             var taggedRules = _rules.Where(r => r.Tags.Intersect(tags).Any());
 
             return Validate(taggedRules);
         }
 
-        IValitResult IValitRules<TObject>.Validate(Func<IValitRule<TObject>, bool> predicate)
+        IValitResult IValitRules<TTarget>.Validate(Func<IValitRule<TTarget>, bool> predicate)
 		{
             predicate.ThrowIfNull(ValitExceptionMessages.NullPredicate);
+
             var taggedRules = _rules.Where(predicate);
 
             return Validate(taggedRules);
         }
 
-        private IValitResult Validate(IEnumerable<IValitRule<TObject>> rules)
+        private IValitResult Validate(IEnumerable<IValitRule<TTarget>> rules)
         {
+            _target.ThrowIfNull(ValitExceptionMessages.NullTargetObject);
+
             var result = ValitResult.Success;
 
             foreach(var rule in rules.ToList())
             {
-                result &= rule.Validate(_object);
+                result &= rule.Validate(_target);
 
                 if(!result.Succeeded)
                 {
                     _strategy.Fail(rule, result, out bool cancel);
+
                     if(cancel)
                     {
                         break;
@@ -101,9 +122,9 @@ namespace Valit
             return result;
         }
 
-        private void AddEnsureRulesAccessors<TProperty>(Func<TObject,TProperty> propertySelector, Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> ruleFunc)
+        private void AddEnsureRulesAccessors<TProperty>(Expression<Func<TTarget,TProperty>> propertySelector, Func<IValitRule<TTarget, TProperty>,IValitRule<TTarget, TProperty>> ruleFunc)
         {
-            var lastEnsureRule = ruleFunc(new ValitRule<TObject, TProperty>(propertySelector, _strategy, _messageProvider));
+            var lastEnsureRule = ruleFunc(new ValitRule<TTarget, TProperty>(propertySelector, _strategy, _messageProvider));
             var ensureRules = lastEnsureRule.GetAllEnsureRules();
             _rules.AddRange(ensureRules);
         }

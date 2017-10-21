@@ -7,9 +7,15 @@ namespace Valit.Exceptions
     internal static class SemanticExceptions
     {
         public static ValitException NullDereferenced(string message)
-            => throw new ValitException(message, new ArgumentNullException());
+            => new ValitException(message, new ArgumentNullException());
 
         public static ValitException NullDereferenced()
-          => throw new ValitException("Null dereferenced", new ArgumentNullException());
+            => new ValitException(ValitExceptionMessages.NullDereferenced, new ArgumentNullException());
+
+        public static ValitException MissingRuleAccessor()
+            => new ValitException(ValitExceptionMessages.MissingRuleAccessor);
+
+        public static ValitException IncorrectPathExpression()
+           => new ValitException(ValitExceptionMessages.IncorrectPathExpression);
     }
 }

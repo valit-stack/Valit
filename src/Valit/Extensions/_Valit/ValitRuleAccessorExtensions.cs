@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using static Valit.Exceptions.SemanticExceptions;
 
 namespace Valit
 {
@@ -12,7 +10,7 @@ namespace Valit
 
             if (accessor == null)
             {
-                throw new ValitException("Rule doesn't have an accessor");
+                throw MissingRuleAccessor();
             }
 
             return accessor;

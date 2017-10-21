@@ -5,7 +5,6 @@ namespace Valit.Tests.UInt64
 {
     public class UInt64_Required_Tests
     {
-
         [Fact]
         public void UInt64_Required_For_Nullable_Value_Throws_When_Null_Rule_Is_Given()
         {
@@ -20,7 +19,7 @@ namespace Valit.Tests.UInt64
 
         [Theory]
         [InlineData(false, true)]
-        [InlineData(true, false)] 
+        [InlineData(true, false)]
         public void UInt64_Required_Returns_Proper_Results_For_Nullable_Value(bool useNullValue,  bool expected)
         {            
             IValitResult result = ValitRules<Model>

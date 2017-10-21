@@ -108,7 +108,7 @@ namespace Valit.Tests.UInt64
         [InlineData(false, null, false)]     
         [InlineData(true, (ulong) 11, false)]     
         [InlineData(true, null, false)]     
-        public void UInt64_IsLessThan_Returns_Proper_Results_For_Nullable_Values(bool useNullValue, ulong? value,  bool expected)
+        public void UInt64_IsLessThan_Returns_Proper_Results_For_Nullable_Values(bool useNullValue, ulong? value, bool expected)
         {            
             IValitResult result = ValitRules<Model>
                 .Create()

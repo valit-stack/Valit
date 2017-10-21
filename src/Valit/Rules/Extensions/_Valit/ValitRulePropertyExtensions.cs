@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using Valit.Expressions;
 
 namespace Valit
 {
@@ -83,7 +86,7 @@ namespace Valit
 
             previousRuleAccessor.AddTags(tags);            
             return new ValitRule<TObject, TProperty>(accessor.PreviousRule);
-        }
+        }      
 
         internal static IValitRule<TObject, TProperty> NotNull<TObject, TProperty>(this IValitRule<TObject, TProperty> rule) where TObject : class
         {

@@ -6,7 +6,7 @@ namespace Valit
 {
     internal static class TypeExtensions
     {
-        private static HashSet<Type> NumericTypes = new HashSet<Type>
+        private static readonly HashSet<Type> NumericTypes = new HashSet<Type>
         {
             typeof(Byte),
             typeof(SByte),
@@ -34,7 +34,7 @@ namespace Valit
 
             while(enumerator.MoveNext())
             {
-                itemsNumber ++;
+                itemsNumber++;
             }
 
             return itemsNumber;
