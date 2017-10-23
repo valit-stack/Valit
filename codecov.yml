@@ -1,0 +1,10 @@
+coverage:
+  notify:
+    slack:
+      default:
+        url: $(codecov-webhook)
+        threshold: 1%
+        only_pulls: false
+        branches: 
+          - master
+          - develop
