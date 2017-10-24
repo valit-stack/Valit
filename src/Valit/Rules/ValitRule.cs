@@ -64,6 +64,8 @@ namespace Valit
 
         public IValitResult Validate(TObject @object)
 		{
+            @object.ThrowIfNull();
+
             var property = _propertySelector(@object);
 			var hasAllConditionsFulfilled = true;
 
