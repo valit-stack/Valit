@@ -26,18 +26,5 @@ namespace Valit
             return NumericTypes.Contains(type) ||
                    NumericTypes.Contains(Nullable.GetUnderlyingType(type));
         }
-
-        internal static int Count(this IEnumerable enumerable)
-        {
-            var enumerator = enumerable.GetEnumerator();
-            var itemsNumber = 0;
-
-            while(enumerator.MoveNext())
-            {
-                itemsNumber ++;
-            }
-
-            return itemsNumber;
-        }
     }
 }
