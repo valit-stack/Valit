@@ -1,5 +1,3 @@
-using Valit.Strategies;
-
 namespace Valit
 {
     public interface IValitRulesStrategyPicker<TObject> : IValitRules<TObject>

@@ -2,9 +2,9 @@ using System;
 
 using static Valit.Exceptions.SemanticExceptions;
 
-namespace Valit
+namespace Valit.Exceptions
 {
-    public static class ValitExceptionExtensions
+    internal static class ValitExceptionExtensions
     {
         internal static void ThrowIfNull<T>(this T @object)
             where T : class

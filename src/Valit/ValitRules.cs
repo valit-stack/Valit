@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Valit.Exceptions;
 using Valit.MessageProvider;
-using Valit.Strategies;
+using Valit.Result;
+using Valit.Rules;
 
 namespace Valit
 {
@@ -27,7 +29,7 @@ namespace Valit
         public static IValitRulesMessageProvider<TObject> Create(IEnumerable<IValitRule<TObject>> rules = null)
             => new ValitRules<TObject>(rules);
 
-        IValitRulesStrategyPicker<TObject> IValitRulesMessageProvider<TObject>.WithMessageProvider<TKey>(MessageProvider.IValitMessageProvider<TKey> messageProvider)
+        IValitRulesStrategyPicker<TObject> IValitRulesMessageProvider<TObject>.WithMessageProvider<TKey>(IValitMessageProvider<TKey> messageProvider)
         {
             _messageProvider = messageProvider;
             return this;

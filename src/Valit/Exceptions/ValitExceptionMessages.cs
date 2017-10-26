@@ -1,4 +1,4 @@
-namespace Valit
+namespace Valit.Exceptions
 {
     internal static class ValitExceptionMessages
     {

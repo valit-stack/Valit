@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Valit
+namespace Valit.Rules
 {
     internal static class ValitRuleAccessorExtensions
     {
