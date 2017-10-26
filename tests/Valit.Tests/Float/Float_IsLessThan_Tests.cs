@@ -28,6 +28,67 @@ namespace Valit.Tests.Float
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
+
+        [Theory]
+        [InlineData(11, false)]
+        [InlineData(Single.NaN, false)]
+        public void Float_IsLessThan_Returns_Proper_Results_For_NaN_And_Value(float value, bool expected)
+        {
+            IValitResult result = ValitRules<Model>
+                .Create()
+                .Ensure(m => m.NaN, _ => _
+                    .IsLessThan(value))
+                .For(_model)
+                .Validate();
+
+            Assert.Equal(result.Succeeded, expected);
+        }
+
+        [Theory]
+        [InlineData(11, false)]
+        [InlineData(Single.NaN, false)]
+        public void Float_IsLessThan_Returns_Proper_Results_For_NaN_And_NullableValue(float? value, bool expected)
+        {
+            IValitResult result = ValitRules<Model>
+                .Create()
+                .Ensure(m => m.NaN, _ => _
+                    .IsLessThan(value))
+                .For(_model)
+                .Validate();
+
+            Assert.Equal(result.Succeeded, expected);
+        }
+
+        [Theory]
+        [InlineData(11, false)]
+        [InlineData(Single.NaN, false)]
+        public void Float_IsLessThan_Returns_Proper_Results_For_NullableNaN_And_Value(float value, bool expected)
+        {
+            IValitResult result = ValitRules<Model>
+                .Create()
+                .Ensure(m => m.NullableNaN, _ => _
+                    .IsLessThan(value))
+                .For(_model)
+                .Validate();
+
+            Assert.Equal(result.Succeeded, expected);
+        }
+
+        [Theory]
+        [InlineData(11, false)]
+        [InlineData(Single.NaN, false)]
+        public void Float_IsLessThan_Returns_Proper_Results_For_NullableNaN_And_NullableValue(float? value, bool expected)
+        {
+            IValitResult result = ValitRules<Model>
+                .Create()
+                .Ensure(m => m.NullableNaN, _ => _
+                    .IsLessThan(value))
+                .For(_model)
+                .Validate();
+
+            Assert.Equal(result.Succeeded, expected);
+        }
+
         [Fact]
         public void Float_IsLessThan_For_Nullable_Value_And_Not_Nullable_Value_Throws_When_Null_Rule_Is_Given()
         {
@@ -137,8 +198,10 @@ namespace Valit.Tests.Float
         class Model
         {
             public float Value => 10;
+            public float NaN => Single.NaN;
             public float? NullableValue => 10;
             public float? NullValue => null;
+            public float? NullableNaN => Single.NaN;
         }
         #endregion
 

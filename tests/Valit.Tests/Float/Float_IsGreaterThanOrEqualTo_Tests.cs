@@ -52,6 +52,66 @@ namespace Valit.Tests.Float
 
 
         [Theory]
+        [InlineData(9, false)]
+        [InlineData(Single.NaN, false)]
+        public void Float_IsGreaterThanOrEqualTo_Returns_Proper_Results_For_NaN_And_Value(float value, bool expected)
+        {
+            IValitResult result = ValitRules<Model>
+                .Create()
+                .Ensure(m => m.NaN, _ => _
+                    .IsGreaterThanOrEqualTo(value))
+                .For(_model)
+                .Validate();
+
+            Assert.Equal(result.Succeeded, expected);
+        }
+
+        [Theory]
+        [InlineData(9, false)]
+        [InlineData(Single.NaN, false)]
+        public void Float_IsGreaterThanOrEqualTo_Returns_Proper_Results_For_NaN_And_NullableValue(float? value, bool expected)
+        {
+            IValitResult result = ValitRules<Model>
+                .Create()
+                .Ensure(m => m.NaN, _ => _
+                    .IsGreaterThanOrEqualTo(value))
+                .For(_model)
+                .Validate();
+
+            Assert.Equal(result.Succeeded, expected);
+        }
+
+        [Theory]
+        [InlineData(9, false)]
+        [InlineData(Single.NaN, false)]
+        public void Float_IsGreaterThanOrEqualTo_Returns_Proper_Results_For_NullableNaN_And_Value(float value, bool expected)
+        {
+            IValitResult result = ValitRules<Model>
+                .Create()
+                .Ensure(m => m.NullableNaN, _ => _
+                    .IsGreaterThanOrEqualTo(value))
+                .For(_model)
+                .Validate();
+
+            Assert.Equal(result.Succeeded, expected);
+        }
+
+        [Theory]
+        [InlineData(9, false)]
+        [InlineData(Single.NaN, false)]
+        public void Float_IsGreaterThanOrEqualTo_Returns_Proper_Results_For_NullableNaN_And_NullableValue(float? value, bool expected)
+        {
+            IValitResult result = ValitRules<Model>
+                .Create()
+                .Ensure(m => m.NullableNaN, _ => _
+                    .IsGreaterThanOrEqualTo(value))
+                .For(_model)
+                .Validate();
+
+            Assert.Equal(result.Succeeded, expected);
+        }
+
+        [Theory]
         [InlineData(9, true)]
         [InlineData(10, true)]
         [InlineData(11, false)]
@@ -137,9 +197,11 @@ namespace Valit.Tests.Float
         class Model
         {
             public float Value => 10;
+            public float NaN => Single.NaN;
             public float? NullableValue => 10;
             public float? NullValue => null;
+            public float? NullableNaN => Single.NaN;
         }
-#endregion
+        #endregion
     }
 }
