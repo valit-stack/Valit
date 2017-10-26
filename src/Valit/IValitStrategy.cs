@@ -1,4 +1,4 @@
-﻿namespace Valit.Strategies
+﻿namespace Valit
 {
     public interface IValitStrategy
     {

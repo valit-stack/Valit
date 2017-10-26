@@ -1,5 +1,4 @@
 using System;
-using Valit.Strategies;
 
 namespace Valit
 {

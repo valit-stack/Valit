@@ -1,3 +1,5 @@
+using Valit.Exceptions;
+
 namespace Valit
 {
     public static class ValitRuleInt32Extensions

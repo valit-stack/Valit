@@ -1,5 +1,5 @@
 ﻿
-namespace Valit.Strategies
+namespace Valit
 {
     public class FailFastValitStrategy : IValitStrategy
     {

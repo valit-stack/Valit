@@ -1,4 +1,5 @@
 using System;
+using Valit.Exceptions;
 
 namespace Valit
 {
