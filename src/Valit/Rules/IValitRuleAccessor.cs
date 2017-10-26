@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Valit.Errors;
 
-namespace Valit
+namespace Valit.Rules
 {
     internal interface IValitRuleAccessor
     {

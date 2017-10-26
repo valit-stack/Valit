@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Valit.Strategies
+namespace Valit
 {
     public struct DefaultValitStrategies
     {

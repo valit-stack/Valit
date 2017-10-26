@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Valit.Errors;
+using Valit.Exceptions;
+using Valit.Rules;
 
 namespace Valit
 {

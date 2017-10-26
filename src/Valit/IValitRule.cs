@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Valit.MessageProvider;
-using Valit.Strategies;
 
 namespace Valit
 {
