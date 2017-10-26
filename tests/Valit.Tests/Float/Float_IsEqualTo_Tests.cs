@@ -7,7 +7,7 @@ namespace Valit.Tests.Float
     public class Float_IsEqualTo_Tests
     {
         [Fact]
-        public void Int16_IsEqualTo_For_Not_Nullable_Values_Throws_When_Null_Rule_Is_Given()
+        public void Float_IsEqualTo_For_Not_Nullable_Values_Throws_When_Null_Rule_Is_Given()
         {
             var exception = Record.Exception(() => {
                 ((IValitRule<Model, float>)null)
@@ -18,7 +18,7 @@ namespace Valit.Tests.Float
         }
 
         [Fact]
-        public void Int16_IsEqualTo_For_Not_Nullable_Value_And_Nullable_Value_Throws_When_Null_Rule_Is_Given()
+        public void Float_IsEqualTo_For_Not_Nullable_Value_And_Nullable_Value_Throws_When_Null_Rule_Is_Given()
         {
             var exception = Record.Exception(() => {
                 ((IValitRule<Model, float>)null)
@@ -29,7 +29,7 @@ namespace Valit.Tests.Float
         }
 
         [Fact]
-        public void Int16_IsEqualTo_For_Nullable_Value_And_Not_Nullable_Value_Throws_When_Null_Rule_Is_Given()
+        public void Float_IsEqualTo_For_Nullable_Value_And_Not_Nullable_Value_Throws_When_Null_Rule_Is_Given()
         {
             var exception = Record.Exception(() => {
                 ((IValitRule<Model, float?>)null)
@@ -40,7 +40,7 @@ namespace Valit.Tests.Float
         }
 
         [Fact]
-        public void Int16_IsEqualTo_For_Nullable_Values_Throws_When_Null_Rule_Is_Given()
+        public void Float_IsEqualTo_For_Nullable_Values_Throws_When_Null_Rule_Is_Given()
         {
             var exception = Record.Exception(() => {
                 ((IValitRule<Model, float?>)null)
@@ -56,7 +56,7 @@ namespace Valit.Tests.Float
         [InlineData(11, false)]
         [InlineData(9, false)]
         [InlineData(Single.NaN, false)]
-        public void Int16_IsEqualTo_Returns_Proper_Results_For_Not_Nullable_Values(float value, bool expected)
+        public void Float_IsEqualTo_Returns_Proper_Results_For_Not_Nullable_Values(float value, bool expected)
         {
             IValitResult result = ValitRules<Model>
                 .Create()
@@ -74,7 +74,7 @@ namespace Valit.Tests.Float
         [InlineData((float)9, false)]
         [InlineData(Single.NaN, false)]
         [InlineData(null, false)]
-        public void Int16_IsEqualTo_Returns_Proper_Results_For_Not_Nullable_Value_And_Nullable_Value(float? value, bool expected)
+        public void Float_IsEqualTo_Returns_Proper_Results_For_Not_Nullable_Value_And_Nullable_Value(float? value, bool expected)
         {
             IValitResult result = ValitRules<Model>
                 .Create()
@@ -93,7 +93,7 @@ namespace Valit.Tests.Float
         [InlineData(true, 10, false)]
         [InlineData(false, Single.NaN, false)]
         [InlineData(true, Single.NaN, false)]
-        public void Int16_IsEqualTo_Returns_Proper_Results_For_Nullable_Value_And_Not_Nullable_Value(bool useNullValue, float value, bool expected)
+        public void Float_IsEqualTo_Returns_Proper_Results_For_Nullable_Value_And_Not_Nullable_Value(bool useNullValue, float value, bool expected)
         {
             IValitResult result = ValitRules<Model>
                 .Create()
@@ -114,7 +114,7 @@ namespace Valit.Tests.Float
         [InlineData(true, (float)10, false)]
         [InlineData(true, Single.NaN, false)]
         [InlineData(true, null, false)]
-        public void Int16_IsEqualTo_Returns_Proper_Results_For_Nullable_Values(bool useNullValue, float? value, bool expected)
+        public void Float_IsEqualTo_Returns_Proper_Results_For_Nullable_Values(bool useNullValue, float? value, bool expected)
         {
             IValitResult result = ValitRules<Model>
                 .Create()
