@@ -8,6 +8,9 @@ Valit is **dead simple** validation for .NET Core. No more if-statements all aro
 [![Build status](https://ci.appveyor.com/api/projects/status/github/valit-stack/Valit?branch=develop&svg=true&passingText=develop%20passing&failingText=develop%20failing&pendingText=develop%20pending)](https://ci.appveyor.com/project/GooRiOn/valit/branch/develop) 
 [![codecov](https://codecov.io/gh/valit-stack/valit/branch/develop/graph/badge.svg)](https://codecov.io/gh/valit-stack/valit/branch/develop)
 
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+[![Coverity Scan Build Status](https://scan.coverity.com/projects/14150/badge.svg)](https://scan.coverity.com/projects/valit-stack-valit)
+
 ## Basic Usage
 Valit offers plenty different validation rules to use, such as:
 - **Satisfies()**
