@@ -155,3 +155,7 @@ Each validation rule can be combined with plenty different conditions which may 
 ```
 
 It's worth to mention that you can apply as much **When()** conditions as you want. If so, they will be merged in one condition using logical **AND** operation.
+
+<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/3DsAFCmGxCKNPZHniy4t9U99/valit-stack/Valit'>
+  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/3DsAFCmGxCKNPZHniy4t9U99/valit-stack/Valit.svg' />
+</a>
