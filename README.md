@@ -10,6 +10,8 @@ Valit is **dead simple** validation for .NET Core. No more if-statements all aro
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/14150/badge.svg)](https://scan.coverity.com/projects/valit-stack-valit)
+[![Issue Stats](http://issuestats.com/github/valit-stack/valit/badge/pr?style=flat)](http://issuestats.com/github/valit-stack/valit)
+[![Issue Stats](http://issuestats.com/github/valit-stack/valit/badge/issue?style=flat)](http://issuestats.com/github/valit-stack/valit)
 
 ## Basic Usage
 Valit offers plenty different validation rules to use, such as:
