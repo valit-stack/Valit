@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-
+using Valit.Errors;
 using static Valit.Exceptions.SemanticExceptions;
 
-namespace Valit
+namespace Valit.Result
 {
     internal class ValitResult : IValitResult
     {

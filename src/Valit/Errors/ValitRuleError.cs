@@ -1,4 +1,4 @@
-namespace Valit
+namespace Valit.Errors
 {
     internal class ValitRuleError
     {

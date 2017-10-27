@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Valit.Errors;
+using Valit.Exceptions;
 using Valit.MessageProvider;
-using Valit.Strategies;
+using Valit.Result;
 
-namespace Valit
+namespace Valit.Rules
 {
     internal class ValitRule<TObject, TProperty> : IValitRule<TObject, TProperty>, IValitRuleAccessor<TObject, TProperty> where TObject : class
     {
@@ -64,6 +66,8 @@ namespace Valit
 
         public IValitResult Validate(TObject @object)
 		{
+            @object.ThrowIfNull();
+
             var property = _propertySelector(@object);
 			var hasAllConditionsFulfilled = true;
 
