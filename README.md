@@ -8,11 +8,6 @@ Valit is **dead simple** validation for .NET Core. No more if-statements all aro
 [![Build status](https://ci.appveyor.com/api/projects/status/github/valit-stack/Valit?branch=develop&svg=true&passingText=develop%20passing&failingText=develop%20failing&pendingText=develop%20pending)](https://ci.appveyor.com/project/GooRiOn/valit/branch/develop) 
 [![codecov](https://codecov.io/gh/valit-stack/valit/branch/develop/graph/badge.svg)](https://codecov.io/gh/valit-stack/valit/branch/develop)
 
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
-[![Coverity Scan Build Status](https://scan.coverity.com/projects/14150/badge.svg)](https://scan.coverity.com/projects/valit-stack-valit)
-[![Issue Stats](http://issuestats.com/github/valit-stack/valit/badge/pr?style=flat)](http://issuestats.com/github/valit-stack/valit)
-[![Issue Stats](http://issuestats.com/github/valit-stack/valit/badge/issue?style=flat)](http://issuestats.com/github/valit-stack/valit)
-
 ## Basic Usage
 Valit offers plenty different validation rules to use, such as:
 - **Satisfies()**
@@ -160,7 +155,3 @@ Each validation rule can be combined with plenty different conditions which may 
 ```
 
 It's worth to mention that you can apply as much **When()** conditions as you want. If so, they will be merged in one condition using logical **AND** operation.
-
-<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/3DsAFCmGxCKNPZHniy4t9U99/valit-stack/Valit'>
-  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/3DsAFCmGxCKNPZHniy4t9U99/valit-stack/Valit.svg' />
-</a>
