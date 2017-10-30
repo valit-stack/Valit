@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Valit.Errors;
 using Valit.Exceptions;
-using Valit.MessageProvider;
 using Valit.Result;
 
 namespace Valit.Rules
@@ -28,8 +27,8 @@ namespace Valit.Rules
             var previousRuleAccessor = previousRule.GetAccessor();
             _propertySelector = previousRuleAccessor.PropertySelector;
             _previousRule = previousRule;
-            _messageProvider = previousRule.GetMessageProvider();
-            Strategy = previousRule.Strategy;
+            _messageProvider = previousRuleAccessor.GetMessageProvider();
+            Strategy = previousRuleAccessor.Strategy;
         }
 
         internal ValitRule(Func<TObject, TProperty> propertySelector, IValitStrategy strategy, IValitMessageProvider messageProvider) : this()
@@ -58,10 +57,10 @@ namespace Valit.Rules
 		void IValitRuleAccessor.AddTags(params string[] tags)
             => _tags.AddRange(tags);
 
-        IValitMessageProvider IValitRule.GetMessageProvider()
+        IValitMessageProvider IValitRuleAccessor.GetMessageProvider()
             => _messageProvider;
 
-        IValitMessageProvider<TKey> IValitRule.GetMessageProvider<TKey>()
+        IValitMessageProvider<TKey> IValitRuleAccessor.GetMessageProvider<TKey>()
             => _messageProvider as IValitMessageProvider<TKey>;
 
         public IValitResult Validate(TObject @object)
