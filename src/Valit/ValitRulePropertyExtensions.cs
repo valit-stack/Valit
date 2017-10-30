@@ -56,7 +56,7 @@ namespace Valit
 
             var accessor = rule.GetAccessor();
             var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
-            var messageProvider = rule.GetMessageProvider<TKey>();
+            var messageProvider = previousRuleAccessor.GetMessageProvider<TKey>();
             var message = messageProvider.GetByKey(messageKey);
 
             var error = ValitRuleError.CreateForMessage(message);

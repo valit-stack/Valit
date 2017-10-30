@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Valit.Errors;
 
 namespace Valit.Rules
 {
     internal interface IValitRuleAccessor
     {
+        IValitStrategy Strategy { get; }
+        IValitMessageProvider GetMessageProvider();
+        IValitMessageProvider<TKey> GetMessageProvider<TKey>();
         void AddError(ValitRuleError error);
         void AddTags(params string[] tags);
     }
