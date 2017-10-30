@@ -1,5 +1,3 @@
-using System;
-
 using static Valit.Exceptions.SemanticExceptions;
 
 namespace Valit.Exceptions
