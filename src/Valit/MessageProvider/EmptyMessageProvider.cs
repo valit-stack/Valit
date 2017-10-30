@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Valit.MessageProvider
+﻿namespace Valit.MessageProvider
 {
     internal sealed class EmptyMessageProvider : IValitMessageProvider<string>
     {

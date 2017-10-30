@@ -1,6 +1,4 @@
-﻿using Valit.MessageProvider;
-
-namespace Valit
+﻿namespace Valit
 {
     public interface IValitRulesMessageProvider<TObject> : IValitRulesStrategyPicker<TObject>
         where TObject : class
