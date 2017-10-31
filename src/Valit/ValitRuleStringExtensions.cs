@@ -6,7 +6,7 @@ namespace Valit
 {
     public static class ValitRuleStringExtensions
     {
-        public static IValitRule<TObject, string> IsEqualTo<TObject, TProperty>(this IValitRule<TObject, string> rule, string value) where TObject : class
+        public static IValitRule<TObject, string> IsEqualTo<TObject>(this IValitRule<TObject, string> rule, string value) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);       
             return rule.Satisfies(p => !String.IsNullOrEmpty(p) && !String.IsNullOrEmpty(value) && p == value);
