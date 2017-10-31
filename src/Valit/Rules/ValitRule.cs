@@ -75,7 +75,7 @@ namespace Valit.Rules
 
             var isSatisfied = _predicate?.Invoke(property) != false;
 
-            return hasAllConditionsFulfilled && isSatisfied ? ValitResult.Success : ValitResult.Fail(_errors.ToArray());		
+            return !hasAllConditionsFulfilled || isSatisfied ? ValitResult.Success : ValitResult.Fail(_errors.ToArray());		
         }
 	}
 }
