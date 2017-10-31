@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Valit.Rules
+﻿namespace Valit.Rules
 {
     internal static class ValitRuleAccessorExtensions
     {
