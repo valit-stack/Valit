@@ -16,16 +16,12 @@ namespace Valit.Tests.String
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
-        // Test cases
-        // https://blogs.msdn.microsoft.com/testing123/2009/02/06/email-address-test-cases/
         [Theory]
         [InlineData("email@domain.com")]
         [InlineData("firstname.lastname@domain.com")]
         [InlineData("email@subdomain.domain.com")]
-        //[InlineData("firstname+lastname@domain.com")] // Currently not supported
+        [InlineData("firstname+lastname@domain.com")]
         [InlineData("email@123.123.123.123")]
-        [InlineData("email@[123.123.123.123]")]
-        //[InlineData("\"email\"@domain.com")] // Currently not supported
         [InlineData("1234567890@domain.com")]
         [InlineData("email@domain-one.com")]
         [InlineData("_______@domain.com")]
@@ -51,15 +47,13 @@ namespace Valit.Tests.String
         [InlineData("Joe Smith <email@domain.com>")]
         [InlineData("email.domain.com")]
         [InlineData("email@domain@domain.com")]
-        // [InlineData(".email@domain.com")] // Currently not supported
-        // [InlineData("email.@domain.com")] // Currently not supported
-        // [InlineData("email..email@domain.com")] // Currently not supported
-        //[InlineData("あいうえお@domain.com")] // Currently not supported
+        [InlineData(".email@domain.com")]
+        [InlineData("email.@domain.com")]
+        [InlineData("email..email@domain.com")]
+        [InlineData("あいうえお@domain.com")]
         [InlineData("email@domain.com (Joe Smith)")]
         [InlineData("email@domain")]
-        //[InlineData("email@-domain.com")] // Currently not supported
-        // [InlineData("email@domain.web")] // Currently we are not supporting top level domain validation
-        [InlineData("email@111.222.333.44444")]
+        [InlineData("email@-domain.com")]
         [InlineData("email@domain..com")]
         [InlineData("")]
         [InlineData(null)]
