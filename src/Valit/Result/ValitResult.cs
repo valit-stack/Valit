@@ -26,7 +26,7 @@ namespace Valit.Result
             Succeeded = false; 
 
             ErrorMessages = errors
-                .Where(e => e.Message != null)
+                .Where(e => !string.IsNullOrEmpty(e.Message))
                 .Select(e => e.Message)
                 .ToImmutableArray();
 
@@ -55,7 +55,8 @@ namespace Valit.Result
         {
             var succeed = result1.Succeeded && result2.Succeeded;
             var errorMessages = result1.ErrorMessages.Concat(result2.ErrorMessages).ToImmutableArray();
-            return succeed ? Success : Fail(errorMessages);
+            var errorCodes = result1.ErrorCodes.Concat(result2.ErrorCodes).ToImmutableArray();
+            return succeed ? Success : Fail(errorMessages, errorCodes);
         }
     }
 }
