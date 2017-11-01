@@ -12,7 +12,7 @@ namespace Valit.Tests.MessageProviderTests
                 .Create()
                 .WithStrategy(x => x.Complete)
                 .Ensure(_ => "Test string", _ => _
-                    .Satisfies(p => !String.IsNullOrWhiteSpace(p))
+                    .Satisfies(p => !System.String.IsNullOrWhiteSpace(p))
                     .MaxLength(4)
                     .WithMessageKey("key"))
                 .For(new object())
