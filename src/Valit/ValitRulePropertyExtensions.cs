@@ -96,10 +96,11 @@ namespace Valit
 
             while(previousRule != null)
             {
-                rules.Insert(0, previousRule);
+                rules.Add(previousRule);
                 previousRule = previousRule.GetAccessor().PreviousRule;
             }
 
+            rules.Reverse();
             return rules;
         }      
     }
