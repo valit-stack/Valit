@@ -19,7 +19,7 @@ namespace Valit.Tests.MessageProviderTests
                 .Validate();
 
             Assert.False(result.Succeeded);
-            Assert.Equal(1, result.ErrorMessages.Length);
+            Assert.Equal(0, result.ErrorMessages.Length);
         }
     }
 }
