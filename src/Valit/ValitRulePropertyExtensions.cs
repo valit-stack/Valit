@@ -13,10 +13,19 @@ namespace Valit
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
             predicate.ThrowIfNull(ValitExceptionMessages.NullPredicate);
 
-            var accessor = rule.GetAccessor(); 
-            accessor.SetPredicate(predicate);
+            IValitRuleAccessor<TObject, TProperty> accessor;
 
-            return new ValitRule<TObject, TProperty>(rule);
+            if(rule.IsFirstInChain())
+            {
+                accessor = rule.GetAccessor();
+                accessor.SetPredicate(predicate);
+                return rule;
+            }
+
+            var newRule = new ValitRule<TObject, TProperty>(rule);
+            accessor = newRule.GetAccessor(); 
+            accessor.SetPredicate(predicate);
+            return newRule;
         }
 
         public static IValitRule<TObject, TProperty> Required<TObject, TProperty>(this IValitRule<TObject, TProperty> rule) where TObject : class where TProperty : class
@@ -100,6 +109,9 @@ namespace Valit
             }
 
             return rules;
-        }      
+        }  
+
+        internal static bool IsFirstInChain<TObject, TProperty>(this IValitRule<TObject, TProperty> rule) where TObject : class
+            => rule.GetAccessor().PreviousRule == null;
     }
 }
