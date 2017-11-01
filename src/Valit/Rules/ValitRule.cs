@@ -48,6 +48,9 @@ namespace Valit.Rules
 		void IValitRuleAccessor<TObject, TProperty>.SetPredicate(Predicate<TProperty> predicate)
             => _predicate = predicate;
 
+        bool IValitRuleAccessor.HasPredicate()
+            => _predicate != null;  
+
 		void IValitRuleAccessor.AddError(ValitRuleError error)
             => _errors.Add(error);
 

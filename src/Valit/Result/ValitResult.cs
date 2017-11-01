@@ -45,9 +45,6 @@ namespace Valit.Result
         internal static ValitResult Fail(IEnumerable<ValitRuleError> errors)
             => new ValitResult(errors);
 
-        internal static ValitResult Fail(ImmutableArray<string> errorMessages)
-            => new ValitResult(errorMessages, ImmutableArray<int>.Empty);
-               
         internal static ValitResult Fail(ImmutableArray<string> errorMessages, ImmutableArray<int> errorCodes)
             => new ValitResult(errorMessages, errorCodes);
 
