@@ -16,6 +16,7 @@ namespace Valit.Tests.Strategies
         const string M5 = "Lastname shorter than 3 are not supported";
         const string M6 = "Email is required";
         const string M7 = "Invalid email";
+        const string M8 = "Old people are not supported";
 
         [Fact]
         public void FailFast_Strategy_Checks_Until_First_Error()
@@ -46,6 +47,37 @@ namespace Valit.Tests.Strategies
             result.Succeeded.ShouldBe(false);
             result.ErrorMessages.Count().ShouldBe(1);
             result.ErrorMessages.ShouldContain(M1);
+        }
+
+        [Fact]
+        public void FailFast_Strategy_Checks_Until_First_Error_While_Error_Is_Not_First()
+        {
+            var result = ValitRules<Model>.Create()
+                .WithStrategy(_ => _.FailFast)
+                .Ensure(m => m.Age, _ => _
+                    .IsLessThan(1000)
+                    .WithMessage(M8))
+                .Ensure(m => m.FirstName, _ => _
+                    .Required()
+                    .WithMessage(M2)
+                    .MinLength(3)
+                    .WithMessage(M3))
+                .Ensure(m => m.LastName, _ => _
+                    .Required()
+                    .WithMessage(M4)
+                    .MinLength(5)
+                    .WithMessage(M5))
+                .Ensure(m => m.Email, _ => _
+                    .Required()
+                    .WithMessage(M6)
+                    .Email()
+                    .WithMessage(M7))
+                .For(_model)
+                .Validate();
+
+            result.Succeeded.ShouldBe(false);
+            result.ErrorMessages.Count().ShouldBe(1);
+            result.ErrorMessages.ShouldContain(M3);
         }
 
         Model _model => new Model();
