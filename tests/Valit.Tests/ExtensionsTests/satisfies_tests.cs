@@ -14,7 +14,7 @@ namespace Valit.Tests.ExtensionsTests
                 .Create()
                 .WithStrategy(x => x.Complete)
                 .Ensure(model => model.StringValue, _=>_
-                    .Satisfies(p => !String.IsNullOrWhiteSpace(p)).MinLength(4))
+                    .Satisfies(p => !System.String.IsNullOrWhiteSpace(p)).MinLength(4))
                 .Ensure(model => model.GuidValue, _=>_ 
                     .Satisfies(p => p != Guid.Empty))
                 .Ensure(model => model.IntegerValue, _=>_
@@ -34,7 +34,7 @@ namespace Valit.Tests.ExtensionsTests
                 .Create()
                 .WithStrategy(x => x.Complete)
                 .Ensure(model => model.StringValue, _=>_
-                    .Satisfies(p => !String.IsNullOrWhiteSpace(p)))
+                    .Satisfies(p => !System.String.IsNullOrWhiteSpace(p)))
                 .Ensure(model => model.GuidValue, _=>_ 
                     .Satisfies(p => p != Guid.Empty))
                 .Ensure(model => model.IntegerValue, _=>_
