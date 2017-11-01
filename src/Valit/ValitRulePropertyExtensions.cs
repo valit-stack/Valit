@@ -15,7 +15,7 @@ namespace Valit
 
             IValitRuleAccessor<TObject, TProperty> accessor;
 
-            if(rule.IsFirstInChain())
+            if(rule.IsFirstInEnsure())
             {
                 accessor = rule.GetAccessor();
                 accessor.SetPredicate(predicate);
@@ -106,7 +106,7 @@ namespace Valit
             return rules;
         }  
 
-        internal static bool IsFirstInChain<TObject, TProperty>(this IValitRule<TObject, TProperty> rule) where TObject : class
-            => rule.GetAccessor().PreviousRule == null;
+        internal static bool IsFirstInEnsure<TObject, TProperty>(this IValitRule<TObject, TProperty> rule) where TObject : class
+            => rule.GetAccessor().PreviousRule == null && ! rule.GetAccessor().HasPredicate();
     }
 }
