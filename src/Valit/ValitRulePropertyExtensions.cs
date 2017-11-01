@@ -31,8 +31,9 @@ namespace Valit
             condition.ThrowIfNull(ValitExceptionMessages.NullPredicate);
 
             var accessor = rule.GetAccessor();
+            var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
 
-            accessor.AddCondition(condition);            
+            previousRuleAccessor.AddCondition(condition);            
             return rule;
         }
 
@@ -42,9 +43,10 @@ namespace Valit
             message.ThrowIfNull();             
             
             var accessor = rule.GetAccessor();
-
+            var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
+            
             var error = ValitRuleError.CreateForMessage(message);
-            accessor.AddError(error);
+            previousRuleAccessor.AddError(error);
             return rule;
         }
 
@@ -55,9 +57,10 @@ namespace Valit
             var accessor = rule.GetAccessor();
             var messageProvider = accessor.GetMessageProvider<TKey>();
             var message = messageProvider.GetByKey(messageKey);
+            var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
 
             var error = ValitRuleError.CreateForMessage(message);
-            accessor.AddError(error);
+            previousRuleAccessor.AddError(error);
             return rule;
         }
 
@@ -66,9 +69,10 @@ namespace Valit
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);    
             
             var accessor = rule.GetAccessor();
+            var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
 
             var error = ValitRuleError.CreateForErrorCode(errorCode);
-            accessor.AddError(error);
+            previousRuleAccessor.AddError(error);
             return rule;
         }          
 
@@ -78,15 +82,15 @@ namespace Valit
             tags.ThrowIfNull();
 
             var accessor = rule.GetAccessor();
+            var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
 
-            accessor.AddTags(tags);            
+            previousRuleAccessor.AddTags(tags);            
             return rule;
         }
 
         internal static IEnumerable<IValitRule<TObject>> GetAllEnsureRules<TObject, TProperty>(this IValitRule<TObject, TProperty> rule) where TObject : class
         {
             var rules = new List<IValitRule<TObject>> { rule };
-            
             var previousRule = rule.GetAccessor().PreviousRule;
 
             while(previousRule != null)

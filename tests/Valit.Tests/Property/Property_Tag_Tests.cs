@@ -22,7 +22,7 @@ namespace Valit.Tests.Property
                     .Tag("Tag2"))
                 .GetAllRules();
 
-            Assert.Equal(rules.Count(), 3);
+            rules.Count().ShouldBe(3);
         }
 
 
