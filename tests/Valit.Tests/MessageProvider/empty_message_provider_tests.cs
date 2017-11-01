@@ -1,7 +1,7 @@
 ﻿using System;
 using Xunit;
 
-namespace Valit.Tests.MessageProviderTests
+namespace Valit.Tests.MessageProvider
 {
     public class empty_message_provider_tests
     {

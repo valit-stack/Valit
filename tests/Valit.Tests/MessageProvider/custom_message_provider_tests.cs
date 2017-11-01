@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Valit.MessageProvider;
 using Xunit;
 
-namespace Valit.Tests.MessageProviderTests
+namespace Valit.Tests.MessageProvider
 {
     public class custom_message_provider_tests
     {

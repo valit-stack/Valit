@@ -7,6 +7,7 @@ namespace Valit
     {
          IValitRules<TObject> Ensure<TProperty>(Func<TObject, TProperty> selector, Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> rule);
          IValitRules<TObject> For(TObject @object);
+         IEnumerable<IValitRule<TObject>> GetAllRules();         
          IEnumerable<IValitRule<TObject>> GetTaggedRules();
          IEnumerable<IValitRule<TObject>> GetUntaggedRules();         
          IValitResult Validate();
