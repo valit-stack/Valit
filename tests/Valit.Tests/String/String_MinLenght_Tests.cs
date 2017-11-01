@@ -40,7 +40,7 @@ namespace Valit.Tests.String
         {
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.Empty, _ => _
+                .Ensure(m => m.EmptyValue, _ => _
                     .MinLength(value))
                 .For(_model)
                 .Validate();
@@ -56,7 +56,7 @@ namespace Valit.Tests.String
         {
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.Null, _ => _
+                .Ensure(m => m.NullValue, _ => _
                     .MinLength(value))
                 .For(_model)
                 .Validate();
@@ -74,9 +74,9 @@ namespace Valit.Tests.String
 
         class Model
         {
-            public string Empty => string.Empty;
+            public string EmptyValue => string.Empty;
             public string Value => "text";
-            public string Null => null;
+            public string NullValue => null;
         }
 #endregion
     }
