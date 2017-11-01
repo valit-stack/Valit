@@ -2,7 +2,7 @@
 using Xunit;
 using Shouldly;
 
-namespace Valit.Tests.MessageProviderTests
+namespace Valit.Tests.MessageProvider
 {
     public class CustomMessagePrivider_Tests
     {

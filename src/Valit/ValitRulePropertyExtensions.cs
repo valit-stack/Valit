@@ -13,10 +13,19 @@ namespace Valit
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
             predicate.ThrowIfNull(ValitExceptionMessages.NullPredicate);
 
-            var accessor = rule.GetAccessor(); 
-            accessor.SetPredicate(predicate);
+            IValitRuleAccessor<TObject, TProperty> accessor;
 
-            return new ValitRule<TObject, TProperty>(rule);
+            if(rule.IsFirstInEnsure())
+            {
+                accessor = rule.GetAccessor();
+                accessor.SetPredicate(predicate);
+                return rule;
+            }
+
+            var newRule = new ValitRule<TObject, TProperty>(rule);
+            accessor = newRule.GetAccessor(); 
+            accessor.SetPredicate(predicate);
+            return newRule;
         }
 
         public static IValitRule<TObject, TProperty> Required<TObject, TProperty>(this IValitRule<TObject, TProperty> rule) where TObject : class where TProperty : class
@@ -30,10 +39,9 @@ namespace Valit
             condition.ThrowIfNull(ValitExceptionMessages.NullPredicate);
 
             var accessor = rule.GetAccessor();
-            var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
 
-            previousRuleAccessor.AddCondition(condition);            
-            return new ValitRule<TObject, TProperty>(accessor.PreviousRule);
+            accessor.AddCondition(condition);            
+            return rule;
         }
 
         public static IValitRule<TObject, TProperty> WithMessage<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, string message) where TObject : class
@@ -42,11 +50,10 @@ namespace Valit
             message.ThrowIfNull();             
             
             var accessor = rule.GetAccessor();
-            var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
-
+            
             var error = ValitRuleError.CreateForMessage(message);
-            previousRuleAccessor.AddError(error);
-            return new ValitRule<TObject, TProperty>(accessor.PreviousRule);
+            accessor.AddError(error);
+            return rule;
         }
 
         public static IValitRule<TObject, TProperty> WithMessageKey<TObject, TProperty, TKey>(this IValitRule<TObject, TProperty> rule, TKey messageKey) where TObject : class
@@ -54,13 +61,12 @@ namespace Valit
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
 
             var accessor = rule.GetAccessor();
-            var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
-            var messageProvider = previousRuleAccessor.GetMessageProvider<TKey>();
+            var messageProvider = accessor.GetMessageProvider<TKey>();
             var message = messageProvider.GetByKey(messageKey);
 
             var error = ValitRuleError.CreateForMessage(message);
-            previousRuleAccessor.AddError(error);
-            return new ValitRule<TObject, TProperty>(accessor.PreviousRule);
+            accessor.AddError(error);
+            return rule;
         }
 
         public static IValitRule<TObject, TProperty> WithErrorCode<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, int errorCode) where TObject : class
@@ -68,11 +74,10 @@ namespace Valit
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);    
             
             var accessor = rule.GetAccessor();
-            var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
 
             var error = ValitRuleError.CreateForErrorCode(errorCode);
-            previousRuleAccessor.AddError(error);
-            return new ValitRule<TObject, TProperty>(accessor.PreviousRule);
+            accessor.AddError(error);
+            return rule;
         }          
 
         public static IValitRule<TObject, TProperty> Tag<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, params string[] tags) where TObject : class
@@ -81,16 +86,14 @@ namespace Valit
             tags.ThrowIfNull();
 
             var accessor = rule.GetAccessor();
-            var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
 
-            previousRuleAccessor.AddTags(tags);            
-            return new ValitRule<TObject, TProperty>(accessor.PreviousRule);
+            accessor.AddTags(tags);            
+            return rule;
         }
 
         internal static IEnumerable<IValitRule<TObject>> GetAllEnsureRules<TObject, TProperty>(this IValitRule<TObject, TProperty> rule) where TObject : class
         {
             var rules = new List<IValitRule<TObject>> { rule };
-            
             var previousRule = rule.GetAccessor().PreviousRule;
 
             while(previousRule != null)
@@ -101,6 +104,9 @@ namespace Valit
 
             rules.Reverse();
             return rules;
-        }      
+        }  
+
+        internal static bool IsFirstInEnsure<TObject, TProperty>(this IValitRule<TObject, TProperty> rule) where TObject : class
+            => rule.GetAccessor().PreviousRule == null && ! rule.GetAccessor().HasPredicate();
     }
 }
