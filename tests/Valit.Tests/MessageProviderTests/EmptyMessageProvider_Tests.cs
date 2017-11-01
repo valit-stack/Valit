@@ -11,7 +11,7 @@ namespace Valit.Tests.MessageProviderTests
         public void EmptyMessageProvider_Does_Not_Add_Any_Message()
         {
             var result = ValitRules<Model>.Create()
-                .Ensure(m => m.Text, _ => _
+                .Ensure(m => m.Value, _ => _
                     .MaxLength(4)
                     .WithMessageKey(Key))
                 .For(_model)
@@ -25,7 +25,7 @@ namespace Valit.Tests.MessageProviderTests
 
         class Model
         {
-            public string Text => "This text has 28 characters!";
+            public string Value => "This text has 28 characters!";
         }
     }
 }
