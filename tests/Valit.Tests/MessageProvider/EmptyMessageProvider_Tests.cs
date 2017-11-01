@@ -1,7 +1,7 @@
 ﻿using Xunit;
 using Shouldly;
 
-namespace Valit.Tests.MessageProviderTests
+namespace Valit.Tests.MessageProvider
 {
     public class EmptyMessageProvider_Tests
     {
