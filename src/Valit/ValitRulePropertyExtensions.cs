@@ -40,9 +40,8 @@ namespace Valit
             condition.ThrowIfNull(ValitExceptionMessages.NullPredicate);
 
             var accessor = rule.GetAccessor();
-            var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
 
-            previousRuleAccessor.AddCondition(condition);            
+            accessor.AddCondition(condition);            
             return rule;
         }
 
@@ -52,10 +51,9 @@ namespace Valit
             message.ThrowIfNull();             
             
             var accessor = rule.GetAccessor();
-            var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
             
             var error = ValitRuleError.CreateForMessage(message);
-            previousRuleAccessor.AddError(error);
+            accessor.AddError(error);
             return rule;
         }
 
@@ -66,10 +64,9 @@ namespace Valit
             var accessor = rule.GetAccessor();
             var messageProvider = accessor.GetMessageProvider<TKey>();
             var message = messageProvider.GetByKey(messageKey);
-            var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
 
             var error = ValitRuleError.CreateForMessage(message);
-            previousRuleAccessor.AddError(error);
+            accessor.AddError(error);
             return rule;
         }
 
@@ -78,10 +75,9 @@ namespace Valit
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);    
             
             var accessor = rule.GetAccessor();
-            var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
 
             var error = ValitRuleError.CreateForErrorCode(errorCode);
-            previousRuleAccessor.AddError(error);
+            accessor.AddError(error);
             return rule;
         }          
 
@@ -91,9 +87,8 @@ namespace Valit
             tags.ThrowIfNull();
 
             var accessor = rule.GetAccessor();
-            var previousRuleAccessor = accessor.PreviousRule.GetAccessor();
 
-            previousRuleAccessor.AddTags(tags);            
+            accessor.AddTags(tags);            
             return rule;
         }
 
