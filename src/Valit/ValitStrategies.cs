@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace Valit
+﻿namespace Valit
 {
     public struct DefaultValitStrategies
     {

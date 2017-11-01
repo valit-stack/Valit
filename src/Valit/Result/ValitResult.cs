@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Valit.Errors;
-using static Valit.Exceptions.SemanticExceptions;
 
 namespace Valit.Result
 {
@@ -28,7 +26,7 @@ namespace Valit.Result
             Succeeded = false; 
 
             ErrorMessages = errors
-                .Where(e => e.Message != null)
+                .Where(e => !string.IsNullOrEmpty(e.Message))
                 .Select(e => e.Message)
                 .ToImmutableArray();
 
@@ -47,9 +45,6 @@ namespace Valit.Result
         internal static ValitResult Fail(IEnumerable<ValitRuleError> errors)
             => new ValitResult(errors);
 
-        internal static ValitResult Fail(ImmutableArray<string> errorMessages)
-            => new ValitResult(errorMessages, ImmutableArray<int>.Empty);
-               
         internal static ValitResult Fail(ImmutableArray<string> errorMessages, ImmutableArray<int> errorCodes)
             => new ValitResult(errorMessages, errorCodes);
 
@@ -57,7 +52,8 @@ namespace Valit.Result
         {
             var succeed = result1.Succeeded && result2.Succeeded;
             var errorMessages = result1.ErrorMessages.Concat(result2.ErrorMessages).ToImmutableArray();
-            return succeed ? Success : Fail(errorMessages);
+            var errorCodes = result1.ErrorCodes.Concat(result2.ErrorCodes).ToImmutableArray();
+            return succeed ? Success : Fail(errorMessages, errorCodes);
         }
     }
 }

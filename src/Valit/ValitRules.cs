@@ -55,6 +55,9 @@ namespace Valit
             return this;
         } 
 
+        IEnumerable<IValitRule<TObject>> IValitRules<TObject>.GetAllRules()
+            => _rules;
+
         IEnumerable<IValitRule<TObject>> IValitRules<TObject>.GetTaggedRules()
             => _rules.Where(r => r.Tags.Any());
 
