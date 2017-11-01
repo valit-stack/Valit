@@ -21,7 +21,6 @@ namespace Valit
 
         public static IValitRule<TObject, TProperty> Required<TObject, TProperty>(this IValitRule<TObject, TProperty> rule) where TObject : class where TProperty : class
         {
-            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
             return rule.Satisfies(p => p != null && !p.Equals(default(TProperty)));
         }
 
