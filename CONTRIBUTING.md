@@ -6,17 +6,15 @@ The purpose of this text is to help you start working with the source code witho
 
 ## Clone the repository
 In order to strat working with Valit, you need to clone the repository from GitHub using the following command:
-
-``
+```
 git clone https://github.com/valit-stack/Valit.git
-``
+```
 
 ## Create new branch
 After you're done make sure you are one the **develop** branch:
-
-``
+```
 git checkout develop
-``
+```
 
 Then you can create your own branch for new feature, bug fix or whatever you want. We use very simple naming convention for naming branches:
 ```
