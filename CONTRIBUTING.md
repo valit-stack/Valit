@@ -6,61 +6,64 @@ The purpose of this text is to help you start working with the source code witho
 
 ## Clone the repository
 In order to strat working with Valit, you need to clone the repository from GitHub using the following command:
+
 ``
 git clone https://github.com/valit-stack/Valit.git
 ``
 
 ## Create new branch
 After you're done make sure you are one the **develop** branch:
+
 ``
 git checkout develop
 ``
 
 Then you can create your own branch for new feature, bug fix or whatever you want. We use very simple naming convention for naming branches:
-``
+```
 feature/<issue_number_from_github>
-``
+```
 
 However, if there's no issue related to your feature you can put the short description instead using **snake case** like in the example below:
-``
+```
 feature/my_new_awesome_validation_rule
-``
+```
 
 Having a proper name for your branch, create it directly from the develop:
-``
+```
 git checkout -b <name_of_your_branch>
-``
+```
 
 ## Creating unit tests
 We do our best to make Valit a reliable library. That's why we pay attention to unit tests for each new functionality. You can find them inside ```tests``` folder. Select a subfolder which should contain new unit tests or create new if none of them suits new functionality. The name of each unit test should follow the convention:
-``
+```
 Method_Result_When_Condition
-``
+```
+
 Here's an example:
-``
+```
 Float_IsPositive_Fails_When_Given_Value_Is_Null
-``
+```
 
 Try to avaoid multiple ```Assert``` inside single unit tests.
 
 When you're done make sure all tests passess. Navigate to the ```Valit.Tests``` project and run the following command:
-``
+```
 dotnet test
-``
-Alternatively, you can use our **Cake script** which is placed in the root folder. Navigate there and run:
+```
 
-``
+Alternatively, you can use our **Cake script** which is placed in the root folder. Navigate there and run:
+```
 ./build.sh //on Unix
-``
-``
+```
+```
 ./build.ps1 //on Windows
-``
+```
 
 ## Creating a pull request
 When the code is stable, you can submit your changes by creating a pull request. First, push your branch to origin:
-``
+```
 git push origin <name_of_your_branch>
-``
+```
 
 Then go to the **GitHub -> Pull Request -> New Pull Request**. 
 Select **develop** as base and your branch as compare. We provide default template for PR description:
@@ -87,7 +90,7 @@ If some of the above won't be fulfilled (due to change request or some mistake) 
 
 If everything will be fine, your changes will be merged into develop, branch will be deleted and related issue will be closed. 
 
-# WELL DONE AND THANK YOU VERY MUCH FOR HELPING US!
+# WELL DONE AND THANK YOU VERY MUCH!
 
 
 
