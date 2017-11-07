@@ -1,4 +1,4 @@
-![Valit](https://user-images.githubusercontent.com/7096476/30515930-b9b1fec6-9b31-11e7-8569-f0b235645cb2.png)
+![Valit](https://avatars1.githubusercontent.com/u/32653478?s=200&v=4)
 
 Valit is **dead simple** validation for .NET Core. No more if-statements all around your code. Write nice and clean **fluent validators** instead! 
 
