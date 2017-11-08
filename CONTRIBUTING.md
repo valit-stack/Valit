@@ -5,7 +5,7 @@ Do you have great ideas which will make Valit even better? That's awesome! Feel 
 The purpose of this text is to help you start working with the source code without any trouble. Simply, follow the steps below and... have fun :)
 
 ## Clone the repository
-In order to strat working with Valit, you need to clone the repository from GitHub using the following command:
+In order to start working with Valit, you need to clone the repository from GitHub using the following command:
 ```
 git clone https://github.com/valit-stack/Valit.git
 ```
