@@ -1,5 +1,3 @@
-![Valit](https://avatars1.githubusercontent.com/u/32653478?s=200&v=4)
-
 Valit is **dead simple** validation for .NET Core. No more if-statements all around your code. Write nice and clean **fluent validators** instead! 
 
 [![Build status](https://ci.appveyor.com/api/projects/status/github/valit-stack/Valit?branch=master&svg=true&passingText=master%20passing&failingText=master%20failing&pendingText=master%20pending)](https://ci.appveyor.com/project/GooRiOn/valit/branch/master) 
@@ -8,150 +6,69 @@ Valit is **dead simple** validation for .NET Core. No more if-statements all aro
 [![Build status](https://ci.appveyor.com/api/projects/status/github/valit-stack/Valit?branch=develop&svg=true&passingText=develop%20passing&failingText=develop%20failing&pendingText=develop%20pending)](https://ci.appveyor.com/project/GooRiOn/valit/branch/develop) 
 [![codecov](https://codecov.io/gh/valit-stack/valit/branch/develop/graph/badge.svg)](https://codecov.io/gh/valit-stack/valit/branch/develop)
 
-## Basic Usage
-Valit offers plenty different validation rules to use, such as:
-- **Satisfies()**
-- **Required()**
-- **IsEqualTo()**
-- **IsGreaterThan()**
-- **IsLessThan()**
-- **MinLength()**
-- **MaxLength()**
-- **Matches()**
-- **MinItems()**
-- **MaxItems()**
-- **Email()**
+# Getting started
+In order to create a validator you need to go through few steps. It's worth mentioning that not all of them are mandatory. The steps are: 
 
+- creating new instance of validator using ``Create()`` static method
+- choosing [validation strategy](http://valitdocs.readthedocs.io/en/latest/strategies/index.html) using ``WithStrategy()`` method **(not required)**
+- selecting property using ``Ensure()`` method and defining rules for it. 
+- Extending rules with [custom errors](http://valitdocs.readthedocs.io/en/latest/validation-errors/index.html) (such as messages or error codes), [tags and conditions](http://valitdocs.readthedocs.io/en/latest/validation-rules/index.html). **(not required)**.
+- applying created rules to an object using ``For()`` method
+
+Having the validator created, simply invoke ``Validate()`` method which will produce the result with all the data.
+
+Let's try it out with very practical example. Imagine that you're task is to validate model sent from registration page of your app. The example object might look as follows:
 
 ```cs
-    public class Model
+
+    public class RegisterModel
     {
-        public string StringValue { get; set; }
-        public string Email { get; set; }
-        public int NumberValue { get; set; }
-        public Guid ReferenceValue { get; set; }
+        public string Email { get; set; }        
+        public string Password { get; set; }
+        public ushort Age { get; set ;}
     }
+```
 
-    public class Test
-    {
-        public void Validate()
+These are the validation criteria:
+
+- ``Email`` is required and needs to be a proper email address
+- ``Password`` is required and needs to be at least 10 characters long
+- ``Age`` must be greater than 16
+
+This is how Valit handles such scenario:
+  
+```cs
+
+        void ValidateModel(RegisterModel model)
         {
-            var model = new Model();
-
-            var result = ValitRules<Model>
+            var result = ValitRules<RegisterModel>
                 .Create()
-                .Ensure(m => m.StringValue, _=>_
-                    .Required()
-                    .Matches(@"\d+"))
                 .Ensure(m => m.Email, _=>_
+                    .Required()
                     .Email())
-                .Ensure(m => m.NumberValue, _=>_
-                    .IsGreaterThan(100)
-                    .IsLessThan(0))
-                .Ensure(m => m.ReferenceValue, _=>_
-                    .IsEqualTo(Guid.NewGuid())
-                    .Satisfies(p => p != Guid.Empty))
+                .Ensure(m => m.Password, _=>_ 
+                    .Required()
+                    .MinLength(10))
+                .Ensure(m => m.Age, _=>_
+                    .IsGreaterThan(16))
                 .For(model)
                 .Validate();
 
-            if(!result.Succeeded)
+            if(result.Succeeded)
             {
-                // do something
+                // do something on success
+            }
+            else 
+            {
+                // do something on failure
             }
         }
-    }
 ```
 
-## Adding messages
-Besides the final result, you can also extend your validation with error messages as follows:
+Pretty cool, right? Of course, the above example was fairly simple but trust us. From now on, even complicated validation criterias won't scare you anymore ;)
 
-```cs
-    public class Model
-    {
-        public string StringValue { get; set; }
-    }
+# Documentation
+If you're looking for documentation, you can find it [here](http://valitdocs.readthedocs.io/en/latest/index.html).
 
-    public class Test
-    {
-        public void Validate()
-        {
-            var model = new Model();
-
-            var result = ValitRules<Model>
-                .Create()                
-                .Ensure(m => m.StringValue, _=>_
-                    .Required()
-                    .WithMessage("StringValue is required!"))
-                .For(model)
-                .Validate();
-
-            if(!result.Succeeded)
-            {
-                foreach(var error in result.Errors)
-                    Console.WriteLine(error);
-            }
-        }
-    }
-```
-
-## Validation strategies
-In some scenarios, you might not need the entire model to be checked because of performance issues or model complexity. Valit offers two different strategies you can aplly:
-- **Complete** - validates entire model
-- **FailFast** - valides until first error is reached
-
-```cs
-    public class Model
-    {
-        public string StringValue { get; set; }
-        public int IntegerValue { get; set; }
-    }
-
-    public class Test
-    {
-        public void Validate()
-        {
-            var model = new Model();
-
-            var result = ValitRules<Model>
-                .Create()
-                .WithStrategy(ValitRulesStrategies.FailFast)
-                .Ensure(m => m.StringValue, _=>_
-                    .Required()
-                    .WithMessage("StringValue is required!"))
-                .Ensure(m => m.IntegerValue, _=>_
-                    .Required()
-                    .WithMessage("This message won't be reached!"))
-                .For(model)
-                .Validate();
-        }
-    }
-```
-
-## Validation conditions
-Each validation rule can be combined with plenty different conditions which may affect the final result. To apply new condition use **When()** extensions as follows:
-
-```cs
-    public class Model
-    {        
-        public int IntegerValue => 3;
-        public bool BooleanValue { get; set; }
-    }
-
-    public class Test
-    {
-        public void Validate()
-        {
-            var model = new Model();
-
-            var result = ValitRules<Model>
-                .Create()
-                .Ensure(m => m.IntegerValue, _=>_
-                    .IsLessThan(5)
-                    .When(model => model.BooleanValue))
-                .For(model)
-                .Validate();
-        }
-    }
-```
-
-It's worth to mention that you can apply as much **When()** conditions as you want. If so, they will be merged in one condition using logical **AND** operation.
+# Contributing
+Want to help us develop Valit? Awesome! Here you can find [contributor guide](https://github.com/valit-stack/Valit/blob/develop/CONTRIBUTING.md) ;)
