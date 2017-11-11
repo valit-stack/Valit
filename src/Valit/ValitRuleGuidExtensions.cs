@@ -15,5 +15,8 @@ namespace Valit
 
         public static IValitRule<TObject, Guid?> IsEqualTo<TObject>(this IValitRule<TObject, Guid?> rule, Guid guid) where TObject : class
             => rule.Satisfies(p => p.HasValue && p.Value == guid);
+
+        public static IValitRule<TObject, Guid?> Required<TObject>(this IValitRule<TObject, Guid?> rule) where TObject : class
+            => rule.Satisfies(p => p.HasValue);
     }
 }
