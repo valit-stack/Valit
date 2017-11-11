@@ -18,5 +18,11 @@ namespace Valit
 
         public static IValitRule<TObject, Guid?> Required<TObject>(this IValitRule<TObject, Guid?> rule) where TObject : class
             => rule.Satisfies(p => p.HasValue);
+
+        public static IValitRule<TObject, Guid> IsNotEmpty<TObject>(this IValitRule<TObject, Guid> rule) where TObject : class
+            => rule.Satisfies(p => p != Guid.Empty);
+
+        public static IValitRule<TObject, Guid?> IsNotEmpty<TObject>(this IValitRule<TObject, Guid?> rule) where TObject : class
+            => rule.Satisfies(p => p.HasValue && p.Value != Guid.Empty);
     }
 }
