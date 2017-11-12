@@ -1,6 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <Title>Valit</Title>
+    <AssemblyName>Valit</AssemblyName>
+    <PackageId>Valit</PackageId>
+    <PackageTags>valit;validation;fluentapi</PackageTags>
+    <Description>Valit is dead simple validation for .NET Core. No more if-statements all around your code. Write nice and clean fluent validators instead!</Description>
+    <Authors>Dariusz Pawlukiewicz, Daniel Barwikowski, Arkadiusz Bal</Authors>   
+    <PackageProjectUrl>https://github.com/valit-stack/Valit</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/valit-stack/Valit/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>https://user-images.githubusercontent.com/7096476/32700023-298ffb9e-c7bf-11e7-9d83-82690b7e260b.png</PackageIconUrl>
+    <VersionPrefix>0.1.0</VersionPrefix>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
