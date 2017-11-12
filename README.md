@@ -2,11 +2,12 @@
 
 Valit is **dead simple** validation for .NET Core. No more if-statements all around your code. Write nice and clean **fluent validators** instead! 
 
-[![Build status](https://ci.appveyor.com/api/projects/status/github/valit-stack/Valit?branch=master&svg=true&passingText=master%20passing&failingText=master%20failing&pendingText=master%20pending)](https://ci.appveyor.com/project/GooRiOn/valit/branch/master) 
-[![codecov](https://codecov.io/gh/valit-stack/valit/branch/master/graph/badge.svg)](https://codecov.io/gh/valit-stack/valit/branch/master)
+|   | master  | develop  |
+|---|--------|----------|
+|AppVeyor|[![Build status](https://ci.appveyor.com/api/projects/status/github/valit-stack/Valit?branch=master&svg=true&passingText=master%20passing&failingText=master%20failing&pendingText=master%20pending)](https://ci.appveyor.com/project/GooRiOn/valit/branch/master)|[![Build status](https://ci.appveyor.com/api/projects/status/github/valit-stack/Valit?branch=develop&svg=true&passingText=develop%20passing&failingText=develop%20failing&pendingText=develop%20pending)](https://ci.appveyor.com/project/GooRiOn/valit/branch/develop)|
+|Codecov|[![codecov](https://codecov.io/gh/valit-stack/valit/branch/master/graph/badge.svg)](https://codecov.io/gh/valit-stack/valit/branch/master)|[![codecov](https://codecov.io/gh/valit-stack/valit/branch/develop/graph/badge.svg)](https://codecov.io/gh/valit-stack/valit/branch/develop)|
 
-[![Build status](https://ci.appveyor.com/api/projects/status/github/valit-stack/Valit?branch=develop&svg=true&passingText=develop%20passing&failingText=develop%20failing&pendingText=develop%20pending)](https://ci.appveyor.com/project/GooRiOn/valit/branch/develop) 
-[![codecov](https://codecov.io/gh/valit-stack/valit/branch/develop/graph/badge.svg)](https://codecov.io/gh/valit-stack/valit/branch/develop)
+![NuGet](https://img.shields.io/nuget/v/Valit.svg)
 
 # Getting started
 In order to create a validator you need to go through few steps. It's worth mentioning that not all of them are mandatory. The steps are: 
@@ -37,7 +38,7 @@ These are the validation criteria:
 - ``Password`` is required and needs to be at least 10 characters long
 - ``Age`` must be greater than 16
 
-This is how Valit handles such scenario:
+This is how you can handle such scenario using Valit:
   
 ```cs
 
