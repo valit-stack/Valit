@@ -9,6 +9,19 @@ Valit is **dead simple** validation for .NET Core. No more if-statements all aro
 
 ![NuGet](https://img.shields.io/nuget/v/Valit.svg)
 
+# Installation
+Valit is available on [NuGet](https://www.nuget.org/packages/Valit/).
+
+### Package manager
+```bash
+Install-Package Valit -Version 0.1.0
+```
+
+### .NET CLI
+```bash
+dotnet add package Valit --version 0.1.0
+```
+
 # Getting started
 In order to create a validator you need to go through few steps. It's worth mentioning that not all of them are mandatory. The steps are: 
 
