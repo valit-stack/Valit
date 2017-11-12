@@ -9,6 +9,7 @@ Valit is **dead simple** validation for .NET Core. No more if-statements all aro
 
 ![NuGet](https://img.shields.io/nuget/v/Valit.svg)
 
+
 # Installation
 Valit is available on [NuGet](https://www.nuget.org/packages/Valit/).
 
@@ -25,11 +26,11 @@ dotnet add package Valit --version 0.1.0
 # Getting started
 In order to create a validator you need to go through few steps. It's worth mentioning that not all of them are mandatory. The steps are: 
 
-- creating new instance of validator using ``Create()`` static method
-- choosing [validation strategy](http://valitdocs.readthedocs.io/en/latest/strategies/index.html) using ``WithStrategy()`` method **(not required)**
+- creating new instance of validator using ``Create()`` static method.
+- choosing [validation strategy](http://valitdocs.readthedocs.io/en/latest/strategies/index.html) using ``WithStrategy()`` method **(not required)**.
 - selecting property using ``Ensure()`` method and defining rules for it. 
 - Extending rules with [custom errors](http://valitdocs.readthedocs.io/en/latest/validation-errors/index.html) (such as messages or error codes), [tags and conditions](http://valitdocs.readthedocs.io/en/latest/validation-rules/index.html). **(not required)**.
-- applying created rules to an object using ``For()`` method
+- applying created rules to an object using ``For()`` method.
 
 Having the validator created, simply invoke ``Validate()`` method which will produce the result with all the data.
 
@@ -50,6 +51,7 @@ These are the validation criteria:
 - ``Email`` is required and needs to be a proper email address
 - ``Password`` is required and needs to be at least 10 characters long
 - ``Age`` must be greater than 16
+
 
 This is how you can handle such scenario using Valit:
   
