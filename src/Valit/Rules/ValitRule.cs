@@ -8,7 +8,6 @@ namespace Valit.Rules
 {
     internal class ValitRule<TObject, TProperty> : IValitRule<TObject, TProperty>, IValitRuleAccessor<TObject, TProperty> where TObject : class
     {
-		public IValitStrategy Strategy { get; }
         public IEnumerable<string> Tags => _tags;
 
         Func<TObject, TProperty> IValitRuleAccessor<TObject, TProperty>.PropertySelector => _propertySelector;
@@ -28,14 +27,12 @@ namespace Valit.Rules
             _propertySelector = previousRuleAccessor.PropertySelector;
             _previousRule = previousRule;
             _messageProvider = previousRuleAccessor.GetMessageProvider();
-            Strategy = previousRuleAccessor.Strategy;
         }
 
-        internal ValitRule(Func<TObject, TProperty> propertySelector, IValitStrategy strategy, IValitMessageProvider messageProvider) : this()
+        internal ValitRule(Func<TObject, TProperty> propertySelector, IValitMessageProvider messageProvider) : this()
         {
             _propertySelector = propertySelector;
             _messageProvider = messageProvider;
-            Strategy = strategy;
         }
 
         private ValitRule()
