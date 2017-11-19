@@ -108,7 +108,7 @@ namespace Valit
 
         private void AddEnsureRulesAccessors<TProperty>(Func<TObject,TProperty> propertySelector, Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> ruleFunc)
         {
-            var lastEnsureRule = ruleFunc(new ValitRule<TObject, TProperty>(propertySelector, _strategy, _messageProvider));
+            var lastEnsureRule = ruleFunc(new ValitRule<TObject, TProperty>(propertySelector, _messageProvider));
             var ensureRules = lastEnsureRule.GetAllEnsureRules();
             _rules.AddRange(ensureRules);
         }
