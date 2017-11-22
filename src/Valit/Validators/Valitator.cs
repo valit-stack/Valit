@@ -11,7 +11,7 @@ namespace Valit.Validators
             _strategyPicker = CreateStrategyPicker(valitRulesProvider);
         }
 
-		IValitResult IValitator<TObject>.Validate(TObject @object, IValitStrategy strategy = null)
+		IValitResult IValitator<TObject>.Validate(TObject @object, IValitStrategy strategy)
 		{
 			var selectedStrategy = strategy ?? new CompleteValitStrategy();
 
