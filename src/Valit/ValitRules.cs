@@ -49,7 +49,7 @@ namespace Valit
 
         IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, IValitRulesProvider<TProperty> valitRulesProvider)
         {                       
-            IValitRule<TObject> nestedValitRule = new NestedObjectValitRule<TObject, TProperty>(selector, valitRulesProvider, _messageProvider, _strategy);
+            var nestedValitRule = new NestedObjectValitRule<TObject, TProperty>(selector, valitRulesProvider, _strategy);
             _rules.Add(nestedValitRule);
             return this;
         }
