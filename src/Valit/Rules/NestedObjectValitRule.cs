@@ -31,8 +31,6 @@ namespace Valit.Rules
                 .WithStrategy(_strategy)
                 .For(property)
                 .Validate();
-        }
-                    
-
+        }                  
 	}
 }
