@@ -8,18 +8,16 @@ namespace Valit.Rules
 	{
 		public IEnumerable<string> Tags => Enumerable.Empty<string>();
         private readonly Func<TObject, TProperty> _propertySelector;
-        private readonly IValitRulesProvider<TProperty> _valitRulesProvider; 
-        private readonly IValitMessageProvider _messageProvider;
+        private readonly IValitRulesProvider<TProperty> _valitRulesProvider;
         private readonly IValitStrategy _strategy;
 
         public NestedObjectValitRule(
             Func<TObject, TProperty> selector, 
-            IValitRulesProvider<TProperty> valitRulesProvider, 
-            IValitMessageProvider messageProvider, IValitStrategy strategy)
+            IValitRulesProvider<TProperty> valitRulesProvider,
+            IValitStrategy strategy)
         {
             _propertySelector = selector;
             _valitRulesProvider = valitRulesProvider;
-            _messageProvider = messageProvider;
             _strategy = strategy;
         }
 
@@ -30,7 +28,6 @@ namespace Valit.Rules
 
             return ValitRules<TProperty>
                 .Create(valitRules)
-                .WithMessageProvider(_messageProvider as IValitMessageProvider<TObject>)
                 .WithStrategy(_strategy)
                 .For(property)
                 .Validate();
