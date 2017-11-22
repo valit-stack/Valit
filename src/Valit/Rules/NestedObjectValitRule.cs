@@ -23,7 +23,7 @@ namespace Valit.Rules
 
 		public IValitResult Validate(TObject @object)
         {
-            var valitRules = _valitRulesProvider.GetValitRules();
+            var valitRules = _valitRulesProvider.GetRules();
             var property = _propertySelector(@object);
 
             return ValitRules<TProperty>
