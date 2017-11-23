@@ -60,6 +60,15 @@ namespace Valit
             return this;
         }
 
+        IValitRules<TObject> IValitRules<TObject>.EnsureFor<TProperty>(Func<TObject, IEnumerable<TProperty>> selector, Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> ruleFunc)
+        {
+            selector.ThrowIfNull();
+            ruleFunc.ThrowIfNull();
+            
+            var collectionValitRule = new CollectionValitRule<TObject, TProperty>(selector, ruleFunc, _strategy, _messageProvider);
+            _rules.Add(collectionValitRule);
+            return this;
+        }
         IValitRules<TObject> IValitRules<TObject>.For(TObject @object)
         {
             @object.ThrowIfNull();
