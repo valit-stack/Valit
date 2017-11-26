@@ -69,6 +69,17 @@ namespace Valit
             _rules.Add(collectionValitRule);
             return this;
         }
+
+        IValitRules<TObject> IValitRules<TObject>.EnsureFor<TProperty>(Func<TObject, IEnumerable<TProperty>> selector, IValitRulesProvider<TProperty> valitRulesProvider)
+        {
+            selector.ThrowIfNull();
+            valitRulesProvider.ThrowIfNull();
+            
+            var collectionValitRule = new NestedObjectCollectionValitRule<TObject, TProperty>(selector, valitRulesProvider, _strategy);
+            _rules.Add(collectionValitRule);
+            return this;
+        }
+
         IValitRules<TObject> IValitRules<TObject>.For(TObject @object)
         {
             @object.ThrowIfNull();
