@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Valit.Exceptions;
 using Valit.Result;
 
 namespace Valit.Rules
 {
-	public class CollectionValitRule<TObject, TProperty> : IValitRule<TObject> where TObject : class where TProperty : class
+	internal class CollectionValitRule<TObject, TProperty> : IValitRule<TObject> where TObject : class
 	{
 		IEnumerable<string> IValitRule.Tags => Enumerable.Empty<string>();
 
@@ -28,21 +29,19 @@ namespace Valit.Rules
 
 		IValitResult IValitRule<TObject>.Validate(TObject @object)
 		{
+			@object.ThrowIfNull();
+
 			var collection = _collectionSelector(@object);
 
 			var result = ValitResult.Success;
 
 			foreach(var property in collection)
 			{
-				Func<TObject, TProperty> selector = @obj => property;
+				Func<TObject, TProperty> selector = _ => property;
 				var lastEnsureRule = _ruleFunc(new ValitRule<TObject, TProperty>(selector, _messageProvider));
             	var propertyRules = lastEnsureRule.GetAllEnsureRules();
 
-				result &= ValitRules<TObject>
-					.Create(propertyRules)
-					.WithStrategy(_strategy)
-					.For(@object)
-					.Validate();
+				result &= ValidatePropertyRules(propertyRules, @object);
 
                 if(!result.Succeeded)
                 {
@@ -56,5 +55,12 @@ namespace Valit.Rules
 
 			return result;
 		}
+
+		private IValitResult ValidatePropertyRules(IEnumerable<IValitRule<TObject>> propertyRules, TObject @object)
+			=> ValitRules<TObject>
+				.Create(propertyRules)
+				.WithStrategy(_strategy)
+				.For(@object)
+				.Validate();
 	}
 }
