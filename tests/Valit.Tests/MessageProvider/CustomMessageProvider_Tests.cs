@@ -30,12 +30,19 @@ namespace Valit.Tests.MessageProvider
             result.ErrorMessages.ShouldContain("Three");
         }
 
-        Model _model => new Model();
+#region ARRANGE
+        public CustomMessageProvider_Tests()
+        {
+            _model = new Model();
+        }
+
+        private readonly Model _model;
 
         class Model
         {
             public string Value => "This text has 28 characters!";
         }
+#endregion
     }
 
     class CustomMessageProvider : IValitMessageProvider<int>
