@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using Shouldly;
 using Xunit;
 
-namespace Valit.Tests.ValitRulesProvider
+namespace Valit.Tests.NestedObject
 {
-    public class NestedObject_Validation_Tests
+    public class Nested_Object_Validation_Tests
     {
 
         [Fact]

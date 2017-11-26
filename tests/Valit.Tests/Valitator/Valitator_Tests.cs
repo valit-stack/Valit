@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Shouldly;
 using Xunit;
 
-namespace Valit.Tests.ValitRulesProvider
+namespace Valit.Tests.Valitator
 {
     public class Valitator_Tests
     {

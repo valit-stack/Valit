@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Valit.Exceptions;
 
 namespace Valit.Rules
 {
@@ -23,6 +24,8 @@ namespace Valit.Rules
 
 		public IValitResult Validate(TObject @object)
         {
+            @object.ThrowIfNull();
+
             var valitRules = _valitRulesProvider.GetRules();
             var property = _propertySelector(@object);
 
