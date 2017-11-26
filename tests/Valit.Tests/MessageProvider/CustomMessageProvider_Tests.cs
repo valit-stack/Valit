@@ -4,14 +4,14 @@ using Shouldly;
 
 namespace Valit.Tests.MessageProvider
 {
-    public class CustomMessagePrivider_Tests
+    public class CustomMessageProvider_Tests
     {
         [Fact]
-        public void CustomMessagePrivider_Adds_Proper_Messages()
+        public void CustomMessageProvider_Adds_Proper_Messages()
         {
             var result = ValitRules<Model>
                 .Create()
-                .WithMessageProvider(new CustomMessagePrivider())
+                .WithMessageProvider(new CustomMessageProvider())
                 .Ensure(m => m.Value, _ => _
                     .MaxLength(10)
                     .WithMessageKey(1)
@@ -38,7 +38,7 @@ namespace Valit.Tests.MessageProvider
         }
     }
 
-    class CustomMessagePrivider : IValitMessageProvider<int>
+    class CustomMessageProvider : IValitMessageProvider<int>
     {
         private IDictionary<int, string> _messages =
             new Dictionary<int, string>
