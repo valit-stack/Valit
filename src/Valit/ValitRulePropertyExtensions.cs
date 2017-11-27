@@ -44,6 +44,19 @@ namespace Valit
             return rule;
         }
 
+        public static IValitRule<TObject, TProperty> WithMessage<TObject, TProperty>(
+            this IValitRule<TObject, TProperty> rule, Func<string> message) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            message.ThrowIfNull();
+
+            var accessor = rule.GetAccessor();
+
+            var error = ValitRuleError.CreateForMessage(message);
+            accessor.AddError(error);
+            return rule;
+        }
+
         public static IValitRule<TObject, TProperty> WithMessage<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, string message) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
@@ -51,7 +64,7 @@ namespace Valit
             
             var accessor = rule.GetAccessor();
             
-            var error = ValitRuleError.CreateForMessage(message);
+            var error = ValitRuleError.CreateForMessage(() => message);
             accessor.AddError(error);
             return rule;
         }
@@ -62,9 +75,8 @@ namespace Valit
 
             var accessor = rule.GetAccessor();
             var messageProvider = accessor.GetMessageProvider<TKey>();
-            var message = messageProvider.GetByKey(messageKey);
 
-            var error = ValitRuleError.CreateForMessage(message);
+            var error = ValitRuleError.CreateForMessage(() => messageProvider.GetByKey(messageKey));
             accessor.AddError(error);
             return rule;
         }
