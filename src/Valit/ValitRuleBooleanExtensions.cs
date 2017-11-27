@@ -6,13 +6,13 @@ namespace Valit
         => rule.Satisfies(p => p);
 
     public static IValitRule<TObject, bool?> IsTrue<TObject>(this IValitRule<TObject, bool?> rule) where TObject : class
-        => rule.Satisfies(p => p == true);
+        => rule.Satisfies(p => p.HasValue && p == true);
 
     public static IValitRule<TObject, bool> IsFalse<TObject>(this IValitRule<TObject, bool> rule) where TObject : class
         => rule.Satisfies(p => !p);
 
     public static IValitRule<TObject, bool?> IsFalse<TObject>(this IValitRule<TObject, bool?> rule) where TObject : class
-        => rule.Satisfies(p => p == false);
+        => rule.Satisfies(p => p.HasValue && p == false);
 
     public static IValitRule<TObject, bool> IsEqualTo<TObject>(this IValitRule<TObject, bool> rule, bool value) where TObject : class
         => rule.Satisfies(p => p == value);
