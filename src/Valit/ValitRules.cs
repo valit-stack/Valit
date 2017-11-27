@@ -43,7 +43,20 @@ namespace Valit
 
         IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> ruleFunc)
         {                       
+            selector.ThrowIfNull();
+            ruleFunc.ThrowIfNull();
+
             AddEnsureRulesAccessors(selector, ruleFunc);
+            return this;
+        }
+
+        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, IValitRulesProvider<TProperty> valitRulesProvider)
+        {                       
+            selector.ThrowIfNull();
+            valitRulesProvider.ThrowIfNull();
+
+            var nestedValitRule = new NestedObjectValitRule<TObject, TProperty>(selector, valitRulesProvider, _strategy);
+            _rules.Add(nestedValitRule);
             return this;
         }
 
@@ -108,7 +121,7 @@ namespace Valit
 
         private void AddEnsureRulesAccessors<TProperty>(Func<TObject,TProperty> propertySelector, Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> ruleFunc)
         {
-            var lastEnsureRule = ruleFunc(new ValitRule<TObject, TProperty>(propertySelector, _strategy, _messageProvider));
+            var lastEnsureRule = ruleFunc(new ValitRule<TObject, TProperty>(propertySelector, _messageProvider));
             var ensureRules = lastEnsureRule.GetAllEnsureRules();
             _rules.AddRange(ensureRules);
         }

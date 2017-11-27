@@ -5,7 +5,6 @@ namespace Valit.Rules
 {
     internal interface IValitRuleAccessor
     {
-        IValitStrategy Strategy { get; }
         IValitMessageProvider GetMessageProvider();
         IValitMessageProvider<TKey> GetMessageProvider<TKey>();
         void AddError(ValitRuleError error);
