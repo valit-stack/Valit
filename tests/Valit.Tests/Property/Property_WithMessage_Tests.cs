@@ -1,4 +1,5 @@
-﻿using Shouldly;
+﻿using System;
+using Shouldly;
 using System.Linq;
 using Xunit;
 
@@ -42,6 +43,25 @@ namespace Valit.Tests.Property
                 .Validate();
 
             result.ErrorMessages.ShouldNotContain("Arrrgh");
+        }
+
+        [Fact]
+        public void Property_WithVariableMessage_Updates_Correctly()
+        {
+            string msg = "Message 1";
+            Func<string> msgFunc = () => msg;
+            var rule = ValitRules<Model>.Create()
+                .Ensure(m => m.NullRefProperty, _ => _
+                    .Required()
+                    .WithMessage(msgFunc))
+                .For(_model);
+            var result = rule.Validate();
+
+            result.ErrorMessages.ShouldContain(msg);
+
+            msg = "New message";
+            result = rule.Validate();
+            result.ErrorMessages.ShouldContain(msg);
         }
 
         [Fact]
