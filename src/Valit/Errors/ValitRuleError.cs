@@ -16,7 +16,7 @@ namespace Valit.Errors
         private ValitRuleError(int errorCode)
         {
             ErrorCode = errorCode;
-            _messageFunc = () => null;
+            _messageFunc = () => string.Empty;
         }
 
         public static ValitRuleError CreateForMessage(Func<string> messageFunc)
