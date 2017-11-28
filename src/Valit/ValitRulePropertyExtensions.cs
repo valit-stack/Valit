@@ -45,14 +45,14 @@ namespace Valit
         }
 
         public static IValitRule<TObject, TProperty> WithMessage<TObject, TProperty>(
-            this IValitRule<TObject, TProperty> rule, Func<string> message) where TObject : class
+            this IValitRule<TObject, TProperty> rule, Func<string> messageFunc) where TObject : class
         {
             rule.ThrowIfNull(ValitExceptionMessages.NullRule);
-            message.ThrowIfNull();
+            messageFunc.ThrowIfNull();
 
             var accessor = rule.GetAccessor();
 
-            var error = ValitRuleError.CreateForMessage(message);
+            var error = ValitRuleError.CreateForMessage(messageFunc);
             accessor.AddError(error);
             return rule;
         }
