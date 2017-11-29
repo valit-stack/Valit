@@ -19,8 +19,5 @@ namespace Valit
 
         public static IValitRule<TObject, string> Email<TObject>(this IValitRule<TObject, string> rule) where TObject : class
             => rule.Matches(@"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z");
-
-        public static IValitRule<TObject, string> Required<TObject>(this IValitRule<TObject, string> rule) where TObject : class
-            => rule.Satisfies(p => !string.IsNullOrEmpty(p));
     }
 }
