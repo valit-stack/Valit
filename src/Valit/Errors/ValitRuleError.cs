@@ -1,22 +1,26 @@
+using System;
+
 namespace Valit.Errors
 {
     internal class ValitRuleError
     {
-        public string Message  { get; }
+        private readonly Func<string> _messageFunc;
+        public string Message => _messageFunc();
         public int? ErrorCode { get; }
 
-        private ValitRuleError(string message)
+        private ValitRuleError(Func<string> messageFunc)
         {
-            Message = message;
+            _messageFunc = messageFunc;
         }
 
         private ValitRuleError(int errorCode)
         {
             ErrorCode = errorCode;
+            _messageFunc = () => string.Empty;
         }
 
-        public static ValitRuleError CreateForMessage(string message)
-            => new ValitRuleError(message);
+        public static ValitRuleError CreateForMessage(Func<string> messageFunc)
+            => new ValitRuleError(messageFunc);
 
         public static ValitRuleError CreateForErrorCode(int errorCode)
             => new ValitRuleError(errorCode);   
