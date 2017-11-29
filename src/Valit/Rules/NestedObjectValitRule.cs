@@ -7,7 +7,7 @@ namespace Valit.Rules
 {
 	internal class NestedObjectValitRule<TObject, TProperty> : IValitRule<TObject> where TObject : class where TProperty : class
 	{
-		IEnumerable<string> IValitRule.Tags => Enumerable.Empty<string>();
+		public IEnumerable<string> Tags { get; set; }
         private readonly Func<TObject, TProperty> _propertySelector;
         private readonly IValitator<TProperty> _valitator;
         private readonly IValitStrategy _strategy;
@@ -17,6 +17,7 @@ namespace Valit.Rules
             IValitRulesProvider<TProperty> valitRulesProvider,
             IValitStrategy strategy)
         {
+			Tags = Enumerable.Empty<string>();
             _propertySelector = selector;
             _valitator = valitRulesProvider.CreateValitator();
             _strategy = strategy;
