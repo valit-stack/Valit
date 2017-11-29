@@ -41,7 +41,7 @@ namespace Valit
             return this;
         }
 
-        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> ruleFunc)
+        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, Func<IValitRule<TObject, TProperty>, IValitRule<TObject, TProperty>> ruleFunc)
         {                       
             selector.ThrowIfNull();
             ruleFunc.ThrowIfNull();
@@ -60,7 +60,7 @@ namespace Valit
             return this;
         }
 
-        IValitRules<TObject> IValitRules<TObject>.EnsureFor<TProperty>(Func<TObject, IEnumerable<TProperty>> selector, Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> ruleFunc)
+        IValitRules<TObject> IValitRules<TObject>.EnsureFor<TProperty>(Func<TObject, IEnumerable<TProperty>> selector, Func<IValitRule<TObject, TProperty>, IValitRule<TObject, TProperty>> ruleFunc)
         {
             selector.ThrowIfNull();
             ruleFunc.ThrowIfNull();

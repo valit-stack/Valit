@@ -7,7 +7,6 @@ namespace Valit.Tests.NestedObject
 {
     public class Nested_Object_Collection_Validation_Tests
     {
-
         [Fact]
         public void EnsureFor_Throws_When_Null_ValitRulesProvider_Is_Given()
         {
