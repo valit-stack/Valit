@@ -49,6 +49,11 @@ When you're done make sure all tests passess. Navigate to the ```Valit.Tests``` 
 dotnet test
 ```
 
+You can also run the following command for continuous testing:
+```
+dotnet watch test // this will compile the project and rerun the tests on every file change
+```
+
 Alternatively, you can use our **Cake script** which is placed in the root folder. Navigate there and run:
 ```
 ./build.sh //on Unix
@@ -63,7 +68,7 @@ When the code is stable, you can submit your changes by creating a pull request.
 git push origin <name_of_your_branch>
 ```
 
-Then go to the **GitHub -> Pull Request -> New Pull Request**. 
+Then go to the **GitHub -> Pull Request -> New Pull Request**.
 Select **develop** as base and your branch as compare. We provide default template for PR description:
 
 ![PR_Template](http://foreverframe.net/wp-content/uploads/2017/09/Screen-Shot-2017-09-27-at-21.16.02.png)
@@ -86,7 +91,7 @@ Each PR must fulfill certain conditions before it can be merged:
 
 If some of the above won't be fulfilled (due to change request or some mistake) simply fix it locally on your machine, create new commit and push it to origin. This will update the exisitng PR and will kick off all checks again.
 
-If everything will be fine, your changes will be merged into develop, branch will be deleted and related issue will be closed. 
+If everything will be fine, your changes will be merged into develop, branch will be deleted and related issue will be closed.
 
 # WELL DONE AND THANK YOU VERY MUCH!
 
