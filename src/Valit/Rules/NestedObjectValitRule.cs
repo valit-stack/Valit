@@ -9,7 +9,7 @@ namespace Valit.Rules
 	{
 		IEnumerable<string> IValitRule.Tags => Enumerable.Empty<string>();
         private readonly Func<TObject, TProperty> _propertySelector;
-        private readonly IValitRulesProvider<TProperty> _valitRulesProvider;
+        private readonly IValitator<TProperty> _valitator;
         private readonly IValitStrategy _strategy;
 
         public NestedObjectValitRule(
@@ -18,7 +18,7 @@ namespace Valit.Rules
             IValitStrategy strategy)
         {
             _propertySelector = selector;
-            _valitRulesProvider = valitRulesProvider;
+            _valitator = valitRulesProvider.CreateValitator();
             _strategy = strategy;
         }
 
@@ -26,14 +26,8 @@ namespace Valit.Rules
         {
             @object.ThrowIfNull();
 
-            var valitRules = _valitRulesProvider.GetRules();
             var property = _propertySelector(@object);
-
-            return ValitRules<TProperty>
-                .Create(valitRules)
-                .WithStrategy(_strategy)
-                .For(property)
-                .Validate();
+            return _valitator.Validate(property, _strategy);
         }                  
 	}
 }
