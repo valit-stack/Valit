@@ -8,7 +8,14 @@ namespace Valit.Validators
 
         internal Valitator(IValitRulesProvider<TObject> valitRulesProvider)
         {
-            _strategyPicker = CreateStrategyPicker(valitRulesProvider);
+            var rules = valitRulesProvider.GetRules();
+            _strategyPicker = ValitRules<TObject>.Create(rules);
+        }
+
+        internal Valitator(IValitRules<TObject> valitRules)
+        {
+            var rules = valitRules.GetAllRules();
+            _strategyPicker = ValitRules<TObject>.Create(rules);
         }
 
         IValitResult IValitator<TObject>.Validate(TObject @object, IValitStrategy strategy)
@@ -19,12 +26,6 @@ namespace Valit.Validators
                 .WithStrategy(selectedStrategy)
                 .For(@object)
                 .Validate();
-        }
-
-        private IValitRulesStrategyPicker<TObject> CreateStrategyPicker(IValitRulesProvider<TObject> valitRulesProvider)
-        {
-            var rules = valitRulesProvider.GetRules();
-            return ValitRules<TObject>.Create(rules);
         }
     }
 }
