@@ -36,7 +36,7 @@ namespace Valit.Tests.String
         {            
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.NullValue, _=>_
+                .Ensure(m => m.EmptyValue, _=>_
                     .Required())
                 .For(_model)
                 .Validate();
