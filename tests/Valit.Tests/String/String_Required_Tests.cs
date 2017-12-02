@@ -18,19 +18,43 @@ namespace Valit.Tests.String
         }
 
 
-        [Theory]
-        [InlineData(false, true)]
-        [InlineData(true, false)] 
-        public void Int64_Required_Returns_Proper_Results_For_Nullable_Value(bool useNullValue,  bool expected)
+        [Fact]
+        public void String_Required_Fails_For_Null_Value()
         {            
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => useNullValue? m.NullValue : m.Value, _=>_
+                .Ensure(m => m.NullValue, _=>_
                     .Required())
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
+            Assert.False(result.Succeeded);
+        }
+
+        [Fact]
+        public void String_Required_Fails_For_Empty_Value()
+        {            
+            IValitResult result = ValitRules<Model>
+                .Create()
+                .Ensure(m => m.NullValue, _=>_
+                    .Required())
+                .For(_model)
+                .Validate();
+
+            Assert.False(result.Succeeded);
+        }
+
+        [Fact]
+        public void String_Required_Succeeds_For_Not_Empty_Value()
+        {            
+            IValitResult result = ValitRules<Model>
+                .Create()
+                .Ensure(m => m.Value, _=>_
+                    .Required())
+                .For(_model)
+                .Validate();
+
+            Assert.True(result.Succeeded);
         }
 
 #region ARRANGE
