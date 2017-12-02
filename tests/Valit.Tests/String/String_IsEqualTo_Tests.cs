@@ -67,6 +67,18 @@ namespace Valit.Tests.String
             result.Succeeded.ShouldBe(expected);
         }
 
+        [Fact]
+        public void String_IsEqualTo_Another_Property_Returns_Proper_Result()
+        {
+            IValitResult result = ValitRules<Model>
+                .Create()
+                .Ensure(s => s.Value, (_, m) => _.IsEqualTo(m.Value))
+                .For(_model)
+                .Validate();
+
+            result.Succeeded.ShouldBe(true);
+        }
+
 #region ARRANGE
         public String_IsEqualTo_Tests()
         {

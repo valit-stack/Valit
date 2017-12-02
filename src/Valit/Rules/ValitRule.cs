@@ -15,6 +15,7 @@ namespace Valit.Rules
 
 		private readonly Func<TObject, TProperty> _propertySelector;
         private Predicate<TProperty> _predicate;
+        private readonly Func<IValitRule<TObject, TProperty>, TObject, IValitRule<TObject, TProperty>> _ruleFunc;
         private readonly List<Predicate<TObject>> _conditions;
         private readonly IValitRule<TObject, TProperty> _previousRule;
 		private readonly List<ValitRuleError> _errors;
@@ -33,6 +34,13 @@ namespace Valit.Rules
         {
             _propertySelector = propertySelector;
             _messageProvider = messageProvider;
+        }
+
+        internal ValitRule(Func<TObject, TProperty> propertySelector, IValitMessageProvider messageProvider, Func<IValitRule<TObject, TProperty>, TObject, IValitRule<TObject, TProperty>> ruleFunc) : this()
+        {
+            _propertySelector = propertySelector;
+            _messageProvider = messageProvider;
+            _ruleFunc = ruleFunc;
         }
 
         private ValitRule()
@@ -66,6 +74,9 @@ namespace Valit.Rules
         public IValitResult Validate(TObject @object)
 		{
             @object.ThrowIfNull();
+
+            if (_ruleFunc != null)
+                return _ruleFunc(this, @object).Validate(@object); 
 
             var property = _propertySelector(@object);
 			var hasAllConditionsFulfilled = true;

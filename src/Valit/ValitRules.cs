@@ -60,6 +60,16 @@ namespace Valit
             return this;
         }
 
+        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, Func<IValitRule<TObject, TProperty>, TObject, IValitRule<TObject, TProperty>> ruleFunc)
+        {                       
+            selector.ThrowIfNull();
+            ruleFunc.ThrowIfNull();
+
+            var lastEnsureRule = new ValitRule<TObject, TProperty>(selector, _messageProvider, ruleFunc);
+            _rules.Add(lastEnsureRule);
+            return this;
+        }
+
         IValitRules<TObject> IValitRules<TObject>.EnsureFor<TProperty>(Func<TObject, IEnumerable<TProperty>> selector, Func<IValitRule<TObject, TProperty>, IValitRule<TObject, TProperty>> ruleFunc)
         {
             selector.ThrowIfNull();
