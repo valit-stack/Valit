@@ -9,14 +9,6 @@ namespace Valit.Tests.Strategies
 {
     public class Complete
     {
-        const string M1 = "Our framework doesn't support future born babies";
-        const string M2 = "Name is required";
-        const string M3 = "Name shorter than 3 are not supported";
-        const string M4 = "Lastname is required";
-        const string M5 = "Lastname shorter than 3 are not supported";
-        const string M6 = "Email is required";
-        const string M7 = "Invalid email";
-
         [Fact]
         public void Complete_Strategy_Checks_All_Ensure()
         {
@@ -44,13 +36,23 @@ namespace Valit.Tests.Strategies
                 .Validate();
 
             result.Succeeded.ShouldBe(false);
-            result.ErrorMessages.Count().ShouldBe(5);
+            result.ErrorMessages.Count().ShouldBe(6);
             result.ErrorMessages.ShouldContain(M1);
             result.ErrorMessages.ShouldContain(M3);
             result.ErrorMessages.ShouldContain(M4);
             result.ErrorMessages.ShouldContain(M5);
             result.ErrorMessages.ShouldContain(M7);
         }
+
+#region ARRANGE
+
+        const string M1 = "Our framework doesn't support future born babies";
+        const string M2 = "Name is required";
+        const string M3 = "Name shorter than 3 are not supported";
+        const string M4 = "Lastname is required";
+        const string M5 = "Lastname shorter than 3 are not supported";
+        const string M6 = "Email is required";
+        const string M7 = "Invalid email";
 
         Model _model => new Model();
 
@@ -61,5 +63,6 @@ namespace Valit.Tests.Strategies
             public string LastName => null;
             public string Email => "a@a";
         }
+#endregion
     }
 }
