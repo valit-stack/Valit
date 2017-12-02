@@ -13,7 +13,7 @@ namespace Valit.Tests.UInt64
                 ((IValitRule<Model, ulong>)null)
                     .IsGreaterThan(1);
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
@@ -24,7 +24,7 @@ namespace Valit.Tests.UInt64
                 ((IValitRule<Model, ulong>)null)
                     .IsGreaterThan((ulong?)1);
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
@@ -35,7 +35,7 @@ namespace Valit.Tests.UInt64
                 ((IValitRule<Model, ulong?>)null)
                     .IsGreaterThan(1);
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
@@ -46,7 +46,7 @@ namespace Valit.Tests.UInt64
                 ((IValitRule<Model, ulong?>)null)
                     .IsGreaterThan((ulong?)1);
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
@@ -54,9 +54,9 @@ namespace Valit.Tests.UInt64
         [Theory]
         [InlineData(9, true)]
         [InlineData(10, false)]
-        [InlineData(11, false)]     
+        [InlineData(11, false)]
         public void UInt64_IsGreaterThan_Returns_Proper_Results_For_Not_Nullable_Values(ulong value,  bool expected)
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.Value, _=>_
@@ -70,10 +70,10 @@ namespace Valit.Tests.UInt64
         [Theory]
         [InlineData((ulong) 9, true)]
         [InlineData((ulong) 10, false)]
-        [InlineData((ulong) 11, false)]     
-        [InlineData(null, false)]     
+        [InlineData((ulong) 11, false)]
+        [InlineData(null, false)]
         public void UInt64_IsGreaterThan_Returns_Proper_Results_For_Not_Nullable_Value_And_Nullable_Value(ulong? value,  bool expected)
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.Value, _=>_
@@ -86,11 +86,11 @@ namespace Valit.Tests.UInt64
 
         [Theory]
         [InlineData(false, 9, true)]
-        [InlineData(false, 10, false)]        
-        [InlineData(false, 11, false)]     
-        [InlineData(true, 9, false)]     
+        [InlineData(false, 10, false)]
+        [InlineData(false, 11, false)]
+        [InlineData(true, 9, false)]
         public void UInt64_IsGreaterThan_Returns_Proper_Results_For_Nullable_Value_And_Not_Nullable_Value(bool useNullValue, ulong value,  bool expected)
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => useNullValue? m.NullValue : m.NullableValue, _=>_
@@ -102,14 +102,14 @@ namespace Valit.Tests.UInt64
         }
 
         [Theory]
-        [InlineData(false, (ulong) 9, true)] 
-        [InlineData(false, (ulong) 10, false)]    
+        [InlineData(false, (ulong) 9, true)]
+        [InlineData(false, (ulong) 10, false)]
         [InlineData(false, (ulong) 11, false)]
-        [InlineData(false, null, false)]     
-        [InlineData(true, (ulong) 9, false)]     
-        [InlineData(true, null, false)]     
+        [InlineData(false, null, false)]
+        [InlineData(true, (ulong) 9, false)]
+        [InlineData(true, null, false)]
         public void UInt64_IsGreaterThan_Returns_Proper_Results_For_Nullable_Values(bool useNullValue, ulong? value,  bool expected)
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => useNullValue? m.NullValue : m.NullableValue, _=>_

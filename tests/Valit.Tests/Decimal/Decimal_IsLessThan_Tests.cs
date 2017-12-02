@@ -7,14 +7,14 @@ namespace Valit.Tests.Decimal
 {
     public class Decimal_IsLessThan_Tests
     {
-  [Fact]
+        [Fact]
         public void Decimal_IsLessThan_For_Not_Nullable_Values_Throws_When_Null_Rule_Is_Given()
         {
             var exception = Record.Exception(() => {
                 ((IValitRule<Model, decimal>)null)
                     .IsLessThan(1);
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
@@ -25,7 +25,7 @@ namespace Valit.Tests.Decimal
                 ((IValitRule<Model, decimal>)null)
                     .IsLessThan((decimal?)1);
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
@@ -36,7 +36,7 @@ namespace Valit.Tests.Decimal
                 ((IValitRule<Model, decimal?>)null)
                     .IsLessThan(1);
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
@@ -47,7 +47,7 @@ namespace Valit.Tests.Decimal
                 ((IValitRule<Model, decimal?>)null)
                     .IsLessThan((decimal?)1);
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
@@ -55,9 +55,9 @@ namespace Valit.Tests.Decimal
         [Theory]
         [InlineData(11, true)]
         [InlineData(10, false)]
-        [InlineData(9, false)]     
+        [InlineData(9, false)]
         public void Decimal_IsLessThan_Returns_Proper_Results_For_Not_Nullable_Values(decimal value,  bool expected)
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.Value, _=>_
@@ -71,10 +71,10 @@ namespace Valit.Tests.Decimal
         [Theory]
         [InlineData("11", true)]
         [InlineData("10", false)]
-        [InlineData("9", false)]     
-        [InlineData(null, false)]     
+        [InlineData("9", false)]
+        [InlineData(null, false)]
         public void Decimal_IsLessThan_Returns_Proper_Results_For_Not_Nullable_Value_And_Nullable_Value(string stringValue,  bool expected)
-        {            
+        {
             decimal? value = stringValue.AsNullableDecimal();
 
             IValitResult result = ValitRules<Model>
@@ -89,11 +89,11 @@ namespace Valit.Tests.Decimal
 
         [Theory]
         [InlineData(false, 11, true)]
-        [InlineData(false, 10, false)]        
-        [InlineData(false, 9, false)]     
-        [InlineData(true, 11, false)]     
+        [InlineData(false, 10, false)]
+        [InlineData(false, 9, false)]
+        [InlineData(true, 11, false)]
         public void Decimal_IsLessThan_Returns_Proper_Results_For_Nullable_Value_And_Not_Nullable_Value(bool useNullValue, decimal value,  bool expected)
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => useNullValue? m.NullValue : m.NullableValue, _=>_
@@ -105,14 +105,14 @@ namespace Valit.Tests.Decimal
         }
 
         [Theory]
-        [InlineData(false, "11", true)] 
-        [InlineData(false, "10", false)]    
+        [InlineData(false, "11", true)]
+        [InlineData(false, "10", false)]
         [InlineData(false, "9", false)]
-        [InlineData(false, null, false)]     
-        [InlineData(true, "11", false)]     
-        [InlineData(true, null, false)]     
+        [InlineData(false, null, false)]
+        [InlineData(true, "11", false)]
+        [InlineData(true, null, false)]
         public void Decimal_IsLessThan_Returns_Proper_Results_For_Nullable_Values(bool useNullValue, string stringValue,  bool expected)
-        {            
+        {
             decimal? value = stringValue.AsNullableDecimal();
 
             IValitResult result = ValitRules<Model>
@@ -141,5 +141,5 @@ namespace Valit.Tests.Decimal
         }
 #endregion
     }
-    
+
 }

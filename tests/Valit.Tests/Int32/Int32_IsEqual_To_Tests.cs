@@ -12,7 +12,7 @@ namespace Valit.Tests.Int32
                 ((IValitRule<Model, int>)null)
                     .IsEqualTo(1);
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
@@ -23,7 +23,7 @@ namespace Valit.Tests.Int32
                 ((IValitRule<Model, int>)null)
                     .IsEqualTo((int?)1);
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
@@ -34,7 +34,7 @@ namespace Valit.Tests.Int32
                 ((IValitRule<Model, int?>)null)
                     .IsEqualTo(1);
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
@@ -45,7 +45,7 @@ namespace Valit.Tests.Int32
                 ((IValitRule<Model, int?>)null)
                     .IsEqualTo((int?)1);
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
@@ -53,9 +53,9 @@ namespace Valit.Tests.Int32
         [Theory]
         [InlineData(10, true)]
         [InlineData(9, false)]
-        [InlineData(11, false)]     
+        [InlineData(11, false)]
         public void Int32_IsEqualTo_Returns_Proper_Results_For_Not_Nullable_Values(int value,  bool expected)
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.Value, _=>_
@@ -69,10 +69,10 @@ namespace Valit.Tests.Int32
         [Theory]
         [InlineData((int) 10, true)]
         [InlineData((int) 9, false)]
-        [InlineData((int) 11, false)]     
-        [InlineData(null, false)]     
+        [InlineData((int) 11, false)]
+        [InlineData(null, false)]
         public void Int32_IsEqualTo_Returns_Proper_Results_For_Not_Nullable_Value_And_Nullable_Value(int? value,  bool expected)
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.Value, _=>_
@@ -85,11 +85,11 @@ namespace Valit.Tests.Int32
 
         [Theory]
         [InlineData(false, 10, true)]
-        [InlineData(false, 9, false)]        
-        [InlineData(false, 11, false)]     
-        [InlineData(true, 10, false)]     
+        [InlineData(false, 9, false)]
+        [InlineData(false, 11, false)]
+        [InlineData(true, 10, false)]
         public void Int32_IsEqualTo_Returns_Proper_Results_For_Nullable_Value_And_Not_Nullable_Value(bool useNullValue, int value,  bool expected)
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => useNullValue? m.NullValue : m.NullableValue, _=>_
@@ -101,14 +101,14 @@ namespace Valit.Tests.Int32
         }
 
         [Theory]
-        [InlineData(false, (int) 10, true)] 
-        [InlineData(false, (int) 9, false)]    
+        [InlineData(false, (int) 10, true)]
+        [InlineData(false, (int) 9, false)]
         [InlineData(false, (int) 11, false)]
-        [InlineData(false, null, false)]     
-        [InlineData(true, (int) 10, false)]     
-        [InlineData(true, null, false)]     
+        [InlineData(false, null, false)]
+        [InlineData(true, (int) 10, false)]
+        [InlineData(true, null, false)]
         public void Int32_IsEqualTo_Returns_Proper_Results_For_Nullable_Values(bool useNullValue, int? value,  bool expected)
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => useNullValue? m.NullValue : m.NullableValue, _=>_
@@ -133,6 +133,6 @@ namespace Valit.Tests.Int32
             public int? NullableValue => 10;
             public int? NullValue => null;
         }
-#endregion  
+#endregion
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Valit.Exceptions
 {
@@ -8,6 +8,6 @@ namespace Valit.Exceptions
             => throw new ValitException(message, new ArgumentNullException());
 
         public static ValitException NullDereferenced()
-          => throw new ValitException("Null dereferenced", new ArgumentNullException());
+        => throw new ValitException("Null dereferenced", new ArgumentNullException());
     }
 }

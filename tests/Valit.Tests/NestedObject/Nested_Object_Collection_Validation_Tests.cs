@@ -15,7 +15,7 @@ namespace Valit.Tests.NestedObject
                     .Create()
                     .EnsureFor(m => m.NestedObjectCollection, ((IValitRulesProvider<NestedModel>)null));
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
@@ -40,7 +40,7 @@ namespace Valit.Tests.NestedObject
         public void Validation_With_FailFast_Strategy_Fails_When_Invalid_Collection_Is_Given()
         {
             var rootObject = Model.GetInvalid();
-            
+
             var result = ValitRules<Model>
                 .Create()
                 .WithStrategy(picker => picker.FailFast)
@@ -57,7 +57,7 @@ namespace Valit.Tests.NestedObject
         public void Validation_With_Complete_Strategy_Succeeds_When_Valid_Collection_Is_Given()
         {
             var rootObject = Model.GetValid();
-            
+
             var result = ValitRules<Model>
                 .Create()
                 .EnsureFor(m => m.NestedObjectCollection, new NestedModelRulesProvider())
@@ -71,7 +71,7 @@ namespace Valit.Tests.NestedObject
         public void Validation_With_FailFast_Strategy_Succeeds_When_Valid_Collection_Is_Given()
         {
             var rootObject = Model.GetValid();
-            
+
             var result = ValitRules<Model>
                 .Create()
                 .WithStrategy(picker => picker.FailFast)
@@ -106,7 +106,7 @@ namespace Valit.Tests.NestedObject
                         new NestedModel { NumericValue = 30, StringValue = "another.valid.email@test.com" },
                     }
                 };
-        }   
+        }
 
         class NestedModel
         {
@@ -114,9 +114,9 @@ namespace Valit.Tests.NestedObject
             public string StringValue { get; set;}
         }
 
-		class NestedModelRulesProvider : IValitRulesProvider<NestedModel>
-		{
-			public IEnumerable<IValitRule<NestedModel>> GetRules()
+        class NestedModelRulesProvider : IValitRulesProvider<NestedModel>
+        {
+            public IEnumerable<IValitRule<NestedModel>> GetRules()
                 => ValitRules<NestedModel>
                         .Create()
                         .Ensure(m => m.NumericValue, _=>_
@@ -128,7 +128,7 @@ namespace Valit.Tests.NestedObject
                             .Email()
                                 .WithMessage("Three"))
                         .GetAllRules();
-		}
+        }
     }
 #endregion
 }

@@ -5,14 +5,14 @@ namespace Valit.Tests.Int64
 {
     public class Int64_IsPositive_Tests
     {
-       [Fact]
+        [Fact]
         public void Int64_IsPositive_For_Not_Nullable_Value_Throws_When_Null_Rule_Is_Given()
         {
             var exception = Record.Exception(() => {
                 ((IValitRule<Model, long>)null)
                     .IsPositive();
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
@@ -23,14 +23,14 @@ namespace Valit.Tests.Int64
                 ((IValitRule<Model, long?>)null)
                     .IsPositive();
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
 
         [Fact]
         public void Int64_IsPositive_Succeeds_When_Given_Value_Is_Postive()
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.PositiveValue, _=>_
@@ -43,7 +43,7 @@ namespace Valit.Tests.Int64
 
         [Fact]
         public void Int64_IsPositive_Fails_When_Given_Value_Is_Zero()
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.ZeroValue, _=>_
@@ -56,7 +56,7 @@ namespace Valit.Tests.Int64
 
         [Fact]
         public void Int64_IsPositive_Fails_When_Given_Value_Is_Negative()
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.NegativeValue, _=>_
@@ -69,7 +69,7 @@ namespace Valit.Tests.Int64
 
         [Fact]
         public void Int64_IsPositive_Succeeds_When_Given_Value_Is_NullablePostive()
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.NullablePositiveValue, _=>_
@@ -82,7 +82,7 @@ namespace Valit.Tests.Int64
 
         [Fact]
         public void Int64_IsPositive_Fails_When_Given_Value_Is_NullableZero()
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.NullableZeroValue, _=>_
@@ -95,7 +95,7 @@ namespace Valit.Tests.Int64
 
         [Fact]
         public void Int64_IsPositive_Fails_When_Given_Value_Is_NullableNegative()
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.NullableNegativeValue, _=>_
@@ -108,7 +108,7 @@ namespace Valit.Tests.Int64
 
         [Fact]
         public void Int64_IsPositive_Fails_When_Given_Value_Is_Null()
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.NullValue, _=>_
@@ -137,6 +137,6 @@ namespace Valit.Tests.Int64
             public long? NullableNegativeValue => -10;
             public long? NullValue => null;
         }
-#endregion 
+#endregion
     }
 }
