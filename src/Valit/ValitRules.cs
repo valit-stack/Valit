@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Valit.Exceptions;
@@ -46,7 +46,7 @@ namespace Valit
             selector.ThrowIfNull();
             ruleFunc.ThrowIfNull();
 
-            AddEnsureRulesAccessors(selector, ruleFunc);
+            AddEnsureRules(selector, ruleFunc);
             return this;
         }
 
@@ -139,7 +139,7 @@ namespace Valit
             return result;
         }
 
-        private void AddEnsureRulesAccessors<TProperty>(Func<TObject,TProperty> propertySelector, Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> ruleFunc)
+        private void AddEnsureRules<TProperty>(Func<TObject,TProperty> propertySelector, Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> ruleFunc)
         {
             var lastEnsureRule = ruleFunc(new ValitRule<TObject, TProperty>(propertySelector, _messageProvider));
             var ensureRules = lastEnsureRule.GetAllEnsureRules();
