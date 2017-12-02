@@ -23,6 +23,6 @@ namespace Valit.Errors
             => new ValitRuleError(messageFunc);
 
         public static ValitRuleError CreateForErrorCode(int errorCode)
-            => new ValitRuleError(errorCode);   
+            => new ValitRuleError(errorCode);
     }
 }

@@ -7,14 +7,14 @@ namespace Valit.Tests.DateTimeOffset_
 {
     public class DateTimeOffset_IsBeforeUtcNow_Tests
     {
-       [Fact]
+        [Fact]
         public void DateTimeOffset_IsBeforeUtcNow_For_Not_Nullable_Value_Throws_When_Null_Rule_Is_Given()
         {
             var exception = Record.Exception(() => {
                 ((IValitRule<Model, DateTimeOffset>)null)
                     .IsBeforeUtcNow();
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
@@ -25,7 +25,7 @@ namespace Valit.Tests.DateTimeOffset_
                 ((IValitRule<Model, DateTimeOffset?>)null)
                     .IsBeforeUtcNow();
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
@@ -38,7 +38,7 @@ namespace Valit.Tests.DateTimeOffset_
                     .IsBeforeUtcNow())
                 .For(_model)
                 .Validate();
-            
+
             Assert.True(result.Succeeded);
         }
 
@@ -51,7 +51,7 @@ namespace Valit.Tests.DateTimeOffset_
                     .IsBeforeUtcNow())
                 .For(_model)
                 .Validate();
-            
+
             Assert.False(result.Succeeded);
         }
 
@@ -64,7 +64,7 @@ namespace Valit.Tests.DateTimeOffset_
                     .IsBeforeUtcNow())
                 .For(_model)
                 .Validate();
-            
+
             Assert.True(result.Succeeded);
         }
 
@@ -77,7 +77,7 @@ namespace Valit.Tests.DateTimeOffset_
                     .IsBeforeUtcNow())
                 .For(_model)
                 .Validate();
-            
+
             Assert.False(result.Succeeded);
         }
 
@@ -90,7 +90,7 @@ namespace Valit.Tests.DateTimeOffset_
                     .IsBeforeUtcNow())
                 .For(_model)
                 .Validate();
-            
+
             Assert.False(result.Succeeded);
         }
 
@@ -104,12 +104,12 @@ namespace Valit.Tests.DateTimeOffset_
 
         class Model
         {
-            public DateTimeOffset BeforeNowValue => DateTimeOffset.UtcNow.AddDays(-1);            
+            public DateTimeOffset BeforeNowValue => DateTimeOffset.UtcNow.AddDays(-1);
             public DateTimeOffset AfterNowValue => DateTimeOffset.UtcNow.AddDays(1);
             public DateTimeOffset? NullableBeforeNowValue => DateTimeOffset.UtcNow.AddDays(-1);
             public DateTimeOffset? NullableAfterNowValue => DateTimeOffset.UtcNow.AddDays(1);
             public DateTimeOffset? NullValue => null;
         }
-#endregion  
+#endregion
     }
 }

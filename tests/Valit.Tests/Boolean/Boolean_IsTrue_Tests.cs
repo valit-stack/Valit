@@ -4,8 +4,8 @@ using Xunit;
 
 namespace Valit.Tests.Boolean
 {
-  public class Boolean_IsTrue_Tests
-  {
+    public class Boolean_IsTrue_Tests
+    {
         [Fact]
         public void Boolean_IsTrue_For_Not_Nullable_Value_Throws_When_Null_Rule_Is_Given()
         {
@@ -91,5 +91,5 @@ namespace Valit.Tests.Boolean
             public bool? NullValue => null;
         }
         #endregion
-  }
+    }
 }

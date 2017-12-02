@@ -1,9 +1,9 @@
-﻿namespace Valit
+namespace Valit
 {
     public class FailFastValitStrategy : IValitStrategy
     {
         public void Fail<TObject>(IValitRule<TObject> rule, IValitResult result, out bool cancel)
-           where TObject : class
+            where TObject : class
         {
             cancel = true;
         }

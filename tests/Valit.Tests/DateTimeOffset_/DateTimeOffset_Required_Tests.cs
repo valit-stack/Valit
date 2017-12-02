@@ -14,16 +14,16 @@ namespace Valit.Tests.DateTimeOffset_
                 ((IValitRule<Model, short?>)null)
                     .Required();
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
 
         [Theory]
         [InlineData(false, true)]
-        [InlineData(true, false)] 
+        [InlineData(true, false)]
         public void DateTimeOffset_Required_Returns_Proper_Results_For_Nullable_Value(bool useNullValue,  bool expected)
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => useNullValue? m.NullValue : m.NullableValue, _=>_

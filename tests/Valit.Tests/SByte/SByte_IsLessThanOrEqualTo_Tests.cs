@@ -12,7 +12,7 @@ namespace Valit.Tests.SByte
                 ((IValitRule<Model, sbyte>)null)
                     .IsLessThanOrEqualTo(1);
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
@@ -23,7 +23,7 @@ namespace Valit.Tests.SByte
                 ((IValitRule<Model, sbyte>)null)
                     .IsLessThanOrEqualTo((sbyte?)1);
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
@@ -34,7 +34,7 @@ namespace Valit.Tests.SByte
                 ((IValitRule<Model, sbyte?>)null)
                     .IsLessThanOrEqualTo(1);
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
@@ -45,7 +45,7 @@ namespace Valit.Tests.SByte
                 ((IValitRule<Model, sbyte?>)null)
                     .IsLessThanOrEqualTo((sbyte?)1);
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
@@ -53,9 +53,9 @@ namespace Valit.Tests.SByte
         [Theory]
         [InlineData(11, true)]
         [InlineData(10, true)]
-        [InlineData(9, false)]     
+        [InlineData(9, false)]
         public void SByte_IsLessThanOrEqualTo_Returns_Proper_Results_For_Not_Nullable_Values(sbyte value,  bool expected)
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.Value, _=>_
@@ -69,10 +69,10 @@ namespace Valit.Tests.SByte
         [Theory]
         [InlineData((sbyte) 11, true)]
         [InlineData((sbyte) 10, true)]
-        [InlineData((sbyte) 9, false)]     
-        [InlineData(null, false)]     
+        [InlineData((sbyte) 9, false)]
+        [InlineData(null, false)]
         public void SByte_IsLessThanOrEqualTo_Returns_Proper_Results_For_Not_Nullable_Value_And_Nullable_Value(sbyte? value,  bool expected)
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.Value, _=>_
@@ -85,11 +85,11 @@ namespace Valit.Tests.SByte
 
         [Theory]
         [InlineData(false, 11, true)]
-        [InlineData(false, 10, true)]        
-        [InlineData(false, 9, false)]     
-        [InlineData(true, 11, false)]     
+        [InlineData(false, 10, true)]
+        [InlineData(false, 9, false)]
+        [InlineData(true, 11, false)]
         public void SByte_IsLessThanOrEqualTo_Returns_Proper_Results_For_Nullable_Value_And_Not_Nullable_Value(bool useNullValue, sbyte value,  bool expected)
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => useNullValue? m.NullValue : m.NullableValue, _=>_
@@ -101,14 +101,14 @@ namespace Valit.Tests.SByte
         }
 
         [Theory]
-        [InlineData(false, (sbyte) 11, true)] 
-        [InlineData(false, (sbyte) 10, true)]    
+        [InlineData(false, (sbyte) 11, true)]
+        [InlineData(false, (sbyte) 10, true)]
         [InlineData(false, (sbyte) 9, false)]
-        [InlineData(false, null, false)]     
-        [InlineData(true, (sbyte) 11, false)]     
-        [InlineData(true, null, false)]     
+        [InlineData(false, null, false)]
+        [InlineData(true, (sbyte) 11, false)]
+        [InlineData(true, null, false)]
         public void SByte_IsLessThanOrEqualTo_Returns_Proper_Results_For_Nullable_Values(bool useNullValue, sbyte? value,  bool expected)
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => useNullValue? m.NullValue : m.NullableValue, _=>_
@@ -133,6 +133,6 @@ namespace Valit.Tests.SByte
             public sbyte? NullableValue => 10;
             public sbyte? NullValue => null;
         }
-#endregion   
+#endregion
     }
 }

@@ -67,7 +67,7 @@ namespace Valit.Tests.Guid_
             result.Succeeded.ShouldBe(expected);
         }
 
-        [Theory]    
+        [Theory]
         [InlineData("7dca6d8e-255c-401c-b701-f18af9b2e191", false)]
         [InlineData("6f72f4ab-c2fc-4fca-b70e-b5ac7eccd054", true)]
         [InlineData("5c7ad720-6813-4c45-89c9-c4484bbbc34d", false)]
@@ -145,7 +145,7 @@ namespace Valit.Tests.Guid_
         public Guid_IsEqualTo_Tests()
         {
             _model = new Model();
-            
+
         }
 
         private readonly Model _model;

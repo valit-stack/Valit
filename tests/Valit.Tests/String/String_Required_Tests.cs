@@ -13,14 +13,14 @@ namespace Valit.Tests.String
                 ((IValitRule<Model, string>)null)
                     .Required();
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
 
         [Fact]
         public void String_Required_Fails_For_Null_Value()
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.NullValue, _=>_
@@ -33,7 +33,7 @@ namespace Valit.Tests.String
 
         [Fact]
         public void String_Required_Fails_For_Empty_Value()
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.EmptyValue, _=>_
@@ -46,7 +46,7 @@ namespace Valit.Tests.String
 
         [Fact]
         public void String_Required_Succeeds_For_Not_Empty_Value()
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.Value, _=>_
@@ -71,6 +71,6 @@ namespace Valit.Tests.String
             public string Value => "text";
             public string NullValue => null;
         }
-#endregion  
+#endregion
     }
 }

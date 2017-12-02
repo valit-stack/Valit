@@ -14,7 +14,7 @@ namespace Valit.Tests.Double
                 ((IValitRule<Model, double?>)null)
                     .Required();
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 

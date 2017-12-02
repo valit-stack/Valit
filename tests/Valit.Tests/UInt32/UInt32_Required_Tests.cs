@@ -13,16 +13,16 @@ namespace Valit.Tests.UInt32
                 ((IValitRule<Model, uint?>)null)
                     .Required();
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
 
         [Theory]
         [InlineData(false, true)]
-        [InlineData(true, false)] 
+        [InlineData(true, false)]
         public void UInt32_Required_Returns_Proper_Results_For_Nullable_Value(bool useNullValue,  bool expected)
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => useNullValue? m.NullValue : m.NullableValue, _=>_

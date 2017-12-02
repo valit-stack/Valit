@@ -1,4 +1,4 @@
-﻿using Valit.Exceptions;
+using Valit.Exceptions;
 
 namespace Valit.Rules
 {
@@ -10,6 +10,6 @@ namespace Valit.Rules
             accessor.ThrowIfNull("Rule doesn't have an accessor");
 
             return accessor;
-        }        
+        }
     }
 }

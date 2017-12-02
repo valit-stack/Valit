@@ -8,7 +8,7 @@ namespace Valit.Tests.Collection
 {
     public class Primitive_Property_Collection_Validation_Tests
     {
-        
+
         [Fact]
         public void EnsureFor_Throws_When_Null_RuleFunc_Is_Given()
         {
@@ -17,7 +17,7 @@ namespace Valit.Tests.Collection
                     .Create()
                     .EnsureFor(m => m.InvalidValuesCollection, (Func<IValitRule<Model,string>,IValitRule<Model,string>>)null);
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
@@ -33,7 +33,7 @@ namespace Valit.Tests.Collection
                         .WithMessage("Two"))
                 .For(_model)
                 .Validate();
-            
+
             Assert.False(result.Succeeded);
             result.ErrorMessages.Count(m => m == "One").ShouldBe(1);
             result.ErrorMessages.Count(m => m == "Two").ShouldBe(3);
@@ -52,7 +52,7 @@ namespace Valit.Tests.Collection
                         .WithMessage("Two"))
                 .For(_model)
                 .Validate();
-            
+
             Assert.False(result.Succeeded);
             result.ErrorMessages.Count().ShouldBe(1);
             result.ErrorMessages.First().ShouldBe("Two");
@@ -70,7 +70,7 @@ namespace Valit.Tests.Collection
                         .WithMessage("Two"))
                 .For(_model)
                 .Validate();
-            
+
             Assert.True(result.Succeeded);
         }
 
@@ -87,7 +87,7 @@ namespace Valit.Tests.Collection
                         .WithMessage("Two"))
                 .For(_model)
                 .Validate();
-            
+
             Assert.True(result.Succeeded);
         }
 
@@ -99,7 +99,7 @@ namespace Valit.Tests.Collection
         {
             _model = new Model();
         }
-        
+
         class Model
         {
             public IEnumerable<string> InvalidValuesCollection => new List<string>

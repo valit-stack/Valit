@@ -13,9 +13,9 @@ namespace Valit.Tests.Enumerable
                 ((IValitRule<Model, IEnumerable<int>>)null)
                     .MinItems(1);
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
-        }       
+        }
 
         [Fact]
         public void Enumerable_MinItems_Succeeds_If_ExpectedItemsNumber_Is_Less_Than_Number_Of_Items_In_Collection()
@@ -26,9 +26,9 @@ namespace Valit.Tests.Enumerable
                     .MinItems(1))
                 .For(_model)
                 .Validate();
-            
+
             Assert.True(result.Succeeded);
-        }   
+        }
 
         [Fact]
         public void Enumerable_MinItems_Succeeds_If_ExpectedItemsNumber_Is_Equal_To_Number_Of_Items_In_Collection()
@@ -39,9 +39,9 @@ namespace Valit.Tests.Enumerable
                     .MinItems(3))
                 .For(_model)
                 .Validate();
-            
+
             Assert.True(result.Succeeded);
-        }  
+        }
 
         [Fact]
         public void Enumerable_MinItems_Fails_If_ExpectedItemsNumber_Is_Greater_Than_Number_Of_Items_In_Collection()
@@ -52,9 +52,9 @@ namespace Valit.Tests.Enumerable
                     .MinItems(5))
                 .For(_model)
                 .Validate();
-            
+
             Assert.False(result.Succeeded);
-        }  
+        }
 
         [Fact]
         public void Enumerable_MaxItems_Fails_If_Null_Collection_Is_Given()
@@ -65,9 +65,9 @@ namespace Valit.Tests.Enumerable
                     .MinItems(1))
                 .For(_model)
                 .Validate();
-            
+
             Assert.False(result.Succeeded);
-        }  
+        }
 
 
 #region ARRANGE
@@ -83,6 +83,6 @@ namespace Valit.Tests.Enumerable
             public IEnumerable<int> Collection => new List<int> { 1, 2, 3 };
             public IEnumerable<int> NullCollection => null;
         }
-#endregion  
+#endregion
     }
 }

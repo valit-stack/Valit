@@ -6,7 +6,7 @@ namespace Valit.Tests.Property
 {
     public class Property_Tag_Tests
     {
-    
+
         [Fact]
         public void Property_Tag_Throws_When_Null_Rule_Is_Given()
         {
@@ -90,11 +90,11 @@ namespace Valit.Tests.Property
 
         [Theory]
         [InlineData(new [] { "Tag1" }, true)]
-        [InlineData(new [] { "Tag2" }, true)]      
-        [InlineData(new [] { "Tag1", "Tag2" }, true)]  
-        [InlineData(new [] { "Tag1", "Tag3" }, false)]  
-        [InlineData(new [] { "Tag2", "Tag3" }, false)]  
-        [InlineData(new [] { "Tag3" }, false)]        
+        [InlineData(new [] { "Tag2" }, true)]
+        [InlineData(new [] { "Tag1", "Tag2" }, true)]
+        [InlineData(new [] { "Tag1", "Tag3" }, false)]
+        [InlineData(new [] { "Tag2", "Tag3" }, false)]
+        [InlineData(new [] { "Tag3" }, false)]
         public void ValitRules_Validate_With_Params_Should_Return_Proper_Result_Based_On_Given_Tags_Set(string[] tags, bool expected)
         {
             var result = ValitRules<Model>
@@ -116,11 +116,11 @@ namespace Valit.Tests.Property
 
         [Theory]
         [InlineData(new [] { "Tag1" }, true)]
-        [InlineData(new [] { "Tag2" }, true)]      
-        [InlineData(new [] { "Tag1", "Tag2" }, true)]  
-        [InlineData(new [] { "Tag1", "Tag3" }, false)]  
-        [InlineData(new [] { "Tag2", "Tag3" }, false)]  
-        [InlineData(new [] { "Tag3" }, false)]        
+        [InlineData(new [] { "Tag2" }, true)]
+        [InlineData(new [] { "Tag1", "Tag2" }, true)]
+        [InlineData(new [] { "Tag1", "Tag3" }, false)]
+        [InlineData(new [] { "Tag2", "Tag3" }, false)]
+        [InlineData(new [] { "Tag3" }, false)]
         public void ValitRules_Validate_With_Predicate_Should_Return_Proper_Result_Based_On_Given_Tags_Set(string[] tags, bool expected)
         {
             var result = ValitRules<Model>
@@ -157,7 +157,7 @@ namespace Valit.Tests.Property
 
             var newRules = ValitRules<Model>
                 .Create(rules)
-                .GetAllRules(); 
+                .GetAllRules();
 
             newRules.Count().ShouldBe(3);
         }
@@ -170,7 +170,7 @@ namespace Valit.Tests.Property
             public string Value1 => "Text";
             public string Value2 => "Text";
             public string NullValue => null;
-            
+
         }
     }
 }

@@ -4,7 +4,7 @@ namespace Valit
 {
     public class ValitException : Exception
     {
-		public ValitException(string message, Exception innerException)
+        public ValitException(string message, Exception innerException)
             :base(message, innerException)
         {
         }
