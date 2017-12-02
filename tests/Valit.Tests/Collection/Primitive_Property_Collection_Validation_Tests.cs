@@ -35,8 +35,8 @@ namespace Valit.Tests.Collection
                 .Validate();
             
             Assert.False(result.Succeeded);
-            result.ErrorMessages.Where(m => m == "One").Count().ShouldBe(1);
-            result.ErrorMessages.Where(m => m == "Two").Count().ShouldBe(3);
+            result.ErrorMessages.Count(m => m == "One").ShouldBe(1);
+            result.ErrorMessages.Count(m => m == "Two").ShouldBe(3);
         }
 
         [Fact]
