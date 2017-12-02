@@ -11,9 +11,9 @@ namespace Valit.Tests.NestedObject
         public void Ensure_Throws_When_Null_ValitRulesProvider_Is_Given()
         {
             var exception = Record.Exception(() => {
-                ValitRules<RootObject>
+                ValitRules<Model>
                     .Create()
-                    .Ensure(m => m.NestedObject, ((IValitRulesProvider<NestedObject>)null));
+                    .Ensure(m => m.NestedObject, ((IValitRulesProvider<NestedModel>)null));
             });
             
             exception.ShouldBeOfType(typeof(ValitException));
@@ -22,13 +22,11 @@ namespace Valit.Tests.NestedObject
         [Fact]
         public void Validation_Fails_When_Invalid_NestedObject_Is_Given()
         {
-            var rootObject = RootObject.GetInvalid();
+            var rootObject = Model.GetInvalid();
 
-            var result = ValitRules<RootObject>
+            var result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.StringValue, _=>_
-                    .Required())
-                .Ensure(m => m.NestedObject, new NestedObjectRulesProvider())
+                .Ensure(m => m.NestedObject, new NestedModelRulesProvider())
                 .For(rootObject)
                 .Validate();
 
@@ -38,13 +36,11 @@ namespace Valit.Tests.NestedObject
         [Fact]
         public void Validation_Returns_Proper_Messages_When_Invalid_NestedObject_Is_Given()
         {
-            var rootObject = RootObject.GetInvalid();
+            var rootObject = Model.GetInvalid();
             
-            var result = ValitRules<RootObject>
+            var result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.StringValue, _=>_
-                    .Required())
-                .Ensure(m => m.NestedObject, new NestedObjectRulesProvider())
+                .Ensure(m => m.NestedObject, new NestedModelRulesProvider())
                 .For(rootObject)
                 .Validate();
 
@@ -56,13 +52,11 @@ namespace Valit.Tests.NestedObject
         [Fact]
         public void Validation_Succeeds_When_Valid_NestedObject_Is_Given()
         {
-            var rootObject = RootObject.GetValid();
+            var rootObject = Model.GetValid();
             
-            var result = ValitRules<RootObject>
+            var result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.StringValue, _=>_
-                    .Required())
-                .Ensure(m => m.NestedObject, new NestedObjectRulesProvider())
+                .Ensure(m => m.NestedObject, new NestedModelRulesProvider())
                 .For(rootObject)
                 .Validate();
 
@@ -70,27 +64,24 @@ namespace Valit.Tests.NestedObject
         }
 
 #region  ARRANGE
-        class RootObject
+        class Model
         {
-            public string StringValue { get; set; }
-            public NestedObject NestedObject { get; set; }
+            public NestedModel NestedObject { get; set; }
 
-            public static RootObject GetInvalid()
-                => new RootObject
+            public static Model GetInvalid()
+                => new Model
                 {
-                    StringValue = "Text",
-                    NestedObject = new NestedObject
+                    NestedObject = new NestedModel
                     {
                         NumericValue = 20,
                         StringValue = null
                     }
                 };
 
-            public static RootObject GetValid()
-                => new RootObject
+            public static Model GetValid()
+                => new Model
                 {
-                    StringValue = "Text",
-                    NestedObject = new NestedObject
+                    NestedObject = new NestedModel
                     {
                         NumericValue = 20,
                         StringValue = "someemail@test.com"
@@ -98,16 +89,16 @@ namespace Valit.Tests.NestedObject
                 };
         }   
 
-        class NestedObject
+        class NestedModel
         {
             public ushort NumericValue { get; set;}
             public string StringValue { get; set;}
         }
 
-		class NestedObjectRulesProvider : IValitRulesProvider<NestedObject>
+		class NestedModelRulesProvider : IValitRulesProvider<NestedModel>
 		{
-			public IEnumerable<IValitRule<NestedObject>> GetRules()
-                => ValitRules<NestedObject>
+			public IEnumerable<IValitRule<NestedModel>> GetRules()
+                => ValitRules<NestedModel>
                         .Create()
                         .Ensure(m => m.NumericValue, _=>_
                             .IsGreaterThan(10)
