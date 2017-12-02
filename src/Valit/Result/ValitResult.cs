@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Valit.Errors;
@@ -7,7 +7,7 @@ namespace Valit.Result
 {
     internal class ValitResult : IValitResult
     {
-        public static readonly ValitResult Success = new ValitResult();        
+        public static readonly ValitResult Success = new ValitResult();
 
         public bool Succeeded { get; }
 
@@ -23,7 +23,7 @@ namespace Valit.Result
 
         private ValitResult(IEnumerable<ValitRuleError> errors)
         {
-            Succeeded = false; 
+            Succeeded = false;
 
             ErrorMessages = errors
                 .Where(e => !string.IsNullOrEmpty(e.Message))

@@ -1,4 +1,4 @@
-﻿namespace Valit.MessageProvider
+namespace Valit.MessageProvider
 {
     internal sealed class EmptyMessageProvider : IValitMessageProvider<string>
     {

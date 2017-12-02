@@ -6,14 +6,14 @@ namespace Valit.Tests.Double
 {
     public class Double_IsPositive_Tests
     {
-       [Fact]
+        [Fact]
         public void Double_IsPositive_For_Not_Nullable_Value_Throws_When_Null_Rule_Is_Given()
         {
             var exception = Record.Exception(() => {
                 ((IValitRule<Model, double>)null)
                     .IsPositive();
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
@@ -24,14 +24,14 @@ namespace Valit.Tests.Double
                 ((IValitRule<Model, double?>)null)
                     .IsPositive();
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
 
         [Fact]
         public void Double_IsPositive_Succeeds_When_Given_Value_Is_Postive()
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.PositiveValue, _=>_
@@ -44,7 +44,7 @@ namespace Valit.Tests.Double
 
         [Fact]
         public void Double_IsPositive_Fails_When_Given_Value_Is_Zero()
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.ZeroValue, _=>_
@@ -83,7 +83,7 @@ namespace Valit.Tests.Double
 
         [Fact]
         public void Double_IsPositive_Succeeds_When_Given_Value_Is_NullablePostive()
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.NullablePositiveValue, _=>_
@@ -96,7 +96,7 @@ namespace Valit.Tests.Double
 
         [Fact]
         public void Double_IsPositive_Fails_When_Given_Value_Is_NullableZero()
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.NullableZeroValue, _=>_
@@ -109,7 +109,7 @@ namespace Valit.Tests.Double
 
         [Fact]
         public void Double_IsPositive_Fails_When_Given_Value_Is_NullableNegative()
-        {            
+        {
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.NullableNegativeValue, _=>_
@@ -166,6 +166,6 @@ namespace Valit.Tests.Double
             public double? NullValue => null;
             public double? NullableNaN => double.NaN;
         }
-#endregion 
+#endregion
     }
 }

@@ -1,4 +1,4 @@
-﻿using Shouldly;
+using Shouldly;
 using System;
 using Xunit;
 
@@ -159,7 +159,7 @@ namespace Valit.Tests.Float
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => useNullValue ? m.NullValue : m.NullableValue, _ => _
-                     .IsLessThan(value))
+                    .IsLessThan(value))
                 .For(_model)
                 .Validate();
 
@@ -180,7 +180,7 @@ namespace Valit.Tests.Float
             IValitResult result = ValitRules<Model>
                 .Create()
                 .Ensure(m => useNullValue ? m.NullValue : m.NullableValue, _ => _
-                     .IsLessThan(value))
+                    .IsLessThan(value))
                 .For(_model)
                 .Validate();
 

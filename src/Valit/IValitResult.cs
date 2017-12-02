@@ -4,10 +4,10 @@ namespace Valit
 {
     public interface IValitResult
     {
-         bool Succeeded { get; }
+        bool Succeeded { get; }
 
-         ImmutableArray<string> ErrorMessages { get; }
+        ImmutableArray<string> ErrorMessages { get; }
 
-         ImmutableArray<int> ErrorCodes { get; }
+        ImmutableArray<int> ErrorCodes { get; }
     }
 }

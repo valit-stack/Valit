@@ -12,14 +12,14 @@ namespace Valit.Tests.Valitator
             var exception = Record.Exception(() => {
                 var valitator = ((IValitRulesProvider<Model>)null).CreateValitator();
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
         [Fact]
         public void Created_Valitator_Properly_Handles_Complete_Strategy()
         {
-            var valitator = new ModelRulesProvider().CreateValitator();            
+            var valitator = new ModelRulesProvider().CreateValitator();
             var result = valitator.Validate(_model);
 
             Assert.False(result.Succeeded);
@@ -31,7 +31,7 @@ namespace Valit.Tests.Valitator
         [Fact]
         public void Created_Valitator_Properly_Handles_FailFast_Strategy()
         {
-            var valitator = new ModelRulesProvider().CreateValitator();            
+            var valitator = new ModelRulesProvider().CreateValitator();
             var result = valitator.Validate(_model, new FailFastValitStrategy());
 
             Assert.False(result.Succeeded);
@@ -41,7 +41,7 @@ namespace Valit.Tests.Valitator
         }
 
 
-#region  ARRANGE 
+#region  ARRANGE
 
         class Model
         {
@@ -49,9 +49,9 @@ namespace Valit.Tests.Valitator
             public string StringValue { get; set; }
         }
 
-		class ModelRulesProvider : IValitRulesProvider<Model>
-		{
-			public IEnumerable<IValitRule<Model>> GetRules()
+        class ModelRulesProvider : IValitRulesProvider<Model>
+        {
+            public IEnumerable<IValitRule<Model>> GetRules()
                 => ValitRules<Model>
                         .Create()
                         .Ensure(m => m.NumericValue, _=>_
@@ -63,19 +63,19 @@ namespace Valit.Tests.Valitator
                             .Email()
                                 .WithMessage("Three"))
                         .GetAllRules();
-		}
+        }
 
         private readonly Model _model;
 
         public Valitator_Tests()
         {
-            _model = new Model 
+            _model = new Model
             {
                 NumericValue = 3,
                 StringValue = "Text"
             };
         }
     }
-#endregion 
-    
+#endregion
+
 }

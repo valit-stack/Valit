@@ -15,7 +15,7 @@ namespace Valit.Tests.NestedObject
                     .Create()
                     .Ensure(m => m.NestedObject, ((IValitRulesProvider<NestedModel>)null));
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
@@ -37,7 +37,7 @@ namespace Valit.Tests.NestedObject
         public void Validation_Returns_Proper_Messages_When_Invalid_NestedObject_Is_Given()
         {
             var rootObject = Model.GetInvalid();
-            
+
             var result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.NestedObject, new NestedModelRulesProvider())
@@ -53,7 +53,7 @@ namespace Valit.Tests.NestedObject
         public void Validation_Succeeds_When_Valid_NestedObject_Is_Given()
         {
             var rootObject = Model.GetValid();
-            
+
             var result = ValitRules<Model>
                 .Create()
                 .Ensure(m => m.NestedObject, new NestedModelRulesProvider())
@@ -87,7 +87,7 @@ namespace Valit.Tests.NestedObject
                         StringValue = "someemail@test.com"
                     }
                 };
-        }   
+        }
 
         class NestedModel
         {
@@ -95,9 +95,9 @@ namespace Valit.Tests.NestedObject
             public string StringValue { get; set;}
         }
 
-		class NestedModelRulesProvider : IValitRulesProvider<NestedModel>
-		{
-			public IEnumerable<IValitRule<NestedModel>> GetRules()
+        class NestedModelRulesProvider : IValitRulesProvider<NestedModel>
+        {
+            public IEnumerable<IValitRule<NestedModel>> GetRules()
                 => ValitRules<NestedModel>
                         .Create()
                         .Ensure(m => m.NumericValue, _=>_
@@ -109,7 +109,7 @@ namespace Valit.Tests.NestedObject
                             .Email()
                                 .WithMessage("Three"))
                         .GetAllRules();
-		}
+        }
     }
 #endregion
 }

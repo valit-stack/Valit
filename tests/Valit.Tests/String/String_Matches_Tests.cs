@@ -1,4 +1,4 @@
-﻿using Xunit;
+using Xunit;
 using Shouldly;
 
 namespace Valit.Tests.String
