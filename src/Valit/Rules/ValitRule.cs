@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Valit.Errors;
 using Valit.Exceptions;
@@ -18,7 +18,7 @@ namespace Valit.Rules
         private readonly Func<IValitRule<TObject, TProperty>, TObject, IValitRule<TObject, TProperty>> _ruleFunc;
         private readonly List<Predicate<TObject>> _conditions;
         private readonly IValitRule<TObject, TProperty> _previousRule;
-		private readonly List<ValitRuleError> _errors;
+        private readonly List<ValitRuleError> _errors;
         private readonly List<string> _tags;
         private readonly IValitMessageProvider _messageProvider;
 
@@ -44,25 +44,25 @@ namespace Valit.Rules
         }
 
         private ValitRule()
-        {        
+        {
             _errors = new List<ValitRuleError>();
             _conditions = new List<Predicate<TObject>>();
             _tags = new List<string>();
-        }		
+        }
 
-		void IValitRuleAccessor<TObject, TProperty>.SetPredicate(Predicate<TProperty> predicate)
+        void IValitRuleAccessor<TObject, TProperty>.SetPredicate(Predicate<TProperty> predicate)
             => _predicate = predicate;
 
         bool IValitRuleAccessor.HasPredicate()
-            => _predicate != null;  
+            => _predicate != null;
 
-		void IValitRuleAccessor.AddError(ValitRuleError error)
+        void IValitRuleAccessor.AddError(ValitRuleError error)
             => _errors.Add(error);
 
-		void IValitRuleAccessor<TObject, TProperty>.AddCondition(Predicate<TObject> condition)
-            => _conditions.Add(condition);		
+        void IValitRuleAccessor<TObject, TProperty>.AddCondition(Predicate<TObject> condition)
+            => _conditions.Add(condition);
 
-		void IValitRuleAccessor.AddTags(params string[] tags)
+        void IValitRuleAccessor.AddTags(params string[] tags)
             => _tags.AddRange(tags);
 
         IValitMessageProvider IValitRuleAccessor.GetMessageProvider()
@@ -72,18 +72,18 @@ namespace Valit.Rules
             => _messageProvider as IValitMessageProvider<TKey>;
 
         public IValitResult Validate(TObject @object)
-		{
+        {
             @object.ThrowIfNull();
 
             var property = _propertySelector(@object);
-			var hasAllConditionsFulfilled = true;
+            var hasAllConditionsFulfilled = true;
 
             foreach(var condition in _conditions)
                 hasAllConditionsFulfilled &= condition(@object);
 
             var isSatisfied = _predicate?.Invoke(property) != false;
 
-            return !hasAllConditionsFulfilled || isSatisfied ? ValitResult.Success : ValitResult.Fail(_errors.ToArray());		
+            return !hasAllConditionsFulfilled || isSatisfied ? ValitResult.Success : ValitResult.Fail(_errors.ToArray());
         }
 
         IEnumerable<IValitRule<TObject>> IValitRule<TObject>.GetEnsureRules(TObject @object)

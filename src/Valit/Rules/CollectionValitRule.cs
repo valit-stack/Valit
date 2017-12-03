@@ -6,43 +6,43 @@ using Valit.Result;
 
 namespace Valit.Rules
 {
-	internal class CollectionValitRule<TObject, TProperty> : IValitRule<TObject> where TObject : class
-	{
-		public IEnumerable<string> Tags { get; private set; } 
+    internal class CollectionValitRule<TObject, TProperty> : IValitRule<TObject> where TObject : class
+    {
+        public IEnumerable<string> Tags { get; private set; }
 
         private readonly Func<TObject, IEnumerable<TProperty>> _collectionSelector;
         private readonly Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> _ruleFunc;
         private readonly IValitStrategy _strategy;
-		private readonly IValitMessageProvider _messageProvider;
+        private readonly IValitMessageProvider _messageProvider;
 
         public CollectionValitRule(
-			Func<TObject, IEnumerable<TProperty>> collectionSelector, 
-			Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> ruleFunc, 
-			IValitStrategy strategy,
-			IValitMessageProvider messageProvider)
+            Func<TObject, IEnumerable<TProperty>> collectionSelector,
+            Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> ruleFunc,
+            IValitStrategy strategy,
+            IValitMessageProvider messageProvider)
         {
-			Tags = Enumerable.Empty<string>();
+            Tags = Enumerable.Empty<string>();
             _collectionSelector = collectionSelector;
-			_ruleFunc = ruleFunc;
+            _ruleFunc = ruleFunc;
             _strategy = strategy;
-			_messageProvider = messageProvider;
+            _messageProvider = messageProvider;
         }
 
-		IValitResult IValitRule<TObject>.Validate(TObject @object)
-		{
-			@object.ThrowIfNull();
+        IValitResult IValitRule<TObject>.Validate(TObject @object)
+        {
+            @object.ThrowIfNull();
 
-			var collection = _collectionSelector(@object);
+            var collection = _collectionSelector(@object);
 
-			var result = ValitResult.Success;
+            var result = ValitResult.Success;
 
-			foreach(var property in collection)
-			{
-				Func<TObject, TProperty> selector = _ => property;
-				var lastEnsureRule = _ruleFunc(new ValitRule<TObject, TProperty>(selector, _messageProvider));
-            	var propertyRules = lastEnsureRule.GetAllEnsureRules();
+            foreach(var property in collection)
+            {
+                Func<TObject, TProperty> selector = _ => property;
+                var lastEnsureRule = _ruleFunc(new ValitRule<TObject, TProperty>(selector, _messageProvider));
+                var propertyRules = lastEnsureRule.GetAllEnsureRules();
 
-				result &= ValidatePropertyRules(propertyRules, @object);
+                result &= ValidatePropertyRules(propertyRules, @object);
 
                 if(!result.Succeeded)
                 {
@@ -52,10 +52,10 @@ namespace Valit.Rules
                         break;
                     }
                 }
-			}
+            }
 
-			return result;
-		}
+            return result;
+        }
 
 		private IValitResult ValidatePropertyRules(IEnumerable<IValitRule<TObject>> propertyRules, TObject @object)
 			=> ValitRules<TObject>

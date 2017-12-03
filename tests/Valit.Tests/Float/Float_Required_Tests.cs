@@ -14,7 +14,7 @@ namespace Valit.Tests.Float
                 ((IValitRule<Model, float?>)null)
                     .Required();
             });
-            
+
             exception.ShouldBeOfType(typeof(ValitException));
         }
 
