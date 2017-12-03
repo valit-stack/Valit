@@ -13,7 +13,7 @@ namespace Valit.Rules
         Func<TObject, TProperty> IValitRuleAccessor<TObject, TProperty>.PropertySelector => _propertySelector;
         IValitRule<TObject, TProperty> IValitRuleAccessor<TObject, TProperty>.PreviousRule => _previousRule;
 
-		private readonly Func<TObject, TProperty> _propertySelector;
+        private readonly Func<TObject, TProperty> _propertySelector;
         private Predicate<TProperty> _predicate;
         private readonly Func<IValitRule<TObject, TProperty>, TObject, IValitRule<TObject, TProperty>> _ruleFunc;
         private readonly List<Predicate<TObject>> _conditions;
@@ -75,9 +75,6 @@ namespace Valit.Rules
 		{
             @object.ThrowIfNull();
 
-            if (_ruleFunc != null)
-                return _ruleFunc(this, @object).Validate(@object); 
-
             var property = _propertySelector(@object);
 			var hasAllConditionsFulfilled = true;
 
@@ -88,5 +85,14 @@ namespace Valit.Rules
 
             return !hasAllConditionsFulfilled || isSatisfied ? ValitResult.Success : ValitResult.Fail(_errors.ToArray());		
         }
-	}
+
+        IEnumerable<IValitRule<TObject>> IValitRule<TObject>.GetEnsureRules(TObject @object)
+        {
+            @object.ThrowIfNull();
+            if (_ruleFunc != null)
+                return _ruleFunc(this, @object).GetAllEnsureRules();
+
+            return new List<IValitRule<TObject>>{ this };
+        }
+    }
 }
