@@ -10,7 +10,8 @@ namespace Valit.Tests.DateTimeOffset_
         [Fact]
         public void DateTimeOffset_IsBeforeNow_For_Not_Nullable_Value_Throws_When_Null_Rule_Is_Given()
         {
-            var exception = Record.Exception(() => {
+            var exception = Record.Exception(() =>
+            {
                 ((IValitRule<Model, DateTimeOffset>)null)
                     .IsBeforeNow();
             });
@@ -21,7 +22,8 @@ namespace Valit.Tests.DateTimeOffset_
         [Fact]
         public void DateTimeOffset_IsBeforeNow_For_Nullable_Value_Throws_When_Null_Rule_Is_Given()
         {
-            var exception = Record.Exception(() => {
+            var exception = Record.Exception(() =>
+            {
                 ((IValitRule<Model, DateTimeOffset?>)null)
                     .IsBeforeNow();
             });
@@ -34,12 +36,12 @@ namespace Valit.Tests.DateTimeOffset_
         {
             var result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.BeforeNowValue, _=>_
+                .Ensure(m => m.BeforeNowValue, _ => _
                     .IsBeforeNow())
                 .For(_model)
                 .Validate();
 
-            Assert.True(result.Succeeded);
+            result.Succeeded.ShouldBeTrue();
         }
 
         [Fact]
@@ -47,12 +49,12 @@ namespace Valit.Tests.DateTimeOffset_
         {
             var result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.AfterNowValue, _=>_
+                .Ensure(m => m.AfterNowValue, _ => _
                     .IsBeforeNow())
                 .For(_model)
                 .Validate();
 
-            Assert.False(result.Succeeded);
+            result.Succeeded.ShouldBeFalse();
         }
 
         [Fact]
@@ -60,12 +62,12 @@ namespace Valit.Tests.DateTimeOffset_
         {
             var result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.NullableBeforeNowValue, _=>_
+                .Ensure(m => m.NullableBeforeNowValue, _ => _
                     .IsBeforeNow())
                 .For(_model)
                 .Validate();
 
-            Assert.True(result.Succeeded);
+            result.Succeeded.ShouldBeTrue();
         }
 
         [Fact]
@@ -73,12 +75,12 @@ namespace Valit.Tests.DateTimeOffset_
         {
             var result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.NullableAfterNowValue, _=>_
+                .Ensure(m => m.NullableAfterNowValue, _ => _
                     .IsBeforeNow())
                 .For(_model)
                 .Validate();
 
-            Assert.False(result.Succeeded);
+            result.Succeeded.ShouldBeFalse();
         }
 
         [Fact]
@@ -86,15 +88,15 @@ namespace Valit.Tests.DateTimeOffset_
         {
             var result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.NullValue, _=>_
+                .Ensure(m => m.NullValue, _ => _
                     .IsBeforeNow())
                 .For(_model)
                 .Validate();
 
-            Assert.False(result.Succeeded);
+            result.Succeeded.ShouldBeFalse();
         }
 
-#region ARRANGE
+        #region ARRANGE
         public DateTimeOffset_IsBeforeNow_Tests()
         {
             _model = new Model();
@@ -110,6 +112,6 @@ namespace Valit.Tests.DateTimeOffset_
             public DateTimeOffset? NullableAfterNowValue => DateTimeOffset.Now.AddDays(1);
             public DateTimeOffset? NullValue => null;
         }
-#endregion
+        #endregion
     }
 }

@@ -12,10 +12,11 @@ namespace Valit.Tests.Collection
         [Fact]
         public void EnsureFor_Throws_When_Null_RuleFunc_Is_Given()
         {
-            var exception = Record.Exception(() => {
+            var exception = Record.Exception(() =>
+            {
                 ValitRules<Model>
                     .Create()
-                    .EnsureFor(m => m.InvalidValuesCollection, (Func<IValitRule<Model,string>,IValitRule<Model,string>>)null);
+                    .EnsureFor(m => m.InvalidValuesCollection, (Func<IValitRule<Model, string>, IValitRule<Model, string>>)null);
             });
 
             exception.ShouldBeOfType(typeof(ValitException));
@@ -26,7 +27,7 @@ namespace Valit.Tests.Collection
         {
             var result = ValitRules<Model>
                 .Create()
-                .EnsureFor(m => m.InvalidValuesCollection, _=>_
+                .EnsureFor(m => m.InvalidValuesCollection, _ => _
                     .Required()
                         .WithMessage("One")
                     .Email()
@@ -34,7 +35,7 @@ namespace Valit.Tests.Collection
                 .For(_model)
                 .Validate();
 
-            Assert.False(result.Succeeded);
+            result.Succeeded.ShouldBeFalse();
             result.ErrorMessages.Count(m => m == "One").ShouldBe(1);
             result.ErrorMessages.Count(m => m == "Two").ShouldBe(3);
         }
@@ -45,7 +46,7 @@ namespace Valit.Tests.Collection
             var result = ValitRules<Model>
                 .Create()
                 .WithStrategy(picker => picker.FailFast)
-                .EnsureFor(m => m.InvalidValuesCollection, _=>_
+                .EnsureFor(m => m.InvalidValuesCollection, _ => _
                     .Required()
                         .WithMessage("One")
                     .Email()
@@ -53,7 +54,7 @@ namespace Valit.Tests.Collection
                 .For(_model)
                 .Validate();
 
-            Assert.False(result.Succeeded);
+            result.Succeeded.ShouldBeFalse();
             result.ErrorMessages.Count().ShouldBe(1);
             result.ErrorMessages.First().ShouldBe("Two");
         }
@@ -63,7 +64,7 @@ namespace Valit.Tests.Collection
         {
             var result = ValitRules<Model>
                 .Create()
-                .EnsureFor(m => m.ValidValuesCollection, _=>_
+                .EnsureFor(m => m.ValidValuesCollection, _ => _
                     .Required()
                         .WithMessage("One")
                     .Email()
@@ -71,7 +72,7 @@ namespace Valit.Tests.Collection
                 .For(_model)
                 .Validate();
 
-            Assert.True(result.Succeeded);
+            result.Succeeded.ShouldBeTrue();
         }
 
         [Fact]
@@ -80,7 +81,7 @@ namespace Valit.Tests.Collection
             var result = ValitRules<Model>
                 .Create()
                 .WithStrategy(picker => picker.FailFast)
-                .EnsureFor(m => m.ValidValuesCollection, _=>_
+                .EnsureFor(m => m.ValidValuesCollection, _ => _
                     .Required()
                         .WithMessage("One")
                     .Email()
@@ -88,11 +89,11 @@ namespace Valit.Tests.Collection
                 .For(_model)
                 .Validate();
 
-            Assert.True(result.Succeeded);
+            result.Succeeded.ShouldBeTrue();
         }
 
 
-#region ARRANGE
+        #region ARRANGE
         private readonly Model _model;
 
         public Primitive_Property_Collection_Validation_Tests()
@@ -116,6 +117,6 @@ namespace Valit.Tests.Collection
                 "another.correct.email@test.com"
             };
         }
-#endregion
+        #endregion
     }
 }

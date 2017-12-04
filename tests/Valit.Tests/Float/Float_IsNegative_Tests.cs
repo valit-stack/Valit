@@ -9,7 +9,8 @@ namespace Valit.Tests.Float
         [Fact]
         public void Float_IsNegative_For_Not_Nullable_Value_Throws_When_Null_Rule_Is_Given()
         {
-            var exception = Record.Exception(() => {
+            var exception = Record.Exception(() =>
+            {
                 ((IValitRule<Model, float>)null)
                     .IsNegative();
             });
@@ -20,7 +21,8 @@ namespace Valit.Tests.Float
         [Fact]
         public void Float_IsNegative_For_Nullable_Value_Throws_When_Null_Rule_Is_Given()
         {
-            var exception = Record.Exception(() => {
+            var exception = Record.Exception(() =>
+            {
                 ((IValitRule<Model, float?>)null)
                     .IsNegative();
             });
@@ -34,12 +36,12 @@ namespace Valit.Tests.Float
         {
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.PositiveValue, _=>_
+                .Ensure(m => m.PositiveValue, _ => _
                     .IsNegative())
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, false);
+            result.Succeeded.ShouldBeFalse();
         }
 
         [Fact]
@@ -47,12 +49,12 @@ namespace Valit.Tests.Float
         {
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.ZeroValue, _=>_
+                .Ensure(m => m.ZeroValue, _ => _
                     .IsNegative())
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, false);
+            result.Succeeded.ShouldBeFalse();
         }
 
         [Fact]
@@ -65,7 +67,7 @@ namespace Valit.Tests.Float
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, true);
+            result.Succeeded.ShouldBeTrue();
         }
 
         [Fact]
@@ -78,7 +80,7 @@ namespace Valit.Tests.Float
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, false);
+            result.Succeeded.ShouldBeFalse();
         }
 
         [Fact]
@@ -86,12 +88,12 @@ namespace Valit.Tests.Float
         {
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.NullablePositiveValue, _=>_
+                .Ensure(m => m.NullablePositiveValue, _ => _
                     .IsNegative())
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, false);
+            result.Succeeded.ShouldBeFalse();
         }
 
         [Fact]
@@ -99,12 +101,12 @@ namespace Valit.Tests.Float
         {
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.NullableZeroValue, _=>_
+                .Ensure(m => m.NullableZeroValue, _ => _
                     .IsNegative())
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, false);
+            result.Succeeded.ShouldBeFalse();
         }
 
         [Fact]
@@ -112,12 +114,12 @@ namespace Valit.Tests.Float
         {
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.NullableNegativeValue, _=>_
+                .Ensure(m => m.NullableNegativeValue, _ => _
                     .IsNegative())
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, true);
+            result.Succeeded.ShouldBeTrue();
         }
 
         [Fact]
@@ -130,7 +132,7 @@ namespace Valit.Tests.Float
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, false);
+            result.Succeeded.ShouldBeFalse();
         }
 
         [Fact]
@@ -143,10 +145,10 @@ namespace Valit.Tests.Float
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, false);
+            result.Succeeded.ShouldBeFalse();
         }
 
-#region ARRANGE
+        #region ARRANGE
         public Float_IsNegative_Tests()
         {
             _model = new Model();
@@ -166,6 +168,6 @@ namespace Valit.Tests.Float
             public float? NullValue => null;
             public float? NullableNaN => Single.NaN;
         }
-#endregion
+        #endregion
     }
 }

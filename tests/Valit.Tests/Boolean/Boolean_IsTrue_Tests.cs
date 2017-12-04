@@ -42,7 +42,7 @@ namespace Valit.Tests.Boolean
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
         [Theory]
@@ -57,7 +57,7 @@ namespace Valit.Tests.Boolean
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
         [Fact]
@@ -70,7 +70,7 @@ namespace Valit.Tests.Boolean
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, false);
+            result.Succeeded.ShouldBeFalse();
         }
 
 

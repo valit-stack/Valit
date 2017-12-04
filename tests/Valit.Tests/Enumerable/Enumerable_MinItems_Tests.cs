@@ -9,7 +9,8 @@ namespace Valit.Tests.Enumerable
         [Fact]
         public void Enumerable_MinItems_Throws_When_Null_Rule_Is_Given()
         {
-            var exception = Record.Exception(() => {
+            var exception = Record.Exception(() =>
+            {
                 ((IValitRule<Model, IEnumerable<int>>)null)
                     .MinItems(1);
             });
@@ -22,12 +23,12 @@ namespace Valit.Tests.Enumerable
         {
             var result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.Collection, _=>_
+                .Ensure(m => m.Collection, _ => _
                     .MinItems(1))
                 .For(_model)
                 .Validate();
 
-            Assert.True(result.Succeeded);
+            result.Succeeded.ShouldBeTrue();
         }
 
         [Fact]
@@ -35,12 +36,12 @@ namespace Valit.Tests.Enumerable
         {
             var result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.Collection, _=>_
+                .Ensure(m => m.Collection, _ => _
                     .MinItems(3))
                 .For(_model)
                 .Validate();
 
-            Assert.True(result.Succeeded);
+            result.Succeeded.ShouldBeTrue();
         }
 
         [Fact]
@@ -48,12 +49,12 @@ namespace Valit.Tests.Enumerable
         {
             var result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.Collection, _=>_
+                .Ensure(m => m.Collection, _ => _
                     .MinItems(5))
                 .For(_model)
                 .Validate();
 
-            Assert.False(result.Succeeded);
+            result.Succeeded.ShouldBeFalse();
         }
 
         [Fact]
@@ -61,16 +62,16 @@ namespace Valit.Tests.Enumerable
         {
             var result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.NullCollection, _=>_
+                .Ensure(m => m.NullCollection, _ => _
                     .MinItems(1))
                 .For(_model)
                 .Validate();
 
-            Assert.False(result.Succeeded);
+            result.Succeeded.ShouldBeFalse();
         }
 
 
-#region ARRANGE
+        #region ARRANGE
         public Enumerable_MinItems_Tests()
         {
             _model = new Model();
@@ -83,6 +84,6 @@ namespace Valit.Tests.Enumerable
             public IEnumerable<int> Collection => new List<int> { 1, 2, 3 };
             public IEnumerable<int> NullCollection => null;
         }
-#endregion
+        #endregion
     }
 }
