@@ -9,7 +9,8 @@ namespace Valit.Tests.Double
         [Fact]
         public void Double_IsNonZero_For_Not_Nullable_Value_Throws_When_Null_Rule_Is_Given()
         {
-            var exception = Record.Exception(() => {
+            var exception = Record.Exception(() =>
+            {
                 ((IValitRule<Model, double>)null)
                     .IsNonZero();
             });
@@ -20,7 +21,8 @@ namespace Valit.Tests.Double
         [Fact]
         public void Double_IsNonZero_For_Nullable_Value_Throws_When_Null_Rule_Is_Given()
         {
-            var exception = Record.Exception(() => {
+            var exception = Record.Exception(() =>
+            {
                 ((IValitRule<Model, double?>)null)
                     .IsNonZero();
             });
@@ -37,7 +39,7 @@ namespace Valit.Tests.Double
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
         [Fact]
@@ -50,7 +52,7 @@ namespace Valit.Tests.Double
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, false);
+            result.Succeeded.ShouldBeFalse();
         }
 
         [Fact]
@@ -63,22 +65,22 @@ namespace Valit.Tests.Double
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, false);
+            result.Succeeded.ShouldBeFalse();
         }
 
         [Theory]
         [InlineData(false, true)]
         [InlineData(true, false)]
-        public void Double_IsNonZero_Returns_Proper_Results_For_Nullable_Value(bool useZeroValue,  bool expected)
+        public void Double_IsNonZero_Returns_Proper_Results_For_Nullable_Value(bool useZeroValue, bool expected)
         {
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => useZeroValue? m.NullableZeroValue : m.NullableValue, _=>_
+                .Ensure(m => useZeroValue ? m.NullableZeroValue : m.NullableValue, _ => _
                     .IsNonZero())
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
         [Fact]
@@ -86,15 +88,15 @@ namespace Valit.Tests.Double
         {
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.NullValue, _=>_
+                .Ensure(m => m.NullValue, _ => _
                     .IsNonZero())
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, false);
+            result.Succeeded.ShouldBeFalse();
         }
 
-#region ARRANGE
+        #region ARRANGE
         public Double_IsNonZero_Tests()
         {
             _model = new Model();

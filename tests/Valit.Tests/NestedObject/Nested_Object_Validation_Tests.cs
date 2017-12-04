@@ -10,7 +10,8 @@ namespace Valit.Tests.NestedObject
         [Fact]
         public void Ensure_Throws_When_Null_ValitRulesProvider_Is_Given()
         {
-            var exception = Record.Exception(() => {
+            var exception = Record.Exception(() =>
+            {
                 ValitRules<Model>
                     .Create()
                     .Ensure(m => m.NestedObject, ((IValitRulesProvider<NestedModel>)null));
@@ -30,7 +31,7 @@ namespace Valit.Tests.NestedObject
                 .For(rootObject)
                 .Validate();
 
-            Assert.False(result.Succeeded);
+            result.Succeeded.ShouldBeFalse();
         }
 
         [Fact]
@@ -60,10 +61,10 @@ namespace Valit.Tests.NestedObject
                 .For(rootObject)
                 .Validate();
 
-            Assert.True(result.Succeeded);
+            result.Succeeded.ShouldBeTrue();
         }
 
-#region  ARRANGE
+        #region  ARRANGE
         class Model
         {
             public NestedModel NestedObject { get; set; }
@@ -91,8 +92,8 @@ namespace Valit.Tests.NestedObject
 
         class NestedModel
         {
-            public ushort NumericValue { get; set;}
-            public string StringValue { get; set;}
+            public ushort NumericValue { get; set; }
+            public string StringValue { get; set; }
         }
 
         class NestedModelRulesProvider : IValitRulesProvider<NestedModel>
@@ -100,10 +101,10 @@ namespace Valit.Tests.NestedObject
             public IEnumerable<IValitRule<NestedModel>> GetRules()
                 => ValitRules<NestedModel>
                         .Create()
-                        .Ensure(m => m.NumericValue, _=>_
+                        .Ensure(m => m.NumericValue, _ => _
                             .IsGreaterThan(10)
                                 .WithMessage("One"))
-                        .Ensure(m => m.StringValue, _=>_
+                        .Ensure(m => m.StringValue, _ => _
                             .Required()
                                 .WithMessage("Two")
                             .Email()
@@ -111,5 +112,5 @@ namespace Valit.Tests.NestedObject
                         .GetAllRules();
         }
     }
-#endregion
+    #endregion
 }

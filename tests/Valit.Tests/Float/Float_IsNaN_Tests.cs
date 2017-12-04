@@ -9,7 +9,8 @@ namespace Valit.Tests.Float
         [Fact]
         public void Float_IsNaN_For_Not_Nullable_Value_Throws_When_Null_Rule_Is_Given()
         {
-            var exception = Record.Exception(() => {
+            var exception = Record.Exception(() =>
+            {
                 ((IValitRule<Model, float>)null)
                     .IsNaN();
             });
@@ -20,7 +21,8 @@ namespace Valit.Tests.Float
         [Fact]
         public void Float_IsNaN_For_Nullable_Value_Throws_When_Null_Rule_Is_Given()
         {
-            var exception = Record.Exception(() => {
+            var exception = Record.Exception(() =>
+            {
                 ((IValitRule<Model, float?>)null)
                     .IsNaN();
             });
@@ -39,7 +41,7 @@ namespace Valit.Tests.Float
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, false);
+            result.Succeeded.ShouldBeFalse();
         }
 
         [Fact]
@@ -52,7 +54,7 @@ namespace Valit.Tests.Float
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, true);
+            result.Succeeded.ShouldBeTrue();
         }
 
         [Fact]
@@ -65,7 +67,7 @@ namespace Valit.Tests.Float
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, false);
+            result.Succeeded.ShouldBeFalse();
         }
 
         [Fact]
@@ -78,7 +80,7 @@ namespace Valit.Tests.Float
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, false);
+            result.Succeeded.ShouldBeFalse();
         }
 
         [Fact]
@@ -91,7 +93,7 @@ namespace Valit.Tests.Float
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, true);
+            result.Succeeded.ShouldBeTrue();
         }
 
         #region ARRANGE
@@ -110,6 +112,6 @@ namespace Valit.Tests.Float
             public float? NullValue => null;
             public float? NullableNaN => Single.NaN;
         }
-#endregion
+        #endregion
     }
 }
