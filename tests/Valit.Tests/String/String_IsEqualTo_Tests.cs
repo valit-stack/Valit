@@ -72,7 +72,7 @@ namespace Valit.Tests.String
         {
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(s => s.Value, (_, m) => _.IsEqualTo(m.Value).MinLength(3))
+                .Ensure(s => s.Value, (_, m) => _.IsEqualTo(m.Value))
                 .For(_model)
                 .Validate();
 
