@@ -89,10 +89,12 @@ namespace Valit.Rules
         IEnumerable<IValitRule<TObject>> IValitRule<TObject>.GetEnsureRules(TObject @object)
         {
             @object.ThrowIfNull();
-            if (_ruleFunc != null)
-                return _ruleFunc(this, @object).GetAllEnsureRules();
 
-            return new List<IValitRule<TObject>>{ this };
+            if(_ruleFunc == null)
+            {
+                return new [] { this };
+            }
+            return _ruleFunc(this, @object).GetAllEnsureRules();
         }
     }
 }

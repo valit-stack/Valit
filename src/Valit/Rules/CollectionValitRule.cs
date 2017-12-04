@@ -57,16 +57,13 @@ namespace Valit.Rules
             return result;
         }
 
-		private IValitResult ValidatePropertyRules(IEnumerable<IValitRule<TObject>> propertyRules, TObject @object)
-			=> ValitRules<TObject>
-				.Create(propertyRules)
-				.WithStrategy(_strategy)
-				.For(@object)
-				.Validate();
+        private IValitResult ValidatePropertyRules(IEnumerable<IValitRule<TObject>> propertyRules, TObject @object)
+            => ValitRules<TObject>
+                .Create(propertyRules)
+                .WithStrategy(_strategy)
+                .For(@object)
+                .Validate();
 
-        public IEnumerable<IValitRule<TObject>> GetEnsureRules(TObject @object)
-        {
-            return new List<IValitRule<TObject>>{ this };
-        }
+        public IEnumerable<IValitRule<TObject>> GetEnsureRules(TObject @object) => new []{ this };
     }
 }
