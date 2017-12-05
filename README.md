@@ -15,12 +15,12 @@ Valit is available on [NuGet](https://www.nuget.org/packages/Valit/).
 
 ### Package manager
 ```bash
-Install-Package Valit -Version 0.1.0
+Install-Package Valit -Version 0.2.0
 ```
 
 ### .NET CLI
 ```bash
-dotnet add package Valit --version 0.1.0
+dotnet add package Valit --version 0.2.0
 ```
 
 # Getting started
