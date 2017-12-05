@@ -63,5 +63,7 @@ namespace Valit.Rules
                 .WithStrategy(_strategy)
                 .For(@object)
                 .Validate();
+
+        public IEnumerable<IValitRule<TObject>> GetEnsureRules(TObject @object) => new []{ this };
     }
 }

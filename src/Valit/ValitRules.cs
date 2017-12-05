@@ -60,6 +60,16 @@ namespace Valit
             return this;
         }
 
+        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, Func<IValitRule<TObject, TProperty>, TObject, IValitRule<TObject, TProperty>> ruleFunc)
+        {                       
+            selector.ThrowIfNull();
+            ruleFunc.ThrowIfNull();
+
+            var lastEnsureRule = new ValitRule<TObject, TProperty>(selector, _messageProvider, ruleFunc);
+            _rules.AddRange(lastEnsureRule.GetAllEnsureRules());
+            return this;
+        }
+
         IValitRules<TObject> IValitRules<TObject>.EnsureFor<TProperty>(Func<TObject, IEnumerable<TProperty>> selector, Func<IValitRule<TObject, TProperty>, IValitRule<TObject, TProperty>> ruleFunc)
         {
             selector.ThrowIfNull();
@@ -119,22 +129,38 @@ namespace Valit
         private IValitResult Validate(IEnumerable<IValitRule<TObject>> rules)
         {
             var result = ValitResult.Success;
-
             foreach(var rule in rules.ToList())
             {
-                result &= rule.Validate(_object);
-
-                if(!result.Succeeded)
+                result &= ValidateRule(rule, out bool cancel);
+                if (cancel)
                 {
-                    _strategy.Fail(rule, result, out bool cancel);
-                    if(cancel)
-                    {
-                        break;
-                    }
+                    break;
                 }
             }
 
             _strategy.Done(result);
+
+            return result;
+        }
+
+        private IValitResult ValidateRule(IValitRule<TObject> rule, out bool cancelValidation)
+        {
+            var result = ValitResult.Success;
+            cancelValidation = false;
+            var ensureRules = rule.GetEnsureRules(_object);
+            foreach(var ensureRule in ensureRules)
+            {
+                result &= ensureRule.Validate(_object);
+                if (!result.Succeeded)
+                {
+                    _strategy.Fail(ensureRule, result, out bool cancel);
+                    if (cancel)
+                    {
+                        cancelValidation = true;
+                        break;
+                    }
+                }
+            }
 
             return result;
         }
