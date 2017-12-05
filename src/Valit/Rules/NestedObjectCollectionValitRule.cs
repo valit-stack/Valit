@@ -52,5 +52,7 @@ namespace Valit.Rules
             return result;
         }
 
+        public IEnumerable<IValitRule<TObject>> GetEnsureRules(TObject @object) => new []{ this };
+
     }
 }

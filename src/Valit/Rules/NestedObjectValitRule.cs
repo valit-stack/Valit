@@ -30,5 +30,7 @@ namespace Valit.Rules
             var property = _propertySelector(@object);
             return _valitator.Validate(property, _strategy);
         }
+
+        public IEnumerable<IValitRule<TObject>> GetEnsureRules(TObject @object) => new []{ this };
     }
 }
