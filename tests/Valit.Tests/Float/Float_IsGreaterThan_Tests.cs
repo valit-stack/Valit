@@ -62,7 +62,7 @@ namespace Valit.Tests.Float
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
         [Theory]
@@ -77,7 +77,7 @@ namespace Valit.Tests.Float
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
         [Theory]
@@ -92,7 +92,7 @@ namespace Valit.Tests.Float
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
         [Theory]
@@ -107,7 +107,7 @@ namespace Valit.Tests.Float
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
         [Theory]
@@ -124,7 +124,7 @@ namespace Valit.Tests.Float
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
         [Theory]
@@ -142,7 +142,7 @@ namespace Valit.Tests.Float
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
         [Theory]
@@ -161,7 +161,7 @@ namespace Valit.Tests.Float
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
         [Theory]
@@ -182,7 +182,7 @@ namespace Valit.Tests.Float
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
         #region ARRANGE

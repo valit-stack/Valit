@@ -8,7 +8,8 @@ namespace Valit.Tests.Decimal
         [Fact]
         public void Decimal_IsPositive_For_Not_Nullable_Value_Throws_When_Null_Rule_Is_Given()
         {
-            var exception = Record.Exception(() => {
+            var exception = Record.Exception(() =>
+            {
                 ((IValitRule<Model, decimal>)null)
                     .IsPositive();
             });
@@ -19,7 +20,8 @@ namespace Valit.Tests.Decimal
         [Fact]
         public void Decimal_IsPositive_For_Nullable_Value_Throws_When_Null_Rule_Is_Given()
         {
-            var exception = Record.Exception(() => {
+            var exception = Record.Exception(() =>
+            {
                 ((IValitRule<Model, decimal?>)null)
                     .IsPositive();
             });
@@ -33,12 +35,12 @@ namespace Valit.Tests.Decimal
         {
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.PositiveValue, _=>_
+                .Ensure(m => m.PositiveValue, _ => _
                     .IsPositive())
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, true);
+            result.Succeeded.ShouldBeTrue();
         }
 
         [Fact]
@@ -46,12 +48,12 @@ namespace Valit.Tests.Decimal
         {
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.ZeroValue, _=>_
+                .Ensure(m => m.ZeroValue, _ => _
                     .IsPositive())
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, false);
+            result.Succeeded.ShouldBeFalse();
         }
 
         [Fact]
@@ -59,12 +61,12 @@ namespace Valit.Tests.Decimal
         {
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.NegativeValue, _=>_
+                .Ensure(m => m.NegativeValue, _ => _
                     .IsPositive())
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, false);
+            result.Succeeded.ShouldBeFalse();
         }
 
         [Fact]
@@ -72,12 +74,12 @@ namespace Valit.Tests.Decimal
         {
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.NullablePositiveValue, _=>_
+                .Ensure(m => m.NullablePositiveValue, _ => _
                     .IsPositive())
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, true);
+            result.Succeeded.ShouldBeTrue();
         }
 
         [Fact]
@@ -85,12 +87,12 @@ namespace Valit.Tests.Decimal
         {
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.NullableZeroValue, _=>_
+                .Ensure(m => m.NullableZeroValue, _ => _
                     .IsPositive())
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, false);
+            result.Succeeded.ShouldBeFalse();
         }
 
         [Fact]
@@ -98,12 +100,12 @@ namespace Valit.Tests.Decimal
         {
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.NullableNegativeValue, _=>_
+                .Ensure(m => m.NullableNegativeValue, _ => _
                     .IsPositive())
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, false);
+            result.Succeeded.ShouldBeFalse();
         }
 
         [Fact]
@@ -111,15 +113,15 @@ namespace Valit.Tests.Decimal
         {
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.NullValue, _=>_
+                .Ensure(m => m.NullValue, _ => _
                     .IsPositive())
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, false);
+            result.Succeeded.ShouldBeFalse();
         }
 
-#region ARRANGE
+        #region ARRANGE
         public Decimal_IsPositive_Tests()
         {
             _model = new Model();
@@ -137,6 +139,6 @@ namespace Valit.Tests.Decimal
             public decimal? NullableNegativeValue => -10;
             public decimal? NullValue => null;
         }
-#endregion
+        #endregion
     }
 }

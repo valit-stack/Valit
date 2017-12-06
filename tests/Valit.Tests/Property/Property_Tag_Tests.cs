@@ -111,7 +111,7 @@ namespace Valit.Tests.Property
                 .For(_model)
                 .Validate(tags);
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
         [Theory]
@@ -137,7 +137,7 @@ namespace Valit.Tests.Property
                 .For(_model)
                 .Validate(r => r.Tags.Intersect(tags).Any());
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
         [Fact]

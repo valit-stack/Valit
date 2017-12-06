@@ -30,7 +30,7 @@ namespace Valit.Tests.Boolean
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
         #region ARRANGE

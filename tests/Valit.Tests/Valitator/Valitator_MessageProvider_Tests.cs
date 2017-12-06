@@ -9,7 +9,8 @@ namespace Valit.Tests.Valitator
         [Fact]
         public void CreateValitator_Throws_When_Null_ValitRulesProvider_Is_Given()
         {
-            var exception = Record.Exception(() => {
+            var exception = Record.Exception(() =>
+            {
                 var valitator = ((IValitRulesProvider<Model>)null).CreateValitator();
             });
 
@@ -22,7 +23,7 @@ namespace Valit.Tests.Valitator
             var valitator = new ModelRulesProvider().CreateValitator();
             var result = valitator.Validate(_model);
 
-            Assert.False(result.Succeeded);
+            result.Succeeded.ShouldBeFalse();
             result.ErrorMessages.ShouldContain("One");
             result.ErrorMessages.ShouldNotContain("Two");
             result.ErrorMessages.ShouldContain("Three");
@@ -34,14 +35,14 @@ namespace Valit.Tests.Valitator
             var valitator = new ModelRulesProvider().CreateValitator();
             var result = valitator.Validate(_model, new FailFastValitStrategy());
 
-            Assert.False(result.Succeeded);
+            result.Succeeded.ShouldBeFalse();
             result.ErrorMessages.ShouldContain("One");
             result.ErrorMessages.ShouldNotContain("Two");
             result.ErrorMessages.ShouldNotContain("Three");
         }
 
 
-#region  ARRANGE
+        #region  ARRANGE
 
         class Model
         {
@@ -54,10 +55,10 @@ namespace Valit.Tests.Valitator
             public IEnumerable<IValitRule<Model>> GetRules()
                 => ValitRules<Model>
                         .Create()
-                        .Ensure(m => m.NumericValue, _=>_
+                        .Ensure(m => m.NumericValue, _ => _
                             .IsGreaterThan(10)
                                 .WithMessage("One"))
-                        .Ensure(m => m.StringValue, _=>_
+                        .Ensure(m => m.StringValue, _ => _
                             .Required()
                                 .WithMessage("Two")
                             .Email()
@@ -76,6 +77,6 @@ namespace Valit.Tests.Valitator
             };
         }
     }
-#endregion
+    #endregion
 
 }

@@ -10,7 +10,8 @@ namespace Valit.Tests.DateTime_
         [Fact]
         public void DateTime_IsAfter_For_Not_Nullable_Values_Throws_When_Null_Rule_Is_Given()
         {
-            var exception = Record.Exception(() => {
+            var exception = Record.Exception(() =>
+            {
                 ((IValitRule<Model, DateTime>)null)
                     .IsAfter(DateTime.Now);
             });
@@ -21,7 +22,8 @@ namespace Valit.Tests.DateTime_
         [Fact]
         public void DateTime_IsAfter_For_Not_Nullable_Value_And_Nullable_Value_Throws_When_Null_Rule_Is_Given()
         {
-            var exception = Record.Exception(() => {
+            var exception = Record.Exception(() =>
+            {
                 ((IValitRule<Model, DateTime>)null)
                     .IsAfter((DateTime?)DateTime.Now);
             });
@@ -32,7 +34,8 @@ namespace Valit.Tests.DateTime_
         [Fact]
         public void DateTime_IsAfter_For_Nullable_Value_And_Not_Nullable_Value_Throws_When_Null_Rule_Is_Given()
         {
-            var exception = Record.Exception(() => {
+            var exception = Record.Exception(() =>
+            {
                 ((IValitRule<Model, DateTime?>)null)
                     .IsAfter(DateTime.Now);
             });
@@ -43,9 +46,10 @@ namespace Valit.Tests.DateTime_
         [Fact]
         public void DateTime_IsAfter_For_Nullable_Values_Throws_When_Null_Rule_Is_Given()
         {
-            var exception = Record.Exception(() => {
+            var exception = Record.Exception(() =>
+            {
                 ((IValitRule<Model, DateTime?>)null)
-                    .IsAfter((DateTime?) DateTime.Now);
+                    .IsAfter((DateTime?)DateTime.Now);
             });
 
             exception.ShouldBeOfType(typeof(ValitException));
@@ -55,16 +59,16 @@ namespace Valit.Tests.DateTime_
         [InlineData("2017-06-09", true)]
         [InlineData("2017-06-10", false)]
         [InlineData("2017-06-11", false)]
-        public void DateTime_IsAfter_Returns_Proper_Results_For_Not_Nullable_Values(DateTime value,  bool expected)
+        public void DateTime_IsAfter_Returns_Proper_Results_For_Not_Nullable_Values(DateTime value, bool expected)
         {
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.Value, _=>_
+                .Ensure(m => m.Value, _ => _
                     .IsAfter(value))
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
         [Theory]
@@ -72,18 +76,18 @@ namespace Valit.Tests.DateTime_
         [InlineData("2017-06-10", false)]
         [InlineData("2017-06-11", false)]
         [InlineData(null, false)]
-        public void DateTime_IsAfter_Returns_Proper_Results_For_Not_Nullable_Value_And_Nullable_Value(string stringValue,  bool expected)
+        public void DateTime_IsAfter_Returns_Proper_Results_For_Not_Nullable_Value_And_Nullable_Value(string stringValue, bool expected)
         {
             DateTime? value = stringValue.AsNullableDateTime();
 
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.Value, _=>_
+                .Ensure(m => m.Value, _ => _
                     .IsAfter(value))
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
         [Theory]
@@ -91,16 +95,16 @@ namespace Valit.Tests.DateTime_
         [InlineData(false, "2017-06-10", false)]
         [InlineData(false, "2017-06-11", false)]
         [InlineData(true, "2017-06-09", false)]
-        public void DateTime_IsAfter_Returns_Proper_Results_For_Nullable_Value_And_Not_Nullable_Value(bool useNullValue, DateTime value,  bool expected)
+        public void DateTime_IsAfter_Returns_Proper_Results_For_Nullable_Value_And_Not_Nullable_Value(bool useNullValue, DateTime value, bool expected)
         {
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => useNullValue? m.NullValue : m.NullableValue, _=>_
+                .Ensure(m => useNullValue ? m.NullValue : m.NullableValue, _ => _
                     .IsAfter(value))
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
         [Theory]
@@ -110,21 +114,21 @@ namespace Valit.Tests.DateTime_
         [InlineData(false, null, false)]
         [InlineData(true, "2017-06-09", false)]
         [InlineData(true, null, false)]
-        public void DateTime_IsAfter_Returns_Proper_Results_For_Nullable_Values(bool useNullValue, string stringValue,  bool expected)
+        public void DateTime_IsAfter_Returns_Proper_Results_For_Nullable_Values(bool useNullValue, string stringValue, bool expected)
         {
             DateTime? value = stringValue.AsNullableDateTime();
 
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => useNullValue? m.NullValue : m.NullableValue, _=>_
+                .Ensure(m => useNullValue ? m.NullValue : m.NullableValue, _ => _
                     .IsAfter(value))
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
-#region ARRANGE
+        #region ARRANGE
         public DateTime_IsAfter_Tests()
         {
             _model = new Model();
@@ -138,6 +142,6 @@ namespace Valit.Tests.DateTime_
             public DateTime? NullableValue => new DateTime(2017, 6, 10);
             public DateTime? NullValue => null;
         }
-#endregion
+        #endregion
     }
 }
