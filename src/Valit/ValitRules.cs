@@ -66,7 +66,7 @@ namespace Valit
             ruleFunc.ThrowIfNull();
 
             var lastEnsureRule = new ValitRule<TObject, TProperty>(selector, _messageProvider, ruleFunc);
-            _rules.AddRange(lastEnsureRule.GetAllEnsureRules());
+            _rules.Add(lastEnsureRule);
             return this;
         }
 
