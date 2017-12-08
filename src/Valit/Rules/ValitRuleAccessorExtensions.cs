@@ -11,5 +11,13 @@ namespace Valit.Rules
 
             return accessor;
         }
+
+        internal static IValitRuleAccessor<TObject> GetAccessor<TObject>(this IValitRule<TObject> rule) where TObject : class
+        {
+            var accessor = rule as IValitRuleAccessor<TObject>;
+            accessor.ThrowIfNull("Rule doesn't have an accessor");
+
+            return accessor;
+        }
     }
 }

@@ -147,7 +147,9 @@ namespace Valit
         {
             var result = ValitResult.Success;
             cancelValidation = false;
-            var ensureRules = rule.GetEnsureRules(_object);
+            var ensureRules = rule is IValitRuleAccessor<TObject> ?
+                rule.GetAccessor().GetEnsureRules(_object) :
+                new[] { rule };
             foreach(var ensureRule in ensureRules)
             {
                 result &= ensureRule.Validate(_object);

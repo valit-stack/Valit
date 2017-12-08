@@ -86,7 +86,7 @@ namespace Valit.Rules
             return !hasAllConditionsFulfilled || isSatisfied ? ValitResult.Success : ValitResult.Fail(_errors.ToArray());
         }
 
-        IEnumerable<IValitRule<TObject>> IValitRule<TObject>.GetEnsureRules(TObject @object)
+        IEnumerable<IValitRule<TObject>> IValitRuleAccessor<TObject>.GetEnsureRules(TObject @object)
         {
             @object.ThrowIfNull();
 

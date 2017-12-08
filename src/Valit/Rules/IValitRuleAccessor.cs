@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Valit.Errors;
 
 namespace Valit.Rules
@@ -12,7 +13,12 @@ namespace Valit.Rules
         bool HasPredicate();
     }
 
-    internal interface IValitRuleAccessor<TObject, TProperty> : IValitRuleAccessor where TObject : class
+    internal interface IValitRuleAccessor<TObject> : IValitRuleAccessor where TObject : class
+    {
+        IEnumerable<IValitRule<TObject>> GetEnsureRules(TObject @object);
+    }
+
+    internal interface IValitRuleAccessor<TObject, TProperty> : IValitRuleAccessor<TObject> where TObject : class
     {
         Func<TObject, TProperty> PropertySelector { get; }
         IValitRule<TObject, TProperty> PreviousRule { get; }
