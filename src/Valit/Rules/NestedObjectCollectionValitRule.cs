@@ -10,17 +10,17 @@ namespace Valit.Rules
     {
         public IEnumerable<string> Tags { get; private set; }
         private readonly Func<TObject, IEnumerable<TProperty>> _collectionSelector;
-        private readonly IValitRulesProvider<TProperty> _valitRulesProvider;
+        private readonly IValitator<TProperty> _valitator;
         private readonly IValitStrategy _strategy;
 
         public NestedObjectCollectionValitRule(
             Func<TObject, IEnumerable<TProperty>> collectionSelector,
-            IValitRulesProvider<TProperty> valitRulesProvider,
+            IValitator<TProperty> valitator,
             IValitStrategy strategy)
         {
             Tags = Enumerable.Empty<string>();
             _collectionSelector = collectionSelector;
-            _valitRulesProvider = valitRulesProvider;
+            _valitator = valitator;
             _strategy = strategy;
         }
 
@@ -35,7 +35,7 @@ namespace Valit.Rules
             foreach(var property in collection)
             {
                 Func<TObject, TProperty> selector = _ => property;
-                var nestedObjectValitRule = new NestedObjectValitRule<TObject, TProperty>(selector, _valitRulesProvider, _strategy);
+                var nestedObjectValitRule = new NestedObjectValitRule<TObject, TProperty>(selector, _valitator, _strategy);
 
                 result &= nestedObjectValitRule.Validate(@object);
 

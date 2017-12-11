@@ -14,12 +14,12 @@ namespace Valit.Rules
 
         public NestedObjectValitRule(
             Func<TObject, TProperty> selector,
-            IValitRulesProvider<TProperty> valitRulesProvider,
+            IValitator<TProperty> valitator,
             IValitStrategy strategy)
         {
             Tags = Enumerable.Empty<string>();
             _propertySelector = selector;
-            _valitator = valitRulesProvider.CreateValitator();
+            _valitator = valitator;
             _strategy = strategy;
         }
 
