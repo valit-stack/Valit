@@ -34,34 +34,14 @@ namespace Valit.Rules
 
             var collection = _collectionSelector(@object);
 
-            var result = ValitResult.Success;
-
-            foreach(var property in collection)
+            var rules = collection.SelectMany(p => 
             {
-                Func<TObject, TProperty> selector = _ => property;
+                Func<TObject, TProperty> selector = _ => p;
                 var lastEnsureRule = _ruleFunc(new ValitRule<TObject, TProperty>(selector, _messageProvider));
-                var propertyRules = lastEnsureRule.GetAllEnsureRules();
+                return lastEnsureRule.GetAllEnsureRules();
+            });
 
-                result &= ValidatePropertyRules(propertyRules, @object);
-
-                if(!result.Succeeded)
-                {
-                    _strategy.Fail(default(IValitRule<TObject>), result, out bool cancel);
-                    if(cancel)
-                    {
-                        break;
-                    }
-                }
-            }
-
-            return result;
+            return rules.ValidateRules(_strategy, @object);
         }
-
-        private IValitResult ValidatePropertyRules(IEnumerable<IValitRule<TObject>> propertyRules, TObject @object)
-            => ValitRules<TObject>
-                .Create(propertyRules)
-                .WithStrategy(_strategy)
-                .For(@object)
-                .Validate();
     }
 }

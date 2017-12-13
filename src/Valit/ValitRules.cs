@@ -117,27 +117,7 @@ namespace Valit
         }
 
         private IValitResult Validate(IEnumerable<IValitRule<TObject>> rules)
-        {
-            var result = ValitResult.Success;
-
-            foreach(var rule in rules.ToList())
-            {
-                result &= rule.Validate(_object);
-
-                if(!result.Succeeded)
-                {
-                    _strategy.Fail(rule, result, out bool cancel);
-                    if(cancel)
-                    {
-                        break;
-                    }
-                }
-            }
-
-            _strategy.Done(result);
-
-            return result;
-        }
+            => rules.ValidateRules(_strategy, _object);
 
         private void AddEnsureRules<TProperty>(Func<TObject,TProperty> propertySelector, Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> ruleFunc)
         {
