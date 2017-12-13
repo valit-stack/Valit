@@ -50,12 +50,6 @@ namespace Valit
             return this;
         }
 
-        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, IValitRulesProvider<TProperty> valitRulesProvider)
-        {
-            var valitator = valitRulesProvider?.CreateValitator();
-            return ((IValitRules<TObject>)this).Ensure(selector, valitator);
-        }
-
         IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, IValitator<TProperty> valitator)
         {
             selector.ThrowIfNull();
@@ -74,12 +68,6 @@ namespace Valit
             var collectionValitRule = new CollectionValitRule<TObject, TProperty>(selector, ruleFunc, _strategy, _messageProvider);
             _rules.Add(collectionValitRule);
             return this;
-        }
-
-        IValitRules<TObject> IValitRules<TObject>.EnsureFor<TProperty>(Func<TObject, IEnumerable<TProperty>> selector, IValitRulesProvider<TProperty> valitRulesProvider)
-        {
-            var valitator = valitRulesProvider.CreateValitator();
-            return ((IValitRules<TObject>)this).EnsureFor(selector, valitator);
         }
 
         IValitRules<TObject> IValitRules<TObject>.EnsureFor<TProperty>(Func<TObject, IEnumerable<TProperty>> selector, IValitator<TProperty> valitator)
