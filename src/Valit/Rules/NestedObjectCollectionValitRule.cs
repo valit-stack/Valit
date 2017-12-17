@@ -30,26 +30,13 @@ namespace Valit.Rules
 
             var collection = _collectionSelector(@object);
 
-            var result = ValitResult.Success;
-
-            foreach(var property in collection)
+            var rules = collection.Select(p => 
             {
-                Func<TObject, TProperty> selector = _ => property;
-                var nestedObjectValitRule = new NestedObjectValitRule<TObject, TProperty>(selector, _valitator, _strategy);
+                Func<TObject, TProperty> selector = _ => p;
+                return new NestedObjectValitRule<TObject, TProperty>(selector, _valitator, _strategy);
+            });
 
-                result &= nestedObjectValitRule.Validate(@object);
-
-                if(!result.Succeeded)
-                {
-                    _strategy.Fail(default(IValitRule<TObject>), result, out bool cancel);
-                    if(cancel)
-                    {
-                        break;
-                    }
-                }
-            }
-
-            return result;
+            return rules.ValidateRules(_strategy, @object);
         }
 
     }
