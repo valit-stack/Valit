@@ -6,9 +6,9 @@ namespace Valit
     public interface IValitRules<TObject> where TObject : class
     {
         IValitRules<TObject> Ensure<TProperty>(Func<TObject, TProperty> selector, Func<IValitRule<TObject, TProperty>, IValitRule<TObject, TProperty>> ruleFunc);
-        IValitRules<TObject> Ensure<TProperty>(Func<TObject, TProperty> selector, IValitRulesProvider<TProperty> valitRulesProvider) where TProperty : class;
+        IValitRules<TObject> Ensure<TProperty>(Func<TObject, TProperty> selector, IValitator<TProperty> valitator) where TProperty : class;
         IValitRules<TObject> EnsureFor<TProperty>(Func<TObject, IEnumerable<TProperty>> selector, Func<IValitRule<TObject, TProperty>, IValitRule<TObject, TProperty>> ruleFunc);
-        IValitRules<TObject> EnsureFor<TProperty>(Func<TObject, IEnumerable<TProperty>> selector, IValitRulesProvider<TProperty> valitRulesProvider) where TProperty : class;
+        IValitRules<TObject> EnsureFor<TProperty>(Func<TObject, IEnumerable<TProperty>> selector, IValitator<TProperty> valitator) where TProperty : class;
         IValitRules<TObject> For(TObject @object);
         IEnumerable<IValitRule<TObject>> GetAllRules();
         IEnumerable<IValitRule<TObject>> GetTaggedRules();

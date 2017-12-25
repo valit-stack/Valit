@@ -14,7 +14,7 @@ namespace Valit.Tests.NestedObject
             {
                 ValitRules<Model>
                     .Create()
-                    .Ensure(m => m.NestedObject, ((IValitRulesProvider<NestedModel>)null));
+                    .Ensure(m => m.NestedObject, ((IValitator<NestedModel>)null));
             });
 
             exception.ShouldBeOfType(typeof(ValitException));
@@ -27,7 +27,7 @@ namespace Valit.Tests.NestedObject
 
             var result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.NestedObject, new NestedModelRulesProvider())
+                .Ensure(m => m.NestedObject, _modelValitator)
                 .For(rootObject)
                 .Validate();
 
@@ -41,7 +41,7 @@ namespace Valit.Tests.NestedObject
 
             var result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.NestedObject, new NestedModelRulesProvider())
+                .Ensure(m => m.NestedObject, _modelValitator)
                 .For(rootObject)
                 .Validate();
 
@@ -57,7 +57,7 @@ namespace Valit.Tests.NestedObject
 
             var result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.NestedObject, new NestedModelRulesProvider())
+                .Ensure(m => m.NestedObject, _modelValitator)
                 .For(rootObject)
                 .Validate();
 
@@ -65,6 +65,14 @@ namespace Valit.Tests.NestedObject
         }
 
         #region  ARRANGE
+
+        public Nested_Object_Validation_Tests()
+        {
+            _modelValitator = new NestedModelRulesProvider().CreateValitator();
+        }
+
+        private readonly IValitator<NestedModel> _modelValitator;
+
         class Model
         {
             public NestedModel NestedObject { get; set; }
