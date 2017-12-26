@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using Valit.Errors;
 using Valit.Exceptions;
 using Valit.Rules;
@@ -105,7 +107,14 @@ namespace Valit
 
         internal static IValitRule<TObject, TProperty> WithDefaultMessage<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, string message, params object[] @params) where TObject : class
         {
-            var formattedMessage = string.Format(message, @params);
+            var accessor = rule.GetAccessor();
+            var memberExpression = accessor.PropertySelector.Body as MemberExpression;
+
+            memberExpression.ThrowIfNull("Given property selector is null");
+
+            var messageParams = new [] { memberExpression.Member.Name }.Concat(@params).ToArray();
+            var formattedMessage = string.Format(message, messageParams);
+            
             return rule.WithMessage(formattedMessage);
         }
 
