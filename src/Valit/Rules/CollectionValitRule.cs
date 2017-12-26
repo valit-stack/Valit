@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Valit.Exceptions;
 using Valit.Result;
 
@@ -10,13 +11,13 @@ namespace Valit.Rules
     {
         public IEnumerable<string> Tags { get; private set; }
 
-        private readonly Func<TObject, IEnumerable<TProperty>> _collectionSelector;
+        private readonly Expression<Func<TObject, IEnumerable<TProperty>>> _collectionSelector;
         private readonly Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> _ruleFunc;
         private readonly IValitStrategy _strategy;
         private readonly IValitMessageProvider _messageProvider;
 
         public CollectionValitRule(
-            Func<TObject, IEnumerable<TProperty>> collectionSelector,
+            Expression<Func<TObject, IEnumerable<TProperty>>> collectionSelector,
             Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> ruleFunc,
             IValitStrategy strategy,
             IValitMessageProvider messageProvider)
@@ -32,11 +33,11 @@ namespace Valit.Rules
         {
             @object.ThrowIfNull();
 
-            var collection = _collectionSelector(@object);
+            var collection = _collectionSelector.Compile().Invoke(@object);
 
             var rules = collection.SelectMany(p => 
             {
-                Func<TObject, TProperty> selector = _ => p;
+                Expression<Func<TObject, TProperty>> selector = _ => p;
                 var lastEnsureRule = _ruleFunc(new ValitRule<TObject, TProperty>(selector, _messageProvider));
                 return lastEnsureRule.GetAllEnsureRules();
             });

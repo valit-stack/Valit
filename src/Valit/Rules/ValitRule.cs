@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Valit.Errors;
 using Valit.Exceptions;
 using Valit.Result;
@@ -11,10 +12,10 @@ namespace Valit.Rules
     {
         public IEnumerable<string> Tags => _tags;
 
-        Func<TObject, TProperty> IValitRuleAccessor<TObject, TProperty>.PropertySelector => _propertySelector;
+        Expression<Func<TObject, TProperty>> IValitRuleAccessor<TObject, TProperty>.PropertySelector => _propertySelector;
         IValitRule<TObject, TProperty> IValitRuleAccessor<TObject, TProperty>.PreviousRule => _previousRule;
 
-        private readonly Func<TObject, TProperty> _propertySelector;
+        private readonly Expression<Func<TObject, TProperty>> _propertySelector;
         private Predicate<TProperty> _predicate;
         private readonly List<Predicate<TObject>> _conditions;
         private readonly IValitRule<TObject, TProperty> _previousRule;
@@ -30,7 +31,7 @@ namespace Valit.Rules
             _messageProvider = previousRuleAccessor.GetMessageProvider();
         }
 
-        internal ValitRule(Func<TObject, TProperty> propertySelector, IValitMessageProvider messageProvider) : this()
+        internal ValitRule(Expression<Func<TObject, TProperty>> propertySelector, IValitMessageProvider messageProvider) : this()
         {
             _propertySelector = propertySelector;
             _messageProvider = messageProvider;
@@ -68,7 +69,7 @@ namespace Valit.Rules
         {
             @object.ThrowIfNull();
 
-            var property = _propertySelector(@object);
+            var property = _propertySelector.Compile().Invoke(@object);
             var hasAllConditionsFulfilled = true;
 
             foreach(var condition in _conditions)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Valit.Exceptions;
 using Valit.MessageProvider;
 using Valit.Result;
@@ -41,7 +42,7 @@ namespace Valit
             return this;
         }
 
-        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, Func<IValitRule<TObject, TProperty>, IValitRule<TObject, TProperty>> ruleFunc)
+        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Expression<Func<TObject, TProperty>> selector, Func<IValitRule<TObject, TProperty>, IValitRule<TObject, TProperty>> ruleFunc)
         {
             selector.ThrowIfNull();
             ruleFunc.ThrowIfNull();
@@ -50,7 +51,7 @@ namespace Valit
             return this;
         }
 
-        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, IValitator<TProperty> valitator)
+        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Expression<Func<TObject, TProperty>> selector, IValitator<TProperty> valitator)
         {
             selector.ThrowIfNull();
             valitator.ThrowIfNull();
@@ -60,7 +61,7 @@ namespace Valit
             return this;
         }
 
-        IValitRules<TObject> IValitRules<TObject>.EnsureFor<TProperty>(Func<TObject, IEnumerable<TProperty>> selector, Func<IValitRule<TObject, TProperty>, IValitRule<TObject, TProperty>> ruleFunc)
+        IValitRules<TObject> IValitRules<TObject>.EnsureFor<TProperty>(Expression<Func<TObject, IEnumerable<TProperty>>> selector, Func<IValitRule<TObject, TProperty>, IValitRule<TObject, TProperty>> ruleFunc)
         {
             selector.ThrowIfNull();
             ruleFunc.ThrowIfNull();
@@ -70,7 +71,7 @@ namespace Valit
             return this;
         }
 
-        IValitRules<TObject> IValitRules<TObject>.EnsureFor<TProperty>(Func<TObject, IEnumerable<TProperty>> selector, IValitator<TProperty> valitator)
+        IValitRules<TObject> IValitRules<TObject>.EnsureFor<TProperty>(Expression<Func<TObject, IEnumerable<TProperty>>> selector, IValitator<TProperty> valitator)
         {
             selector.ThrowIfNull();
             valitator.ThrowIfNull();
@@ -119,7 +120,7 @@ namespace Valit
         private IValitResult Validate(IEnumerable<IValitRule<TObject>> rules)
             => rules.ValidateRules(_strategy, _object);
 
-        private void AddEnsureRules<TProperty>(Func<TObject,TProperty> propertySelector, Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> ruleFunc)
+        private void AddEnsureRules<TProperty>(Expression<Func<TObject,TProperty>> propertySelector, Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> ruleFunc)
         {
             var lastEnsureRule = ruleFunc(new ValitRule<TObject, TProperty>(propertySelector, _messageProvider));
             var ensureRules = lastEnsureRule.GetAllEnsureRules();
