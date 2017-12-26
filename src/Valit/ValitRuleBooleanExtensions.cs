@@ -1,3 +1,5 @@
+using Valit.Errors;
+
 namespace Valit
 {
     public static class ValitRuleBooleanExtensions

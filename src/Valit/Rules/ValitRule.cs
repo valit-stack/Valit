@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Valit.Errors;
 using Valit.Exceptions;
 using Valit.Result;
@@ -74,8 +75,9 @@ namespace Valit.Rules
                 hasAllConditionsFulfilled &= condition(@object);
 
             var isSatisfied = _predicate?.Invoke(property) != false;
+            var errors = _errors.Where(e => e.Message != null).Count() > 1? _errors.Skip(1) : _errors;
 
-            return !hasAllConditionsFulfilled || isSatisfied ? ValitResult.Success : ValitResult.Fail(_errors.ToArray());
+            return !hasAllConditionsFulfilled || isSatisfied ? ValitResult.Success : ValitResult.Fail(errors.ToArray());
         }
     }
 }
