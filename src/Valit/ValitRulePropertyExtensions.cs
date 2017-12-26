@@ -103,6 +103,12 @@ namespace Valit
             return rule;
         }
 
+        internal static IValitRule<TObject, TProperty> WithDefaultMessage<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, string message, params object[] @params) where TObject : class
+        {
+            var formattedMessage = string.Format(message, @params);
+            return rule.WithMessage(formattedMessage);
+        }
+
         internal static IEnumerable<IValitRule<TObject>> GetAllEnsureRules<TObject, TProperty>(this IValitRule<TObject, TProperty> rule) where TObject : class
         {
             var rules = new List<IValitRule<TObject>> { rule };
