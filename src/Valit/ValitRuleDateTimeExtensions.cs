@@ -9,7 +9,7 @@ namespace Valit
             => rule.Satisfies(p => p > datetime).WithDefaultMessage(ErrorMessages.IsAfter, datetime);
 
         public static IValitRule<TObject, DateTime> IsAfter<TObject>(this IValitRule<TObject, DateTime> rule, DateTime? datetime) where TObject : class
-            => rule.Satisfies(p => datetime.HasValue && p > datetime.Value).WithDefaultMessage(ErrorMessages.IsAfter);
+            => rule.Satisfies(p => datetime.HasValue && p > datetime.Value).WithDefaultMessage(ErrorMessages.IsAfter, datetime);
 
         public static IValitRule<TObject, DateTime?> IsAfter<TObject>(this IValitRule<TObject, DateTime?> rule, DateTime datetime) where TObject : class
             => rule.Satisfies(p => p.HasValue && p.Value > datetime).WithDefaultMessage(ErrorMessages.IsAfter, datetime);

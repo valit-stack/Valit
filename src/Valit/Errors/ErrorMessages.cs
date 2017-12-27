@@ -27,5 +27,6 @@ namespace Valit.Errors
         internal static string Matches => "The {0} field does not match the patter.";
         internal static string MinLength => "The {0} field's length is less than {1}.";
         internal static string MaxLength => "The {0} field's length is greater than {1}.";
+        internal static string IsNotEmpty => "The {0} field is empty.";
     }
 }

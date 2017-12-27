@@ -31,9 +31,7 @@ namespace Valit
         }
 
         public static IValitRule<TObject, TProperty> Required<TObject, TProperty>(this IValitRule<TObject, TProperty> rule) where TObject : class where TProperty : class
-        {
-            return rule.Satisfies(p => p != null && !p.Equals(default(TProperty)));
-        }
+            => rule.Satisfies(p => p != null && !p.Equals(default(TProperty))).WithDefaultMessage(ErrorMessages.Required);
 
         public static IValitRule<TObject, TProperty> When<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, Predicate<TObject> condition) where TObject : class
         {
@@ -60,16 +58,7 @@ namespace Valit
         }
 
         public static IValitRule<TObject, TProperty> WithMessage<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, string message) where TObject : class
-        {
-            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
-            message.ThrowIfNull();
-
-            var accessor = rule.GetAccessor();
-
-            var error = ValitRuleError.CreateForMessage(() => message);
-            accessor.AddError(error);
-            return rule;
-        }
+            => rule.WithMessage(message, false);
 
         public static IValitRule<TObject, TProperty> WithMessageKey<TObject, TProperty, TKey>(this IValitRule<TObject, TProperty> rule, TKey messageKey) where TObject : class
         {
@@ -105,17 +94,29 @@ namespace Valit
             return rule;
         }
 
+        internal static IValitRule<TObject, TProperty> WithMessage<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, string message, bool isDefault) where TObject : class
+        {
+            rule.ThrowIfNull(ValitExceptionMessages.NullRule);
+            message.ThrowIfNull();
+
+            var accessor = rule.GetAccessor();
+
+            var error = ValitRuleError.CreateForMessage(() => message, isDefault);
+            accessor.AddError(error);
+            return rule;
+        }       
+
         internal static IValitRule<TObject, TProperty> WithDefaultMessage<TObject, TProperty>(this IValitRule<TObject, TProperty> rule, string message, params object[] @params) where TObject : class
         {
             var accessor = rule.GetAccessor();
             var memberExpression = accessor.PropertySelector.Body as MemberExpression;
 
-            memberExpression.ThrowIfNull("Given property selector is null");
+            var propertyName = memberExpression != null ? memberExpression.Member.Name : string.Empty; 
 
-            var messageParams = new [] { memberExpression.Member.Name }.Concat(@params).ToArray();
+            var messageParams = @params.Any() ? new [] { propertyName }.Concat(@params).ToArray() : new [] { propertyName };
             var formattedMessage = string.Format(message, messageParams);
-            
-            return rule.WithMessage(formattedMessage);
+
+            return rule.WithMessage(formattedMessage, true);
         }
 
         internal static IEnumerable<IValitRule<TObject>> GetAllEnsureRules<TObject, TProperty>(this IValitRule<TObject, TProperty> rule) where TObject : class
