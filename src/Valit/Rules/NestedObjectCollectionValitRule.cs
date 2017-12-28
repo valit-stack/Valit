@@ -38,6 +38,5 @@ namespace Valit.Rules
 
             return rules.ValidateRules(_strategy, @object);
         }
-
     }
 }
