@@ -14,7 +14,7 @@ namespace Valit.Tests.NestedObject
             {
                 ValitRules<Model>
                     .Create()
-                    .EnsureFor(m => m.NestedObjectCollection, ((IValitRulesProvider<NestedModel>)null));
+                    .EnsureFor(m => m.NestedObjectCollection, ((IValitator<NestedModel>)null));
             });
 
             exception.ShouldBeOfType(typeof(ValitException));
@@ -27,7 +27,7 @@ namespace Valit.Tests.NestedObject
 
             var result = ValitRules<Model>
                 .Create()
-                .EnsureFor(m => m.NestedObjectCollection, new NestedModelRulesProvider())
+                .EnsureFor(m => m.NestedObjectCollection, _modelValitator)
                 .For(rootObject)
                 .Validate();
 
@@ -45,7 +45,7 @@ namespace Valit.Tests.NestedObject
             var result = ValitRules<Model>
                 .Create()
                 .WithStrategy(picker => picker.FailFast)
-                .EnsureFor(m => m.NestedObjectCollection, new NestedModelRulesProvider())
+                .EnsureFor(m => m.NestedObjectCollection, _modelValitator)
                 .For(rootObject)
                 .Validate();
 
@@ -61,7 +61,7 @@ namespace Valit.Tests.NestedObject
 
             var result = ValitRules<Model>
                 .Create()
-                .EnsureFor(m => m.NestedObjectCollection, new NestedModelRulesProvider())
+                .EnsureFor(m => m.NestedObjectCollection, _modelValitator)
                 .For(rootObject)
                 .Validate();
 
@@ -76,7 +76,7 @@ namespace Valit.Tests.NestedObject
             var result = ValitRules<Model>
                 .Create()
                 .WithStrategy(picker => picker.FailFast)
-                .EnsureFor(m => m.NestedObjectCollection, new NestedModelRulesProvider())
+                .EnsureFor(m => m.NestedObjectCollection, _modelValitator)
                 .For(rootObject)
                 .Validate();
 
@@ -84,6 +84,13 @@ namespace Valit.Tests.NestedObject
         }
 
         #region  ARRANGE
+
+        public Nested_Object_Collection_Validation_Tests()
+        {
+            _modelValitator = new NestedModelRulesProvider().CreateValitator();
+        }
+
+        private readonly IValitator<NestedModel> _modelValitator;
         class Model
         {
             public IEnumerable<NestedModel> NestedObjectCollection { get; set; }

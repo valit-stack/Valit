@@ -50,12 +50,12 @@ namespace Valit
             return this;
         }
 
-        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, IValitRulesProvider<TProperty> valitRulesProvider)
+        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, IValitator<TProperty> valitator)
         {
             selector.ThrowIfNull();
-            valitRulesProvider.ThrowIfNull();
+            valitator.ThrowIfNull();
 
-            var nestedValitRule = new NestedObjectValitRule<TObject, TProperty>(selector, valitRulesProvider, _strategy);
+            var nestedValitRule = new NestedObjectValitRule<TObject, TProperty>(selector, valitator, _strategy);
             _rules.Add(nestedValitRule);
             return this;
         }
@@ -80,12 +80,12 @@ namespace Valit
             return this;
         }
 
-        IValitRules<TObject> IValitRules<TObject>.EnsureFor<TProperty>(Func<TObject, IEnumerable<TProperty>> selector, IValitRulesProvider<TProperty> valitRulesProvider)
+        IValitRules<TObject> IValitRules<TObject>.EnsureFor<TProperty>(Func<TObject, IEnumerable<TProperty>> selector, IValitator<TProperty> valitator)
         {
             selector.ThrowIfNull();
-            valitRulesProvider.ThrowIfNull();
+            valitator.ThrowIfNull();
 
-            var collectionValitRule = new NestedObjectCollectionValitRule<TObject, TProperty>(selector, valitRulesProvider, _strategy);
+            var collectionValitRule = new NestedObjectCollectionValitRule<TObject, TProperty>(selector, valitator, _strategy);
             _rules.Add(collectionValitRule);
             return this;
         }
