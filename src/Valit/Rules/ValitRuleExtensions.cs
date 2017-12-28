@@ -15,7 +15,8 @@ namespace Valit.Rules
 
             foreach (var rule in rules.ToList())
             {
-                result &= ValidateRule(rule, strategy, @object, out bool cancel);
+                (IValitResult ruleResult, bool cancel) = ValidateRule(rule, strategy, @object);
+                result &= ruleResult;
                 if (cancel)
                 {
                     break;
@@ -27,10 +28,10 @@ namespace Valit.Rules
             return result;
         }
 
-        private static IValitResult ValidateRule<TObject>(IValitRule<TObject> rule, IValitStrategy strategy, TObject @object, out bool cancelValidation) where TObject : class
+        private static (IValitResult, bool) ValidateRule<TObject>(IValitRule<TObject> rule, IValitStrategy strategy, TObject @object) where TObject : class
         {
             var result = ValitResult.Success;
-            cancelValidation = false;
+            var cancelValidation = false;
             var ensureRules = rule is IValitRuleAccessor<TObject> ?
                 rule.GetAccessor().GetEnsureRules(@object) :
                 new[] { rule };
@@ -47,8 +48,7 @@ namespace Valit.Rules
                     }
                 }
             }
-
-            return result;
+            return (result, cancelValidation);
         }
     }
 }
