@@ -23,7 +23,7 @@ namespace Valit.Errors
         internal static string MinItems => "The {0} field has less than {1} elements.";
         internal static string MaxItems => "The {0} field has more than {1} elements.";
         internal static string Email => "The {0} field is not valid email.";
-        internal static string Matches => "The {0} field does not match the patter.";
+        internal static string Matches => "The {0} field does not match the pattern.";
         internal static string MinLength => "The {0} field's length is less than {1}.";
         internal static string MaxLength => "The {0} field's length is greater than {1}.";
         internal static string IsNotEmpty => "The {0} field is empty.";
