@@ -3,6 +3,7 @@ namespace Valit.Errors
     internal static class ErrorMessages
     {
         internal static string Required => "The {0} field is required.";
+        internal static string Satisifes => "The {0} field does not satisfy the rule.";
         internal static string IsTrue => "The {0} field is not true.";
         internal static string IsFalse => "The {0} field is not false.";
         internal static string IsEqualTo => "The {0} field is not equal to {1}.";

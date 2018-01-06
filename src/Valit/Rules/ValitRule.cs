@@ -51,7 +51,16 @@ namespace Valit.Rules
             => _predicate != null;
 
         void IValitRuleAccessor.AddError(ValitRuleError error)
-            => _errors.Add(error);
+        {
+            var areAnyDefaultMessages = _errors.Any(e => e.IsDefault);
+
+            if(error.IsDefault && areAnyDefaultMessages)
+            {
+                _errors.Clear();
+            }
+            
+            _errors.Add(error);
+        }
 
         void IValitRuleAccessor<TObject, TProperty>.AddCondition(Predicate<TObject> condition)
             => _conditions.Add(condition);

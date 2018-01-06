@@ -27,7 +27,8 @@ namespace Valit
             var newRule = new ValitRule<TObject, TProperty>(rule);
             accessor = newRule.GetAccessor();
             accessor.SetPredicate(predicate);
-            return newRule;
+            
+            return newRule.WithDefaultMessage(ErrorMessages.Satisifes);
         }
 
         public static IValitRule<TObject, TProperty> Required<TObject, TProperty>(this IValitRule<TObject, TProperty> rule) where TObject : class where TProperty : class
