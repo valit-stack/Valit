@@ -152,8 +152,7 @@ namespace Valit.Tests.Property
                     .Email())
                 .Ensure(m => m.NullValue, _=>_
                     .Required()
-                    .Tag("Tag2"))
-                .GetAllRules();
+                    .Tag("Tag2"));
 
             var newRules = ValitRules<Model>
                 .Create(rules)

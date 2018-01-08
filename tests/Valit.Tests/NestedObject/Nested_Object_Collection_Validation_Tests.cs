@@ -87,7 +87,7 @@ namespace Valit.Tests.NestedObject
 
         public Nested_Object_Collection_Validation_Tests()
         {
-            _modelValitator = new NestedModelRulesProvider().CreateValitator();
+            _modelValitator = new NestedModelRulesProvider().GetRules().CreateValitator();
         }
 
         private readonly IValitator<NestedModel> _modelValitator;
@@ -122,9 +122,9 @@ namespace Valit.Tests.NestedObject
             public string StringValue { get; set; }
         }
 
-        class NestedModelRulesProvider : IValitRulesProvider<NestedModel>
+        class NestedModelRulesProvider
         {
-            public IEnumerable<IValitRule<NestedModel>> GetRules()
+            public IValitRules<NestedModel> GetRules()
                 => ValitRules<NestedModel>
                         .Create()
                         .Ensure(m => m.NumericValue, _ => _
@@ -134,8 +134,7 @@ namespace Valit.Tests.NestedObject
                             .Required()
                                 .WithMessage("Two")
                             .Email()
-                                .WithMessage("Three"))
-                        .GetAllRules();
+                                .WithMessage("Three"));
         }
     }
     #endregion

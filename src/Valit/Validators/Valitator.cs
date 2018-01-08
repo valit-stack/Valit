@@ -6,16 +6,9 @@ namespace Valit.Validators
     {
         private readonly IValitRulesStrategyPicker<TObject> _strategyPicker;
 
-        internal Valitator(IValitRulesProvider<TObject> valitRulesProvider)
-        {
-            var rules = valitRulesProvider.GetRules();
-            _strategyPicker = ValitRules<TObject>.Create(rules);
-        }
-
         internal Valitator(IValitRules<TObject> valitRules)
         {
-            var rules = valitRules.GetAllRules();
-            _strategyPicker = ValitRules<TObject>.Create(rules);
+            _strategyPicker = ValitRules<TObject>.Create(valitRules);
         }
 
         IValitResult IValitator<TObject>.Validate(TObject @object, IValitStrategy strategy)
