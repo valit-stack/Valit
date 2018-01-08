@@ -27,8 +27,14 @@ namespace Valit
             _messageProvider = new EmptyMessageProvider();
         }
 
-        public static IValitRulesMessageProvider<TObject> Create(IEnumerable<IValitRule<TObject>> rules = null)
-            => new ValitRules<TObject>(rules);
+        public static IValitRulesMessageProvider<TObject> Create()
+           => new ValitRules<TObject>(Enumerable.Empty<IValitRule<TObject>>());
+
+        public static IValitRulesMessageProvider<TObject> Create(IValitRules<TObject> rules)
+        {
+            rules.ThrowIfNull();
+            return new ValitRules<TObject>(rules.GetAllRules());
+        }
 
         IValitRulesStrategyPicker<TObject> IValitRulesMessageProvider<TObject>.WithMessageProvider<TKey>(IValitMessageProvider<TKey> messageProvider)
         {
@@ -120,7 +126,7 @@ namespace Valit
         private IValitResult Validate(IEnumerable<IValitRule<TObject>> rules)
             => rules.ValidateRules(_strategy, _object);
 
-        private void AddEnsureRules<TProperty>(Expression<Func<TObject,TProperty>> propertySelector, Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> ruleFunc)
+        private void AddEnsureRules<TProperty>(Expression<Func<TObject, TProperty>> propertySelector, Func<IValitRule<TObject, TProperty>, IValitRule<TObject, TProperty>> ruleFunc)
         {
             var lastEnsureRule = ruleFunc(new ValitRule<TObject, TProperty>(propertySelector, _messageProvider));
             var ensureRules = lastEnsureRule.GetAllEnsureRules();
