@@ -64,7 +64,7 @@ namespace Valit.Tests.UInt64
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
         [Theory]
@@ -81,7 +81,7 @@ namespace Valit.Tests.UInt64
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
         [Theory]
@@ -98,7 +98,7 @@ namespace Valit.Tests.UInt64
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
         [Theory]
@@ -117,7 +117,7 @@ namespace Valit.Tests.UInt64
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
 #region ARRANGE

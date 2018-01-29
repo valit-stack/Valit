@@ -10,10 +10,11 @@ namespace Valit.Tests.NestedObject
         [Fact]
         public void EnsureFor_Throws_When_Null_ValitRulesProvider_Is_Given()
         {
-            var exception = Record.Exception(() => {
+            var exception = Record.Exception(() =>
+            {
                 ValitRules<Model>
                     .Create()
-                    .EnsureFor(m => m.NestedObjectCollection, ((IValitRulesProvider<NestedModel>)null));
+                    .EnsureFor(m => m.NestedObjectCollection, ((IValitator<NestedModel>)null));
             });
 
             exception.ShouldBeOfType(typeof(ValitException));
@@ -26,11 +27,11 @@ namespace Valit.Tests.NestedObject
 
             var result = ValitRules<Model>
                 .Create()
-                .EnsureFor(m => m.NestedObjectCollection, new NestedModelRulesProvider())
+                .EnsureFor(m => m.NestedObjectCollection, _modelValitator)
                 .For(rootObject)
                 .Validate();
 
-            Assert.False(result.Succeeded);
+            result.Succeeded.ShouldBeFalse();
             result.ErrorMessages.Count(m => m == "One").ShouldBe(1);
             result.ErrorMessages.Count(m => m == "Two").ShouldBe(1);
             result.ErrorMessages.Count(m => m == "Three").ShouldBe(2);
@@ -44,11 +45,11 @@ namespace Valit.Tests.NestedObject
             var result = ValitRules<Model>
                 .Create()
                 .WithStrategy(picker => picker.FailFast)
-                .EnsureFor(m => m.NestedObjectCollection, new NestedModelRulesProvider())
+                .EnsureFor(m => m.NestedObjectCollection, _modelValitator)
                 .For(rootObject)
                 .Validate();
 
-            Assert.False(result.Succeeded);
+            result.Succeeded.ShouldBeFalse();
             result.ErrorMessages.Count().ShouldBe(1);
             result.ErrorMessages.First().ShouldBe("Two");
         }
@@ -60,11 +61,11 @@ namespace Valit.Tests.NestedObject
 
             var result = ValitRules<Model>
                 .Create()
-                .EnsureFor(m => m.NestedObjectCollection, new NestedModelRulesProvider())
+                .EnsureFor(m => m.NestedObjectCollection, _modelValitator)
                 .For(rootObject)
                 .Validate();
 
-            Assert.True(result.Succeeded);
+            result.Succeeded.ShouldBeTrue();
         }
 
         [Fact]
@@ -75,14 +76,21 @@ namespace Valit.Tests.NestedObject
             var result = ValitRules<Model>
                 .Create()
                 .WithStrategy(picker => picker.FailFast)
-                .EnsureFor(m => m.NestedObjectCollection, new NestedModelRulesProvider())
+                .EnsureFor(m => m.NestedObjectCollection, _modelValitator)
                 .For(rootObject)
                 .Validate();
 
-            Assert.True(result.Succeeded);
+            result.Succeeded.ShouldBeTrue();
         }
 
-#region  ARRANGE
+        #region  ARRANGE
+
+        public Nested_Object_Collection_Validation_Tests()
+        {
+            _modelValitator = new NestedModelRulesProvider().GetRules().CreateValitator();
+        }
+
+        private readonly IValitator<NestedModel> _modelValitator;
         class Model
         {
             public IEnumerable<NestedModel> NestedObjectCollection { get; set; }
@@ -110,25 +118,24 @@ namespace Valit.Tests.NestedObject
 
         class NestedModel
         {
-            public ushort NumericValue { get; set;}
-            public string StringValue { get; set;}
+            public ushort NumericValue { get; set; }
+            public string StringValue { get; set; }
         }
 
-        class NestedModelRulesProvider : IValitRulesProvider<NestedModel>
+        class NestedModelRulesProvider
         {
-            public IEnumerable<IValitRule<NestedModel>> GetRules()
+            public IValitRules<NestedModel> GetRules()
                 => ValitRules<NestedModel>
                         .Create()
-                        .Ensure(m => m.NumericValue, _=>_
+                        .Ensure(m => m.NumericValue, _ => _
                             .IsGreaterThan(10)
                                 .WithMessage("One"))
-                        .Ensure(m => m.StringValue, _=>_
+                        .Ensure(m => m.StringValue, _ => _
                             .Required()
                                 .WithMessage("Two")
                             .Email()
-                                .WithMessage("Three"))
-                        .GetAllRules();
+                                .WithMessage("Three"));
         }
     }
-#endregion
+    #endregion
 }

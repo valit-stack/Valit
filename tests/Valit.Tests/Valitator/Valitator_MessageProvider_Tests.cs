@@ -7,22 +7,12 @@ namespace Valit.Tests.Valitator
     public class Valitator_MessageProvider_Tests
     {
         [Fact]
-        public void CreateValitator_Throws_When_Null_ValitRulesProvider_Is_Given()
-        {
-            var exception = Record.Exception(() => {
-                var valitator = ((IValitRulesProvider<Model>)null).CreateValitator();
-            });
-
-            exception.ShouldBeOfType(typeof(ValitException));
-        }
-
-        [Fact]
         public void Created_Valitator_Properly_Handles_Complete_Strategy()
         {
-            var valitator = new ModelRulesProvider().CreateValitator();
+            var valitator = new ModelRulesProvider().GetRules().CreateValitator();
             var result = valitator.Validate(_model);
 
-            Assert.False(result.Succeeded);
+            result.Succeeded.ShouldBeFalse();
             result.ErrorMessages.ShouldContain("One");
             result.ErrorMessages.ShouldNotContain("Two");
             result.ErrorMessages.ShouldContain("Three");
@@ -31,17 +21,17 @@ namespace Valit.Tests.Valitator
         [Fact]
         public void Created_Valitator_Properly_Handles_FailFast_Strategy()
         {
-            var valitator = new ModelRulesProvider().CreateValitator();
+            var valitator = new ModelRulesProvider().GetRules().CreateValitator();
             var result = valitator.Validate(_model, new FailFastValitStrategy());
 
-            Assert.False(result.Succeeded);
+            result.Succeeded.ShouldBeFalse();
             result.ErrorMessages.ShouldContain("One");
             result.ErrorMessages.ShouldNotContain("Two");
             result.ErrorMessages.ShouldNotContain("Three");
         }
 
 
-#region  ARRANGE
+        #region  ARRANGE
 
         class Model
         {
@@ -49,20 +39,19 @@ namespace Valit.Tests.Valitator
             public string StringValue { get; set; }
         }
 
-        class ModelRulesProvider : IValitRulesProvider<Model>
+        class ModelRulesProvider
         {
-            public IEnumerable<IValitRule<Model>> GetRules()
+            public IValitRules<Model> GetRules()
                 => ValitRules<Model>
                         .Create()
-                        .Ensure(m => m.NumericValue, _=>_
+                        .Ensure(m => m.NumericValue, _ => _
                             .IsGreaterThan(10)
                                 .WithMessage("One"))
-                        .Ensure(m => m.StringValue, _=>_
+                        .Ensure(m => m.StringValue, _ => _
                             .Required()
                                 .WithMessage("Two")
                             .Email()
-                                .WithMessage("Three"))
-                        .GetAllRules();
+                                .WithMessage("Three"));
         }
 
         private readonly Model _model;
@@ -76,6 +65,6 @@ namespace Valit.Tests.Valitator
             };
         }
     }
-#endregion
+    #endregion
 
 }

@@ -22,7 +22,7 @@ namespace Valit.Tests.Valitator
             var valitator = _valitRules.CreateValitator();
             var result = valitator.Validate(_model);
 
-            Assert.False(result.Succeeded);
+            result.Succeeded.ShouldBeFalse();
             result.ErrorMessages.ShouldContain("One");
             result.ErrorMessages.ShouldNotContain("Two");
             result.ErrorMessages.ShouldContain("Three");
@@ -34,7 +34,7 @@ namespace Valit.Tests.Valitator
             var valitator = _valitRules.CreateValitator();
             var result = valitator.Validate(_model, new FailFastValitStrategy());
 
-            Assert.False(result.Succeeded);
+            result.Succeeded.ShouldBeFalse();
             result.ErrorMessages.ShouldContain("One");
             result.ErrorMessages.ShouldNotContain("Two");
             result.ErrorMessages.ShouldNotContain("Three");

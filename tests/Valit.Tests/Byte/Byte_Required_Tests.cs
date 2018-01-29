@@ -9,7 +9,8 @@ namespace Valit.Tests.Byte
         [Fact]
         public void Byte_Required_For_Nullable_Value_Throws_When_Null_Rule_Is_Given()
         {
-            var exception = Record.Exception(() => {
+            var exception = Record.Exception(() =>
+            {
                 ((IValitRule<Model, byte?>)null)
                     .Required();
             });
@@ -21,19 +22,19 @@ namespace Valit.Tests.Byte
         [Theory]
         [InlineData(false, true)]
         [InlineData(true, false)]
-        public void Byte_Required_Returns_Proper_Results_For_Nullable_Value(bool useNullValue,  bool expected)
+        public void Byte_Required_Returns_Proper_Results_For_Nullable_Value(bool useNullValue, bool expected)
         {
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => useNullValue? m.NullValue : m.NullableValue, _=>_
+                .Ensure(m => useNullValue ? m.NullValue : m.NullableValue, _ => _
                     .Required())
                 .For(_model)
                 .Validate();
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
-#region ARRANGE
+        #region ARRANGE
         public Byte_Required_Tests()
         {
             _model = new Model();
@@ -49,6 +50,6 @@ namespace Valit.Tests.Byte
             public byte? NullableZeroValue => 0;
             public byte? NullValue => null;
         }
-#endregion
+        #endregion
     }
 }

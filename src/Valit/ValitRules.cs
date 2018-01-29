@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Valit.Exceptions;
 using Valit.MessageProvider;
 using Valit.Result;
@@ -26,8 +27,14 @@ namespace Valit
             _messageProvider = new EmptyMessageProvider();
         }
 
-        public static IValitRulesMessageProvider<TObject> Create(IEnumerable<IValitRule<TObject>> rules = null)
-            => new ValitRules<TObject>(rules);
+        public static IValitRulesMessageProvider<TObject> Create()
+           => new ValitRules<TObject>(Enumerable.Empty<IValitRule<TObject>>());
+
+        public static IValitRulesMessageProvider<TObject> Create(IValitRules<TObject> rules)
+        {
+            rules.ThrowIfNull();
+            return new ValitRules<TObject>(rules.GetAllRules());
+        }
 
         IValitRulesStrategyPicker<TObject> IValitRulesMessageProvider<TObject>.WithMessageProvider<TKey>(IValitMessageProvider<TKey> messageProvider)
         {
@@ -41,7 +48,7 @@ namespace Valit
             return this;
         }
 
-        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, Func<IValitRule<TObject, TProperty>, IValitRule<TObject, TProperty>> ruleFunc)
+        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Expression<Func<TObject, TProperty>> selector, Func<IValitRule<TObject, TProperty>, IValitRule<TObject, TProperty>> ruleFunc)
         {
             selector.ThrowIfNull();
             ruleFunc.ThrowIfNull();
@@ -50,17 +57,17 @@ namespace Valit
             return this;
         }
 
-        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Func<TObject, TProperty> selector, IValitRulesProvider<TProperty> valitRulesProvider)
+        IValitRules<TObject> IValitRules<TObject>.Ensure<TProperty>(Expression<Func<TObject, TProperty>> selector, IValitator<TProperty> valitator)
         {
             selector.ThrowIfNull();
-            valitRulesProvider.ThrowIfNull();
+            valitator.ThrowIfNull();
 
-            var nestedValitRule = new NestedObjectValitRule<TObject, TProperty>(selector, valitRulesProvider, _strategy);
+            var nestedValitRule = new NestedObjectValitRule<TObject, TProperty>(selector, valitator, _strategy);
             _rules.Add(nestedValitRule);
             return this;
         }
 
-        IValitRules<TObject> IValitRules<TObject>.EnsureFor<TProperty>(Func<TObject, IEnumerable<TProperty>> selector, Func<IValitRule<TObject, TProperty>, IValitRule<TObject, TProperty>> ruleFunc)
+        IValitRules<TObject> IValitRules<TObject>.EnsureFor<TProperty>(Expression<Func<TObject, IEnumerable<TProperty>>> selector, Func<IValitRule<TObject, TProperty>, IValitRule<TObject, TProperty>> ruleFunc)
         {
             selector.ThrowIfNull();
             ruleFunc.ThrowIfNull();
@@ -70,12 +77,12 @@ namespace Valit
             return this;
         }
 
-        IValitRules<TObject> IValitRules<TObject>.EnsureFor<TProperty>(Func<TObject, IEnumerable<TProperty>> selector, IValitRulesProvider<TProperty> valitRulesProvider)
+        IValitRules<TObject> IValitRules<TObject>.EnsureFor<TProperty>(Expression<Func<TObject, IEnumerable<TProperty>>> selector, IValitator<TProperty> valitator)
         {
             selector.ThrowIfNull();
-            valitRulesProvider.ThrowIfNull();
+            valitator.ThrowIfNull();
 
-            var collectionValitRule = new NestedObjectCollectionValitRule<TObject, TProperty>(selector, valitRulesProvider, _strategy);
+            var collectionValitRule = new NestedObjectCollectionValitRule<TObject, TProperty>(selector, valitator, _strategy);
             _rules.Add(collectionValitRule);
             return this;
         }
@@ -117,29 +124,9 @@ namespace Valit
         }
 
         private IValitResult Validate(IEnumerable<IValitRule<TObject>> rules)
-        {
-            var result = ValitResult.Success;
+            => rules.ValidateRules(_strategy, _object);
 
-            foreach(var rule in rules.ToList())
-            {
-                result &= rule.Validate(_object);
-
-                if(!result.Succeeded)
-                {
-                    _strategy.Fail(rule, result, out bool cancel);
-                    if(cancel)
-                    {
-                        break;
-                    }
-                }
-            }
-
-            _strategy.Done(result);
-
-            return result;
-        }
-
-        private void AddEnsureRules<TProperty>(Func<TObject,TProperty> propertySelector, Func<IValitRule<TObject, TProperty>,IValitRule<TObject, TProperty>> ruleFunc)
+        private void AddEnsureRules<TProperty>(Expression<Func<TObject, TProperty>> propertySelector, Func<IValitRule<TObject, TProperty>, IValitRule<TObject, TProperty>> ruleFunc)
         {
             var lastEnsureRule = ruleFunc(new ValitRule<TObject, TProperty>(propertySelector, _messageProvider));
             var ensureRules = lastEnsureRule.GetAllEnsureRules();

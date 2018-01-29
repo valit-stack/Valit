@@ -1,4 +1,5 @@
 using System;
+using System.Linq.Expressions;
 using Valit.Errors;
 
 namespace Valit.Rules
@@ -14,7 +15,7 @@ namespace Valit.Rules
 
     internal interface IValitRuleAccessor<TObject, TProperty> : IValitRuleAccessor where TObject : class
     {
-        Func<TObject, TProperty> PropertySelector { get; }
+        Expression<Func<TObject, TProperty>> PropertySelector { get; }
         IValitRule<TObject, TProperty> PreviousRule { get; }
         void SetPredicate(Predicate<TProperty> predicate);
         void AddCondition(Predicate<TObject> condition);

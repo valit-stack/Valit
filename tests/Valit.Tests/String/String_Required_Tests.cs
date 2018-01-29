@@ -9,7 +9,8 @@ namespace Valit.Tests.String
         [Fact]
         public void String_Required_For_Nullable_Value_Throws_When_Null_Rule_Is_Given()
         {
-            var exception = Record.Exception(() => {
+            var exception = Record.Exception(() =>
+            {
                 ((IValitRule<Model, string>)null)
                     .Required();
             });
@@ -23,12 +24,12 @@ namespace Valit.Tests.String
         {
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.NullValue, _=>_
+                .Ensure(m => m.NullValue, _ => _
                     .Required())
                 .For(_model)
                 .Validate();
 
-            Assert.False(result.Succeeded);
+            result.Succeeded.ShouldBeFalse();
         }
 
         [Fact]
@@ -36,12 +37,12 @@ namespace Valit.Tests.String
         {
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.EmptyValue, _=>_
+                .Ensure(m => m.EmptyValue, _ => _
                     .Required())
                 .For(_model)
                 .Validate();
 
-            Assert.False(result.Succeeded);
+            result.Succeeded.ShouldBeFalse();
         }
 
         [Fact]
@@ -49,15 +50,15 @@ namespace Valit.Tests.String
         {
             IValitResult result = ValitRules<Model>
                 .Create()
-                .Ensure(m => m.Value, _=>_
+                .Ensure(m => m.Value, _ => _
                     .Required())
                 .For(_model)
                 .Validate();
 
-            Assert.True(result.Succeeded);
+            result.Succeeded.ShouldBeTrue();
         }
 
-#region ARRANGE
+        #region ARRANGE
         public String_Required_Tests()
         {
             _model = new Model();
@@ -71,6 +72,6 @@ namespace Valit.Tests.String
             public string Value => "text";
             public string NullValue => null;
         }
-#endregion
+        #endregion
     }
 }

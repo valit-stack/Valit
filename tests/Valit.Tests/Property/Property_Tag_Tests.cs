@@ -111,7 +111,7 @@ namespace Valit.Tests.Property
                 .For(_model)
                 .Validate(tags);
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
         [Theory]
@@ -137,7 +137,7 @@ namespace Valit.Tests.Property
                 .For(_model)
                 .Validate(r => r.Tags.Intersect(tags).Any());
 
-            Assert.Equal(result.Succeeded, expected);
+            result.Succeeded.ShouldBe(expected);
         }
 
         [Fact]
@@ -152,8 +152,7 @@ namespace Valit.Tests.Property
                     .Email())
                 .Ensure(m => m.NullValue, _=>_
                     .Required()
-                    .Tag("Tag2"))
-                .GetAllRules();
+                    .Tag("Tag2"));
 
             var newRules = ValitRules<Model>
                 .Create(rules)
