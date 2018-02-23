@@ -34,7 +34,7 @@ In order to create a validator you need to go through few steps. It's worth ment
 
 Having the validator created, simply invoke ``Validate()`` method which will produce the result with all the data.
 
-Let's try it out with very practical example. Imagine that you're task is to validate model sent from registration page of your app. The example object might look as follows:
+Let's try it out with very practical example. Imagine that your task is to validate model sent from registration page of your app. The example object might look as follows:
 
 ```cs
 
