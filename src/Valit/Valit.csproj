@@ -10,8 +10,12 @@
     <PackageProjectUrl>https://github.com/valit-stack/Valit</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/valit-stack/Valit/blob/master/LICENSE</PackageLicenseUrl>
     <PackageIconUrl>https://user-images.githubusercontent.com/7096476/32700023-298ffb9e-c7bf-11e7-9d83-82690b7e260b.png</PackageIconUrl>
-    <VersionPrefix>1.0.0-preview1</VersionPrefix>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Collections.Immutable" Version="1.4.0" />
+  </ItemGroup>
 
 </Project>
