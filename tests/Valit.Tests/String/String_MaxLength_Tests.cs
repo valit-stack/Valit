@@ -33,9 +33,9 @@ namespace Valit.Tests.String
         }
 
         [Theory]
-        [InlineData(0, false)]
-        [InlineData(4, false)]
-        [InlineData(8, false)]
+        [InlineData(0, true)]
+        [InlineData(4, true)]
+        [InlineData(8, true)]
         public void String_MaxLength_Returns_Proper_Result_For_Left_Empty_Value(int value, bool expected)
         {
             IValitResult result = ValitRules<Model>

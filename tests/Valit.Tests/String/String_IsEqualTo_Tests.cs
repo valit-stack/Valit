@@ -36,7 +36,7 @@ namespace Valit.Tests.String
         [Theory]
         [InlineData("text", false)]
         [InlineData("other", false)]
-        [InlineData("", false)]
+        [InlineData("", true)]
         [InlineData(null, false)]
         public void String_IsEqualTo_Returns_Proper_Result_For_Left_Empty_Value(string value, bool expected)
         {
