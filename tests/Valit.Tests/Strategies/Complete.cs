@@ -36,7 +36,7 @@ namespace Valit.Tests.Strategies
                 .Validate();
 
             result.Succeeded.ShouldBe(false);
-            result.ErrorMessages.Count().ShouldBe(6);
+            result.ErrorMessages.Count().ShouldBe(5);
             result.ErrorMessages.ShouldContain(M1);
             result.ErrorMessages.ShouldContain(M3);
             result.ErrorMessages.ShouldContain(M4);

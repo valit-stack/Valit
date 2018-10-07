@@ -33,7 +33,7 @@ namespace Valit.Tests.String
         }
 
         [Fact]
-        public void String_Required_Fails_For_Empty_Value()
+        public void String_Required_Succeeds_For_Empty_Value()
         {
             IValitResult result = ValitRules<Model>
                 .Create()
@@ -42,7 +42,7 @@ namespace Valit.Tests.String
                 .For(_model)
                 .Validate();
 
-            result.Succeeded.ShouldBeFalse();
+            result.Succeeded.ShouldBeTrue();
         }
 
         [Fact]

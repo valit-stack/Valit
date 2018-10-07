@@ -68,7 +68,7 @@ namespace Valit.Tests.Strategies
 
             result.Succeeded.ShouldBe(false);
             result.ErrorMessages.Count().ShouldBe(1);
-            result.ErrorMessages.ShouldContain(M2);
+            result.ErrorMessages.ShouldContain(M3);
         }
 
 #region ARRANGE
