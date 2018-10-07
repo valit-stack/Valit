@@ -81,13 +81,18 @@ namespace Valit.Rules
             var property = _propertySelector.Compile().Invoke(@object);
             var hasAllConditionsFulfilled = true;
 
-            foreach(var condition in _conditions)
+            foreach (var condition in _conditions)
                 hasAllConditionsFulfilled &= condition(@object);
 
-            var isSatisfied = _predicate?.Invoke(property) != false;
-            var errors = _errors.Where(e => !e.IsDefault).Any() ? _errors.Where(e => !e.IsDefault) : _errors;
+            if (!hasAllConditionsFulfilled)
+            {
+                return ValitResult.Success;
+            }
 
-            return !hasAllConditionsFulfilled || isSatisfied ? ValitResult.Success : ValitResult.Fail(errors.ToArray());
+            var isSatisfied = _predicate?.Invoke(property) ?? false;
+            var errors = _errors.Any(e => !e.IsDefault) ? _errors.Where(e => !e.IsDefault) : _errors;
+
+            return isSatisfied ? ValitResult.Success : ValitResult.Fail(errors.ToArray());
         }
     }
 }
