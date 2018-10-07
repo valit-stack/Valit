@@ -33,7 +33,7 @@ namespace Valit.Tests.String
         }
 
         [Theory]
-        [InlineData(0, false)]
+        [InlineData(0, true)]
         [InlineData(4, false)]
         [InlineData(8, false)]
         public void String_MinLength_Returns_Proper_Result_For_Left_Empty_Value(int value, bool expected)
