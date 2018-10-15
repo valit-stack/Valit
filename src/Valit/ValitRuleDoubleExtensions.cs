@@ -1,21 +1,22 @@
 using System;
 using Valit.Errors;
+using Valit.Extensions;
 
 namespace Valit
 {
     public static class ValitRuleDoubleExtensions
     {
-        public static IValitRule<TObject, double> IsGreaterThan<TObject>(this IValitRule<TObject, double> rule, double value) where TObject : class
-            => rule.Satisfies(p => !Double.IsNaN(p) && !Double.IsNaN(value) && p > value).WithDefaultMessage(ErrorMessages.IsGreaterThan, value);
+        public static IValitRule<TObject, double> IsGreaterThan<TObject>(this IValitRule<TObject, double> rule, double value, double epsilon = .0d) where TObject : class
+            => rule.Satisfies(p => !Double.IsNaN(p) && !Double.IsNaN(value) && p.IsGreaterThan(value, epsilon)).WithDefaultMessage(ErrorMessages.IsGreaterThan, value);
 
-        public static IValitRule<TObject, double> IsGreaterThan<TObject>(this IValitRule<TObject, double> rule, double? value) where TObject : class
-            => rule.Satisfies(p => value.HasValue && !Double.IsNaN(p) && !Double.IsNaN(value.Value) && p > value.Value).WithDefaultMessage(ErrorMessages.IsGreaterThan, value);
+        public static IValitRule<TObject, double> IsGreaterThan<TObject>(this IValitRule<TObject, double> rule, double? value, double epsilon = .0d) where TObject : class
+            => rule.Satisfies(p => value.HasValue && !Double.IsNaN(p) && !Double.IsNaN(value.Value) && p.IsGreaterThan(value.Value, epsilon)).WithDefaultMessage(ErrorMessages.IsGreaterThan, value);
 
-        public static IValitRule<TObject, double?> IsGreaterThan<TObject>(this IValitRule<TObject, double?> rule, double value) where TObject : class
-            => rule.Satisfies(p => p.HasValue && !Double.IsNaN(p.Value) && !Double.IsNaN(value) && p.Value > value).WithDefaultMessage(ErrorMessages.IsGreaterThan, value);
+        public static IValitRule<TObject, double?> IsGreaterThan<TObject>(this IValitRule<TObject, double?> rule, double value, double epsilon = .0d) where TObject : class
+            => rule.Satisfies(p => p.HasValue && !Double.IsNaN(p.Value) && !Double.IsNaN(value) && p.Value.IsGreaterThan(value, epsilon)).WithDefaultMessage(ErrorMessages.IsGreaterThan, value);
 
-        public static IValitRule<TObject, double?> IsGreaterThan<TObject>(this IValitRule<TObject, double?> rule, double? value) where TObject : class
-            => rule.Satisfies(p => p.HasValue && value.HasValue && !Double.IsNaN(p.Value) && !Double.IsNaN(value.Value) && p.Value > value.Value).WithDefaultMessage(ErrorMessages.IsGreaterThan, value);
+        public static IValitRule<TObject, double?> IsGreaterThan<TObject>(this IValitRule<TObject, double?> rule, double? value, double epsilon = .0d) where TObject : class
+            => rule.Satisfies(p => p.HasValue && value.HasValue && !Double.IsNaN(p.Value) && !Double.IsNaN(value.Value) && p.Value.IsGreaterThan(value.Value, epsilon)).WithDefaultMessage(ErrorMessages.IsGreaterThan, value);
 
         public static IValitRule<TObject, double> IsLessThan<TObject>(this IValitRule<TObject, double> rule, double value) where TObject : class
             => rule.Satisfies(p => !Double.IsNaN(p) && !Double.IsNaN(value) && value > p).WithDefaultMessage(ErrorMessages.IsLessThan, value);
