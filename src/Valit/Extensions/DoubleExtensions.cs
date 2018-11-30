@@ -21,8 +21,14 @@ namespace Valit.Extensions
         /// <param name="b"></param>
         /// <param name="epsilon"></param>
         /// <returns></returns>
-        public static bool IsNearlyEqual(this double a, double b, double epsilon)
+        private static bool IsNearlyEqual(this double a, double b, double epsilon)
         {
+            if (Double.IsNaN(a) || Double.IsNaN(b))
+                return false;
+
+            if (Double.IsNaN(epsilon))
+                epsilon = Double.Epsilon;
+
             double absA = Math.Abs(a);
             double absB = Math.Abs(b);
             double diff = Math.Abs(a - b);
