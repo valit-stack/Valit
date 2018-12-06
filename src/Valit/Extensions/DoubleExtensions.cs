@@ -4,6 +4,9 @@ namespace Valit.Extensions
 {
     public static class DoubleExtensions
     {
+        static readonly double MIN_NORMAL = BitConverter.ToDouble(new byte[] { 00, 00, 00, 00, 00, 00, 0x10, 00 }, 0);
+        static readonly double MAX_VALUE = Double.MaxValue;
+
         public static bool IsEqual(this double a, double b, double epsilon)
         {
             if (epsilon == .0d)
@@ -45,16 +48,21 @@ namespace Valit.Extensions
             { // shortcut, handles infinities
                 return true;
             }
-            else if (a == 0 || b == 0 || diff < Double.MinValue)
+            else if (a == 0 || b == 0 || diff < MIN_NORMAL)
             {
                 // a or b is zero or both are extremely close to it
                 // relative error is less meaningful here
-                return diff < (epsilon * Double.MinValue);
+                return diff < (epsilon * MIN_NORMAL);
             }
             else
             { // use relative error
-                return diff / Math.Min((absA + absB), Double.MaxValue) < epsilon;
+                return diff / Math.Min((absA + absB), MAX_VALUE) < epsilon;
             }
+        }
+
+        private static bool HasValue(this double? a)
+        {
+            return a.HasValue && !Double.IsNaN(a.Value);
         }
     }
 }
