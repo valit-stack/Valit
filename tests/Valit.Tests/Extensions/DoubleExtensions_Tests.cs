@@ -12,7 +12,7 @@ namespace Valit.Tests.Extensions
         [InlineData(0d, double.Epsilon, 0d, false)]
         [InlineData(.1d, .11d, 0d, false)]
         [InlineData(.01d, .011d, .1d, true)]
-        public void IsEqualTo_Returns_Proper_Results(double a, double b, double epsilon, bool expected)
+        public void IsEqual_Returns_Proper_Results(double a, double b, double epsilon, bool expected)
         {
             a.IsEqual(b, epsilon).ShouldBe(expected);
         }
