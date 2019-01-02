@@ -185,6 +185,23 @@ namespace Valit.Tests.Double
             result.Succeeded.ShouldBe(expected);
         }
 
+        [Theory]
+        [InlineData(9.999d, 0.000001d, true)]
+        [InlineData(9.999d, 0.01d, false)]
+        [InlineData(10d, double.Epsilon, false)]
+        [InlineData(10.0001d, 0.01d, false)]
+        [InlineData(10.0001d, 0.000001d, false)]
+        public void Double_IsGreaterThan_Returns_Proper_Results_For_GivenEpsilon_Value(double b, double epsilon, bool expected)
+        {
+            IValitResult result = ValitRules<Model>
+                                    .Create()
+                                    .Ensure(m => m.Value, _ => _.IsGreaterThan(b, epsilon))
+                                    .For(_model)
+                                    .Validate();
+
+            result.Succeeded.ShouldBe(expected);
+        }
+
         #region ARRANGE
         public Double_IsGreaterThan_Tests()
         {
@@ -196,6 +213,7 @@ namespace Valit.Tests.Double
         class Model
         {
             public double Value => 10;
+            public double Epsilon => double.Epsilon;
             public double NaN => double.NaN;
             public double? NullableValue => 10;
             public double? NullValue => null;
