@@ -8,7 +8,7 @@ namespace Valit.Extensions
 
         public static bool IsEqual(this float a, float b, float epsilon)
         {
-            if (epsilon == .0d)
+            if (epsilon == .0f)
                 return a == b;
             else
                 return a.IsNearlyEqual(b, epsilon);
