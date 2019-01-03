@@ -193,7 +193,7 @@ namespace Valit.Tests.Double
         [InlineData(10d, double.Epsilon, true)]
         [InlineData(10.0001d, 0.01d, true)]
         [InlineData(10.0001d, 0.000001d, false)]
-        public void Double_IsEqualTo_Returns_Proper_Results_For_GivenEpsilon_Value(double value, double epsilon, bool expected)
+        public void Double_IsEqualTo_Returns_Proper_Results_For_Given_Epsilon_Value(double value, double epsilon, bool expected)
         {
             IValitResult results = ValitRules<Model>
                                     .Create()
