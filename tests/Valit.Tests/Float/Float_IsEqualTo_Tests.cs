@@ -187,6 +187,23 @@ namespace Valit.Tests.Float
             result.Succeeded.ShouldBe(expected);
         }
 
+        [Theory]
+        [InlineData(9.999f, 0.000001f, false)]
+        [InlineData(9.999f, 0.01f, true)]
+        [InlineData(10f, float.Epsilon, true)]
+        [InlineData(10.0001f, 0.01f, true)]
+        [InlineData(10.0001f, 0.000001f, false)]
+        public void Float_IsEqualTo_Returns_Proper_Results_For_Given_Epsilon_Value(float value, float epsilon, bool expected)
+        {
+            IValitResult results = ValitRules<Model>
+                                    .Create()
+                                    .Ensure(m => m.Value, _ => _.IsEqualTo(value, epsilon))
+                                    .For(_model)
+                                    .Validate();
+
+            results.Succeeded.ShouldBe(expected);
+        }
+
         #region ARRANGE
         public Float_IsEqualTo_Tests()
         {
