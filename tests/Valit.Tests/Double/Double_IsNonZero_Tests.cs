@@ -96,6 +96,21 @@ namespace Valit.Tests.Double
             result.Succeeded.ShouldBeFalse();
         }
 
+        [Theory]
+        [InlineData(0d, double.Epsilon, false)]
+        [InlineData(0.000001d, 0.001d, true)]
+        [InlineData(0.000001d, 0d, true)]
+        public void Double_IsNonZero_Return_Proper_Results_For_Given_Epsilon_Value(double value, double epsilon, bool expected)
+        {
+            IValitResult result = ValitRules<Model>
+                                    .Create()
+                                    .Ensure(m => value, _ => _.IsNonZero(epsilon))
+                                    .For(_model)
+                                    .Validate();
+
+            result.Succeeded.ShouldBe(expected);
+        }
+
         #region ARRANGE
         public Double_IsNonZero_Tests()
         {
