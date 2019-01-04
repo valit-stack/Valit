@@ -15,7 +15,7 @@ namespace Valit.Extensions
                 return a.IsNearlyEqual(b, epsilon);
         }
 
-        public static bool IsNotEqual(this double a, double b, double epsilon)  => !IsEqual(a, b, epsilon);
+        public static bool IsNotEqual(this double a, double b, double epsilon) => !IsEqual(a, b, epsilon);
 
         public static bool IsGreaterThan(this double a, double b, double epsilon) => IsNotEqual(a, b, epsilon) && a > b;
 
@@ -58,11 +58,6 @@ namespace Valit.Extensions
             { // use relative error
                 return diff / Math.Min((absA + absB), MAX_VALUE) < epsilon;
             }
-        }
-
-        private static bool HasValue(this double? a)
-        {
-            return a.HasValue && !Double.IsNaN(a.Value);
         }
     }
 }
