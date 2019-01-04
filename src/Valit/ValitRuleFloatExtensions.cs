@@ -67,22 +67,22 @@ namespace Valit
             => rule.Satisfies(p => p.HasValue && value.HasValue && !Single.IsNaN(p.Value) && !Single.IsNaN(value.Value) && p.Value.IsEqual(value.Value, epsilon)).WithDefaultMessage(ErrorMessages.IsEqualTo, value);
 
         public static IValitRule<TObject, float> IsPositive<TObject>(this IValitRule<TObject, float> rule, float epsilon = .0f) where TObject : class
-            => rule.Satisfies(p => !Single.IsNaN(p) && p > 0f).WithDefaultMessage(ErrorMessages.IsPositive);
+            => rule.Satisfies(p => !Single.IsNaN(p) && p.IsGreaterThan(0f, epsilon)).WithDefaultMessage(ErrorMessages.IsPositive);
 
         public static IValitRule<TObject, float?> IsPositive<TObject>(this IValitRule<TObject, float?> rule, float epsilon = .0f) where TObject : class
-            => rule.Satisfies(p => p.HasValue && !Single.IsNaN(p.Value) && p.Value > 0f).WithDefaultMessage(ErrorMessages.IsPositive);
+            => rule.Satisfies(p => p.HasValue && !Single.IsNaN(p.Value) && p.Value.IsGreaterThan(0f, epsilon)).WithDefaultMessage(ErrorMessages.IsPositive);
 
         public static IValitRule<TObject, float> IsNegative<TObject>(this IValitRule<TObject, float> rule, float epsilon = .0f) where TObject : class
-            => rule.Satisfies(p => !Single.IsNaN(p) && p < 0f).WithDefaultMessage(ErrorMessages.IsNegative);
+            => rule.Satisfies(p => !Single.IsNaN(p) && p.IsLessThan(0f, epsilon)).WithDefaultMessage(ErrorMessages.IsNegative);
 
         public static IValitRule<TObject, float?> IsNegative<TObject>(this IValitRule<TObject, float?> rule, float epsilon = .0f) where TObject : class
-            => rule.Satisfies(p => p.HasValue && !Single.IsNaN(p.Value) && p.Value < 0f).WithDefaultMessage(ErrorMessages.IsNegative);
+            => rule.Satisfies(p => p.HasValue && !Single.IsNaN(p.Value) && p.Value.IsLessThan(0f, epsilon)).WithDefaultMessage(ErrorMessages.IsNegative);
 
         public static IValitRule<TObject, float> IsNonZero<TObject>(this IValitRule<TObject, float> rule, float epsilon = .0f) where TObject : class
-            => rule.Satisfies(p => !Single.IsNaN(p) && p != 0f).WithDefaultMessage(ErrorMessages.IsNonZero);
+            => rule.Satisfies(p => !Single.IsNaN(p) && p.IsNotEqual(0f, epsilon)).WithDefaultMessage(ErrorMessages.IsNonZero);
 
         public static IValitRule<TObject, float?> IsNonZero<TObject>(this IValitRule<TObject, float?> rule, float epsilon = .0f) where TObject : class
-            => rule.Satisfies(p => p.HasValue && !Single.IsNaN(p.Value) && p.Value != 0f).WithDefaultMessage(ErrorMessages.IsNonZero);
+            => rule.Satisfies(p => p.HasValue && !Single.IsNaN(p.Value) && p.Value.IsNotEqual(0f, epsilon)).WithDefaultMessage(ErrorMessages.IsNonZero);
 
         public static IValitRule<TObject, float> IsNumber<TObject>(this IValitRule<TObject, float> rule) where TObject : class
             => rule.Satisfies(p => !Single.IsNaN(p)).WithDefaultMessage(ErrorMessages.IsNumber);

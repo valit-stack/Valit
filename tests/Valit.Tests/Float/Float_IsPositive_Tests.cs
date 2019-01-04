@@ -148,6 +148,22 @@ namespace Valit.Tests.Float
             result.Succeeded.ShouldBeFalse();
         }
 
+        [Theory]
+        [InlineData(0f, float.Epsilon, false)]
+        [InlineData(0.000001f, 0.001f, true)]
+        [InlineData(0.000001f, 0f, true)]
+        [InlineData(-0.000001f, 0.01f, false)]
+        public void Float_IsPositive_Return_Proper_Results_For_Given_Epsilon_Value(float value, float epsilon, bool expected)
+        {
+            IValitResult result = ValitRules<Model>
+                                    .Create()
+                                    .Ensure(m => value, _ => _.IsPositive(epsilon))
+                                    .For(_model)
+                                    .Validate();
+
+            result.Succeeded.ShouldBe(expected);
+        }
+
         #region ARRANGE
         public Float_IsPositive_Tests()
         {
