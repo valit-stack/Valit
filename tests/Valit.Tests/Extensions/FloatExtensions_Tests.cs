@@ -9,6 +9,7 @@ namespace Valit.Tests.Extensions
         [Theory]
         [InlineData(0f, 0f, 0f, true)]
         [InlineData(0f, 0f, float.Epsilon, true)]
+        [InlineData(0f, 0f, float.NaN, true)]
         [InlineData(0f, float.Epsilon, 0f, false)]
         [InlineData(.1f, .11f, 0f, false)]
         [InlineData(.01f, .011f, .1f, true)]
