@@ -186,6 +186,23 @@ namespace Valit.Tests.Double
             result.Succeeded.ShouldBe(expected);
         }
 
+        [Theory]
+        [InlineData(9.999d, 0.000001d, false)]
+        [InlineData(9.999d, 0.01d, false)]
+        [InlineData(10d, double.Epsilon, false)]
+        [InlineData(10.0001d, 0.01d, false)]
+        [InlineData(10.0001d, 0.000001d, true)]
+        public void Double_IsLessThanOrEqual_Returns_Proper_Results_For_Given_Epsilon_Value(double b, double epsilon, bool expected)
+        {
+            IValitResult result = ValitRules<Model>
+                                    .Create()
+                                    .Ensure(m => m.Value, _ => _.IsLessThan(b, epsilon))
+                                    .For(_model)
+                                    .Validate();
+
+            result.Succeeded.ShouldBe(expected);
+        }
+
         #region ARRANGE
         public Double_IsLessThanOrEqualTo_Tests()
         {
